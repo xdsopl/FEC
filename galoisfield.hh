@@ -8,20 +8,18 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #ifndef GALOISFIELD_HH
 #define GALOISFIELD_HH
 
-#include <cassert>
-
 template <int M, int POLY, typename TYPE>
 class GaloisField
 {
 public:
 	typedef TYPE value_type;
 	static const int Q = 1 << M, N = Q - 1;
+	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
+	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
 	value_type log_table[Q];
 	value_type exp_table[Q];
 	GaloisField()
 	{
-		assert(M <= 8 * sizeof(TYPE));
-		assert(Q == (POLY & ~N));
 		log_table[0] = N;
 		exp_table[N] = 0;
 		int a = 1;
@@ -31,7 +29,7 @@ public:
 			a <<= 1;
 			a = a & Q ? a ^ POLY : a;
 		}
-		assert(1 == a);
+		//assert(1 == a);
 	}
 	TYPE log(TYPE a) { return log_table[a]; }
 	TYPE exp(TYPE a) { return exp_table[a]; }
