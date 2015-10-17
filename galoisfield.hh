@@ -36,23 +36,23 @@ public:
 	TYPE add(TYPE a, TYPE b) { return a ^ b; }
 	TYPE mul(TYPE a, TYPE b)
 	{
-		int tmp = (int)log_table[a] + (int)log_table[b];
-		return (!a || !b) ? 0 : exp_table[tmp < N ? tmp : tmp - N];
+		int tmp = (int)log(a) + (int)log(b);
+		return (!a || !b) ? 0 : exp(tmp < N ? tmp : tmp - N);
 
 	}
 	TYPE fma(TYPE a, TYPE b, TYPE c)
 	{
-		int tmp = (int)log_table[a] + (int)log_table[b];
-		return (!a || !b) ? c : c ^ exp_table[tmp < N ? tmp : tmp - N];
+		int tmp = (int)log(a) + (int)log(b);
+		return (!a || !b) ? c : c ^ exp(tmp < N ? tmp : tmp - N);
 
 	}
 	TYPE div(TYPE a, TYPE b)
 	{
-		int tmp = (int)log_table[a] - (int)log_table[b];
-		return !b ? N : !a ? 0 : exp_table[tmp >= 0 ? tmp : tmp + N];
+		int tmp = (int)log(a) - (int)log(b);
+		return !b ? N : !a ? 0 : exp(tmp >= 0 ? tmp : tmp + N);
 
 	}
-	TYPE rcp(TYPE a) { return !a ? N : exp_table[N - log_table[a]]; }
+	TYPE rcp(TYPE a) { return !a ? N : exp(N - log(a)); }
 };
 
 #endif
