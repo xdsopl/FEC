@@ -22,37 +22,46 @@ public:
 	{
 		log_table[0] = N;
 		exp_table[N] = 0;
-		int a = 1;
-		for (int i = 0; i < N; ++i) {
-			log_table[a] = i;
-			exp_table[i] = a;
-			a <<= 1;
-			a = a & Q ? a ^ POLY : a;
-		}
+		TYPE a = 1;
+		for (int i = 0; i < N; ++i, a = next(a))
+			log_table[exp_table[i] = a] = i;
 		//assert(1 == a);
+	}
+	TYPE next(TYPE a)
+	{
+		return a & (TYPE)(Q >> 1) ? (a << 1) ^ (TYPE)POLY : a << 1;
 	}
 	TYPE log(TYPE a) { return log_table[a]; }
 	TYPE exp(TYPE a) { return exp_table[a]; }
 	TYPE add(TYPE a, TYPE b) { return a ^ b; }
 	TYPE mul(TYPE a, TYPE b)
 	{
-		int tmp = (int)log(a) + (int)log(b);
-		return (!a || !b) ? 0 : exp(tmp < N ? tmp : tmp - N);
+		TYPE loga = log(a);
+		TYPE logb = log(b);
+		TYPE tmp = loga + logb;
+		tmp = (TYPE)N - loga <= logb ? tmp - (TYPE)N : tmp;
+		return (!a || !b) ? (TYPE)0 : exp(tmp);
 
 	}
 	TYPE fma(TYPE a, TYPE b, TYPE c)
 	{
-		int tmp = (int)log(a) + (int)log(b);
-		return (!a || !b) ? c : c ^ exp(tmp < N ? tmp : tmp - N);
+		TYPE loga = log(a);
+		TYPE logb = log(b);
+		TYPE tmp = loga + logb;
+		tmp = (TYPE)N - loga <= logb ? tmp - (TYPE)N : tmp;
+		return (!a || !b) ? c : c ^ exp(tmp);
 
 	}
 	TYPE div(TYPE a, TYPE b)
 	{
-		int tmp = (int)log(a) - (int)log(b);
-		return !b ? N : !a ? 0 : exp(tmp >= 0 ? tmp : tmp + N);
+		TYPE loga = log(a);
+		TYPE logb = log(b);
+		TYPE tmp = loga - logb;
+		tmp = loga < logb ? tmp + (TYPE)N : tmp;
+		return !b ? (TYPE)N : !a ? (TYPE)0 : exp(tmp);
 
 	}
-	TYPE rcp(TYPE a) { return !a ? N : exp(N - log(a)); }
+	TYPE rcp(TYPE a) { return !a ? (TYPE)N : exp((TYPE)N - log(a)); }
 };
 
 #endif
