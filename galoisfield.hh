@@ -16,23 +16,31 @@ public:
 	static const int Q = 1 << M, N = Q - 1;
 	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
-	value_type log_table[Q];
-	value_type exp_table[Q];
 	GaloisField()
 	{
-		log_table[0] = N;
-		exp_table[N] = 0;
+		if (log(0))
+			return;
+		log(0) = N;
+		exp(N) = 0;
 		TYPE a = 1;
 		for (int i = 0; i < N; ++i, a = next(a))
-			log_table[exp_table[i] = a] = i;
+			log(exp(i) = a) = i;
 		//assert(1 == a);
 	}
 	TYPE next(TYPE a)
 	{
 		return a & (TYPE)(Q >> 1) ? (a << 1) ^ (TYPE)POLY : a << 1;
 	}
-	TYPE log(TYPE a) { return log_table[a]; }
-	TYPE exp(TYPE a) { return exp_table[a]; }
+	static TYPE &log(TYPE a)
+	{
+		static value_type table[Q];
+		return table[a];
+	}
+	static TYPE &exp(TYPE a)
+	{
+		static value_type table[Q];
+		return table[a];
+	}
 	TYPE add(TYPE a, TYPE b) { return a ^ b; }
 	TYPE mul(TYPE a, TYPE b)
 	{
