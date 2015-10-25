@@ -8,38 +8,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #ifndef GALOISFIELD_HH
 #define GALOISFIELD_HH
 
-template <int M, int Q, int N, int POLY, typename TYPE>
-class GaloisFieldTables
-{
-	static TYPE &log_table(TYPE a)
-	{
-		static TYPE table[Q];
-		return table[a];
-	}
-	static TYPE &exp_table(TYPE a)
-	{
-		static TYPE table[Q];
-		return table[a];
-	}
-public:
-	GaloisFieldTables()
-	{
-		if (log_table(0))
-			return;
-		log_table(0) = N;
-		exp_table(N) = 0;
-		TYPE a = 1;
-		for (int i = 0; i < N; ++i, a = next(a))
-			log_table(exp_table(i) = a) = i;
-		//assert(1 == a);
-	}
-	TYPE next(TYPE a)
-	{
-		return a & (TYPE)(Q >> 1) ? (a << 1) ^ (TYPE)POLY : a << 1;
-	}
-	TYPE log(TYPE a) { return log_table(a); }
-	TYPE exp(TYPE a) { return exp_table(a); }
-};
+#include "galoisfieldtables.hh"
 
 template <int M, int POLY, typename TYPE>
 class GaloisField
@@ -49,9 +18,9 @@ public:
 	static const int Q = 1 << M, N = Q - 1;
 	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
-	GaloisFieldTables<M, Q, N, POLY, TYPE> tables;
-	TYPE log(TYPE a) { return tables.log(a); }
-	TYPE exp(TYPE a) { return tables.exp(a); }
+	typedef GaloisFieldTables<M, POLY, TYPE> tables;
+	TYPE log(TYPE a) { return tables::log(a); }
+	TYPE exp(TYPE a) { return tables::exp(a); }
 	TYPE add(TYPE a, TYPE b) { return a ^ b; }
 	TYPE mul(TYPE a, TYPE b)
 	{
