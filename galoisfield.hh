@@ -11,45 +11,148 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include "galoisfieldtables.hh"
 
 template <int M, int POLY, typename TYPE>
-class GaloisField
+class GaloisFieldIndex;
+
+template <int M, int POLY, typename TYPE>
+class GaloisFieldValue
 {
 public:
-	typedef TYPE value_type;
 	static const int Q = 1 << M, N = Q - 1;
 	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
-	typedef GaloisFieldTables<M, POLY, TYPE> tables;
-	TYPE log(TYPE a) { return tables::log(a); }
-	TYPE exp(TYPE a) { return tables::exp(a); }
-	TYPE add(TYPE a, TYPE b) { return a ^ b; }
-	TYPE mul(TYPE a, TYPE b)
+	TYPE v;
+	GaloisFieldValue() {}
+	explicit GaloisFieldValue(TYPE v) : v(v) {}
+	GaloisFieldValue<M, POLY, TYPE> operator *= (GaloisFieldIndex<M, POLY, TYPE> a)
 	{
-		TYPE loga = log(a);
-		TYPE logb = log(b);
-		TYPE tmp = loga + logb;
-		tmp = (TYPE)N - loga <= logb ? tmp - (TYPE)N : tmp;
-		return (!a || !b) ? (TYPE)0 : exp(tmp);
-
+		return *this = *this * a;
 	}
-	TYPE fma(TYPE a, TYPE b, TYPE c)
+	GaloisFieldValue<M, POLY, TYPE> operator *= (GaloisFieldValue<M, POLY, TYPE> a)
 	{
-		TYPE loga = log(a);
-		TYPE logb = log(b);
-		TYPE tmp = loga + logb;
-		tmp = (TYPE)N - loga <= logb ? tmp - (TYPE)N : tmp;
-		return (!a || !b) ? c : c ^ exp(tmp);
-
+		return *this = *this * a;
 	}
-	TYPE div(TYPE a, TYPE b)
+	static const GaloisFieldValue<M, POLY, TYPE> inf()
 	{
-		TYPE loga = log(a);
-		TYPE logb = log(b);
-		TYPE tmp = loga - logb;
-		tmp = loga < logb ? tmp + (TYPE)N : tmp;
-		return !b ? (TYPE)N : !a ? (TYPE)0 : exp(tmp);
-
+		return GaloisFieldValue<M, POLY, TYPE>(N);
 	}
-	TYPE rcp(TYPE a) { return !a ? (TYPE)N : exp((TYPE)N - log(a)); }
+	static const GaloisFieldValue<M, POLY, TYPE> zero()
+	{
+		return GaloisFieldValue<M, POLY, TYPE>(0);
+	}
 };
+
+template <int M, int POLY, typename TYPE>
+class GaloisFieldIndex
+{
+public:
+	static const int Q = 1 << M, N = Q - 1;
+	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
+	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
+	TYPE i;
+	GaloisFieldIndex() {}
+	explicit GaloisFieldIndex(TYPE i) : i(i) {}
+	GaloisFieldIndex<M, POLY, TYPE> operator *= (GaloisFieldIndex<M, POLY, TYPE> a)
+	{
+		return *this = *this * a;
+	}
+	static const TYPE modulus()
+	{
+		return N;
+	}
+};
+
+template <int M, int POLY, typename TYPE>
+struct GaloisField
+{
+	static const int Q = 1 << M, N = Q - 1;
+	typedef TYPE value_type;
+	typedef GaloisFieldValue<M, POLY, TYPE> ValueType;
+	typedef GaloisFieldIndex<M, POLY, TYPE> IndexType;
+};
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldIndex<M, POLY, TYPE> index(GaloisFieldValue<M, POLY, TYPE> a)
+{
+	return GaloisFieldIndex<M, POLY, TYPE>(GaloisFieldTables<M, POLY, TYPE>::log(a.v));
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> value(GaloisFieldIndex<M, POLY, TYPE> a) {
+	return GaloisFieldValue<M, POLY, TYPE>(GaloisFieldTables<M, POLY, TYPE>::exp(a.i));
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> operator + (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+{
+	return GaloisFieldValue<M, POLY, TYPE>(a.v ^ b.v);
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldIndex<M, POLY, TYPE> operator * (GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b)
+{
+	TYPE tmp = a.i + b.i;
+	return GaloisFieldIndex<M, POLY, TYPE>(a.modulus() - a.i <= b.i ? tmp - a.modulus() : tmp);
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> operator * (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+{
+	return (!a.v || !b.v) ? a.zero() : value(index(a) * index(b));
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> rcp(GaloisFieldValue<M, POLY, TYPE> a)
+{
+	return !a.v ? a.inf() : value(GaloisFieldIndex<M, POLY, TYPE>(a.modulus() - index(a).i));
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldIndex<M, POLY, TYPE> operator / (GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b)
+{
+	TYPE tmp = a.i - b.i;
+	return GaloisFieldIndex<M, POLY, TYPE>(a.i < b.i ? tmp + a.modulus() : tmp);
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> operator / (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+{
+	return !b.v ? a.inf() : !a.v ? a.zero() : value(index(a) / index(b));
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> operator * (GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+{
+	return !b.v ? a.zero() : value(a * index(b));
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> operator * (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b)
+{
+	return !a.v ? a.zero() : value(index(a) * b);
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+{
+	return a * b + c;
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+{
+	return !b.v ? c : (value(a * index(b)) + c);
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+{
+	return !a.v ? c : (value(index(a) * b) + c);
+}
+
+template <int M, int POLY, typename TYPE>
+GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+{
+	return (!a.v || !b.v) ? c : (value(index(a) * index(b)) + c);
+}
 
 #endif

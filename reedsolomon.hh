@@ -15,32 +15,36 @@ class ReedSolomon
 {
 public:
 	typedef typename GF::value_type value_type;
+	typedef typename GF::ValueType ValueType;
+	typedef typename GF::IndexType IndexType;
 	static const int N = GF::N, K = N - NR;
-	GF gf;
-	value_type G[NR+1];
+	ValueType G[NR+1];
 	ReedSolomon()
 	{
-		value_type root = gf.exp(FR);
-		value_type pe = gf.exp(1);
+		IndexType root(FR), pe(1);
 		for (int i = 0; i < NR; ++i) {
-			G[i] = 1;
+			G[i] = ValueType(1);
 			for (int j = i; j > 0; --j)
-				G[j] = gf.fma(root, G[j], G[j-1]);
-			G[0] = gf.mul(G[0], root);
-			root = gf.mul(root, pe);
+				G[j] = fma(root, G[j], G[j-1]);
+			G[0] *= root;
+			root *= pe;
 		}
-		G[NR] = 1;
+		G[NR] = ValueType(1);
+	}
+	void encode(ValueType *parity, const ValueType *data)
+	{
+		for (int i = 0; i < NR; ++i)
+			parity[i] = ValueType(0);
+		for (int i = 0; i < K; ++i) {
+			ValueType feedback = data[i] + parity[0];
+			for (int j = 1; j < NR; ++j)
+				parity[j-1] = fma(feedback, G[NR-j], parity[j]);
+			parity[NR-1] = G[0] * feedback;
+		}
 	}
 	void encode(value_type *parity, const value_type *data)
 	{
-		for (int i = 0; i < NR; ++i)
-			parity[i] = 0;
-		for (int i = 0; i < K; ++i) {
-			value_type feedback = gf.add(data[i], parity[0]);
-			for (int j = 1; j < NR; ++j)
-				parity[j-1] = gf.fma(feedback, G[NR-j], parity[j]);
-			parity[NR-1] = gf.mul(G[0], feedback);
-		}
+		encode(reinterpret_cast<ValueType *>(parity), reinterpret_cast<const ValueType *>(data));
 	}
 };
 
