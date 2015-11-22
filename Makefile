@@ -5,11 +5,11 @@ CXX = clang++
 benchmark: benchmark.cc reedsolomon.hh galoisfield.hh galoisfieldtables.hh
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-generator: generator.cc
+tablesgenerator: tablesgenerator.cc
 	$(CXX) $(CXXFLAGS) $< -o $@
 
-galoisfieldtables.hh: generator
-	./generator > $@
+galoisfieldtables.hh: tablesgenerator
+	./tablesgenerator > $@
 
 test: benchmark
 	./benchmark
@@ -17,5 +17,5 @@ test: benchmark
 .PHONY: clean test
 
 clean:
-	rm -f benchmark generator galoisfieldtables.hh
+	rm -f benchmark tablesgenerator galoisfieldtables.hh
 

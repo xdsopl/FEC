@@ -23,7 +23,7 @@ void print_table(TYPE *table, const char *name, int N)
 }
 
 template <int NR, int FR, int M, int P, typename TYPE>
-void test(ReedSolomon<NR, FR, GaloisField<M, P, TYPE>> &rs, TYPE *parity, TYPE *data, TYPE *target)
+void test(ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *parity, TYPE *data, TYPE *target)
 {
 	//print_table(rs.gf.exp_table, "exp_table", rs.gf.Q);
 	//print_table(rs.gf.log_table, "log_table", rs.gf.Q);
@@ -48,14 +48,14 @@ void test(ReedSolomon<NR, FR, GaloisField<M, P, TYPE>> &rs, TYPE *parity, TYPE *
 int main()
 {
 	{ // BBC WHP031 RS(15, 11) T=2
-		ReedSolomon<4, 0, GaloisField<4, 0b10011, uint8_t>> rs;
+		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
 		uint8_t data[11] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 		uint8_t parity[4];
 		uint8_t target[4] = { 3, 3, 12, 12 };
 		test(rs, parity, data, target);
 	}
 	{ // DVB-T RS(255, 239) T=8
-		ReedSolomon<16, 0, GaloisField<8, 0b100011101, uint8_t>> rs;
+		ReedSolomon<16, 0, GF::Types<8, 0b100011101, uint8_t>> rs;
 		uint8_t data[239];
 		uint8_t parity[16];
 		uint8_t target[16] = { 1, 126, 147, 48, 155, 224, 3, 157, 29, 226, 40, 114, 61, 30, 244, 75 };

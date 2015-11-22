@@ -8,50 +8,52 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #ifndef GALOISFIELD_HH
 #define GALOISFIELD_HH
 
+namespace GF {
+
 #include "galoisfieldtables.hh"
 
 template <int M, int POLY, typename TYPE>
-class GaloisFieldIndex;
+class Index;
 
 template <int M, int POLY, typename TYPE>
-class GaloisFieldValue
+class Value
 {
 public:
 	static const int Q = 1 << M, N = Q - 1;
 	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
 	TYPE v;
-	GaloisFieldValue() {}
-	explicit GaloisFieldValue(TYPE v) : v(v) {}
-	GaloisFieldValue<M, POLY, TYPE> operator *= (GaloisFieldIndex<M, POLY, TYPE> a)
+	Value() {}
+	explicit Value(TYPE v) : v(v) {}
+	Value<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
 		return *this = *this * a;
 	}
-	GaloisFieldValue<M, POLY, TYPE> operator *= (GaloisFieldValue<M, POLY, TYPE> a)
+	Value<M, POLY, TYPE> operator *= (Value<M, POLY, TYPE> a)
 	{
 		return *this = *this * a;
 	}
-	static const GaloisFieldValue<M, POLY, TYPE> inf()
+	static const Value<M, POLY, TYPE> inf()
 	{
-		return GaloisFieldValue<M, POLY, TYPE>(N);
+		return Value<M, POLY, TYPE>(N);
 	}
-	static const GaloisFieldValue<M, POLY, TYPE> zero()
+	static const Value<M, POLY, TYPE> zero()
 	{
-		return GaloisFieldValue<M, POLY, TYPE>(0);
+		return Value<M, POLY, TYPE>(0);
 	}
 };
 
 template <int M, int POLY, typename TYPE>
-class GaloisFieldIndex
+class Index
 {
 public:
 	static const int Q = 1 << M, N = Q - 1;
 	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
 	TYPE i;
-	GaloisFieldIndex() {}
-	explicit GaloisFieldIndex(TYPE i) : i(i) {}
-	GaloisFieldIndex<M, POLY, TYPE> operator *= (GaloisFieldIndex<M, POLY, TYPE> a)
+	Index() {}
+	explicit Index(TYPE i) : i(i) {}
+	Index<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
 		return *this = *this * a;
 	}
@@ -62,97 +64,98 @@ public:
 };
 
 template <int M, int POLY, typename TYPE>
-struct GaloisField
+struct Types
 {
 	static const int Q = 1 << M, N = Q - 1;
 	typedef TYPE value_type;
-	typedef GaloisFieldValue<M, POLY, TYPE> ValueType;
-	typedef GaloisFieldIndex<M, POLY, TYPE> IndexType;
+	typedef Value<M, POLY, TYPE> ValueType;
+	typedef Index<M, POLY, TYPE> IndexType;
 };
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldIndex<M, POLY, TYPE> index(GaloisFieldValue<M, POLY, TYPE> a)
+Index<M, POLY, TYPE> index(Value<M, POLY, TYPE> a)
 {
-	return GaloisFieldIndex<M, POLY, TYPE>(GaloisFieldTables<M, POLY, TYPE>::log(a.v));
+	return Index<M, POLY, TYPE>(Tables<M, POLY, TYPE>::log(a.v));
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> value(GaloisFieldIndex<M, POLY, TYPE> a) {
-	return GaloisFieldValue<M, POLY, TYPE>(GaloisFieldTables<M, POLY, TYPE>::exp(a.i));
+Value<M, POLY, TYPE> value(Index<M, POLY, TYPE> a) {
+	return Value<M, POLY, TYPE>(Tables<M, POLY, TYPE>::exp(a.i));
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> operator + (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+Value<M, POLY, TYPE> operator + (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
-	return GaloisFieldValue<M, POLY, TYPE>(a.v ^ b.v);
+	return Value<M, POLY, TYPE>(a.v ^ b.v);
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldIndex<M, POLY, TYPE> operator * (GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b)
+Index<M, POLY, TYPE> operator * (Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
 	TYPE tmp = a.i + b.i;
-	return GaloisFieldIndex<M, POLY, TYPE>(a.modulus() - a.i <= b.i ? tmp - a.modulus() : tmp);
+	return Index<M, POLY, TYPE>(a.modulus() - a.i <= b.i ? tmp - a.modulus() : tmp);
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> operator * (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	return (!a.v || !b.v) ? a.zero() : value(index(a) * index(b));
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> rcp(GaloisFieldValue<M, POLY, TYPE> a)
+Value<M, POLY, TYPE> rcp(Value<M, POLY, TYPE> a)
 {
-	return !a.v ? a.inf() : value(GaloisFieldIndex<M, POLY, TYPE>(a.modulus() - index(a).i));
+	return !a.v ? a.inf() : value(Index<M, POLY, TYPE>(a.modulus() - index(a).i));
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldIndex<M, POLY, TYPE> operator / (GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b)
+Index<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
 	TYPE tmp = a.i - b.i;
-	return GaloisFieldIndex<M, POLY, TYPE>(a.i < b.i ? tmp + a.modulus() : tmp);
+	return Index<M, POLY, TYPE>(a.i < b.i ? tmp + a.modulus() : tmp);
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> operator / (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	return !b.v ? a.inf() : !a.v ? a.zero() : value(index(a) / index(b));
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> operator * (GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b)
+Value<M, POLY, TYPE> operator * (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	return !b.v ? a.zero() : value(a * index(b));
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> operator * (GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b)
+Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
 	return !a.v ? a.zero() : value(index(a) * b);
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+Value<M, POLY, TYPE> fma(Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
 	return a * b + c;
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldIndex<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+Value<M, POLY, TYPE> fma(Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
 	return !b.v ? c : (value(a * index(b)) + c);
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldIndex<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+Value<M, POLY, TYPE> fma(Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
 	return !a.v ? c : (value(index(a) * b) + c);
 }
 
 template <int M, int POLY, typename TYPE>
-GaloisFieldValue<M, POLY, TYPE> fma(GaloisFieldValue<M, POLY, TYPE> a, GaloisFieldValue<M, POLY, TYPE> b, GaloisFieldValue<M, POLY, TYPE> c)
+Value<M, POLY, TYPE> fma(Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
 	return (!a.v || !b.v) ? c : (value(index(a) * index(b)) + c);
 }
 
+}
 #endif
