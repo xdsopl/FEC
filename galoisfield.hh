@@ -136,7 +136,7 @@ Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> fma(Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
-	return a * b + c;
+	return value(a * b) + c;
 }
 
 template <int M, int POLY, typename TYPE>
