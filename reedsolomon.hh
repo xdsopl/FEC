@@ -18,18 +18,20 @@ public:
 	typedef typename GF::ValueType ValueType;
 	typedef typename GF::IndexType IndexType;
 	static const int N = GF::N, K = N - NR;
-	ValueType G[NR+1];
+	IndexType generator[NR]; // beware: without the leading 1
 	ReedSolomon()
 	{
+		ValueType tmp[NR];
 		IndexType root(FR), pe(1);
 		for (int i = 0; i < NR; ++i) {
-			G[i] = ValueType(1);
+			tmp[i] = ValueType(1);
 			for (int j = i; j > 0; --j)
-				G[j] = fma(root, G[j], G[j-1]);
-			G[0] *= root;
+				tmp[j] = fma(root, tmp[j], tmp[j-1]);
+			tmp[0] *= root;
 			root *= pe;
 		}
-		G[NR] = ValueType(1);
+		for (int i = 0; i < NR; ++i)
+			generator[i] = index(tmp[i]);
 	}
 	void encode(ValueType *parity, const ValueType *data)
 	{
@@ -37,9 +39,16 @@ public:
 			parity[i] = ValueType(0);
 		for (int i = 0; i < K; ++i) {
 			ValueType feedback = data[i] + parity[0];
-			for (int j = 1; j < NR; ++j)
-				parity[j-1] = fma(feedback, G[NR-j], parity[j]);
-			parity[NR-1] = G[0] * feedback;
+			if (feedback) {
+				IndexType fb = index(feedback);
+				for (int j = 1; j < NR; ++j)
+					parity[j-1] = fma(fb, generator[NR-j], parity[j]);
+				parity[NR-1] = value(generator[0] * fb);
+			} else {
+				for (int j = 1; j < NR; ++j)
+					parity[j-1] = parity[j];
+				parity[NR-1] = ValueType(0);
+			}
 		}
 	}
 	void encode(value_type *parity, const value_type *data)
