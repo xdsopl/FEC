@@ -25,6 +25,7 @@ public:
 	TYPE v;
 	Value() {}
 	explicit Value(TYPE v) : v(v) {}
+	operator bool () const { return !!v; }
 	Value<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
 		return *this = *this * a;
