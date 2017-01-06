@@ -51,9 +51,28 @@ public:
 			}
 		}
 	}
+	bool decode(ValueType *code)
+	{
+		ValueType syndromes[NR];
+		IndexType root(FR), pe(1);
+		for (int i = 0; i < NR; ++i) {
+			syndromes[i] = code[0];
+			for (int j = 1; j < N; ++j)
+				syndromes[i] = fma(root, syndromes[i], code[j]);
+			root *= pe;
+		}
+		for (int i = 0; i < NR; ++i)
+			if (syndromes[i])
+				return false;
+		return true;
+	}
 	void encode(value_type *code)
 	{
 		encode(reinterpret_cast<ValueType *>(code));
+	}
+	bool decode(value_type *code)
+	{
+		return decode(reinterpret_cast<ValueType *>(code));
 	}
 };
 

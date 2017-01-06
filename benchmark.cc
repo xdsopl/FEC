@@ -41,6 +41,7 @@ void test(ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *targ
 	for (int i = 0; i < rs.N; ++i)
 		assert(code[i] == target[i]);
 	//print_table(code + rs.K, "parity", NR);
+	assert(rs.decode(code));
 }
 
 int main()
