@@ -25,19 +25,17 @@ void print_table(TYPE *table, const char *name, int N)
 template <int NR, int FR, int M, int P, typename TYPE>
 void test(ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *target)
 {
-	//print_table(rs.gf.exp_table, "exp_table", rs.gf.Q);
-	//print_table(rs.gf.log_table, "log_table", rs.gf.Q);
 #if 0
-	std::cout << "g(x) = ";
-	for (int i = NR; i > 0; --i) {
-		if (rs.G[i] != 1)
-			std::cout << (int)rs.G[i] << "*";
+	std::cout << "g(x) = x^" << NR << " + ";
+	for (int i = NR-1; i > 0; --i) {
+		if (value(rs.generator[i]) != 1)
+			std::cout << (int)value(rs.generator[i]) << "*";
 		std::cout << "x";
 		if (i != 1)
 			std::cout << "^" << i;
 		std::cout << " + ";
 	}
-	std::cout << (int)rs.G[0] << std::endl;
+	std::cout << (int)value(rs.generator[0]) << std::endl;
 #endif
 	rs.encode(code);
 	for (int i = 0; i < rs.N; ++i)
