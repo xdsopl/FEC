@@ -33,27 +33,27 @@ public:
 		for (int i = 0; i < NR; ++i)
 			generator[i] = index(tmp[i]);
 	}
-	void encode(ValueType *parity, const ValueType *data)
+	void encode(ValueType *code)
 	{
 		for (int i = 0; i < NR; ++i)
-			parity[i] = ValueType(0);
+			code[i] = ValueType(0);
 		for (int i = 0; i < K; ++i) {
-			ValueType feedback = data[i] + parity[0];
+			ValueType feedback = code[NR+i] + code[0];
 			if (feedback) {
 				IndexType fb = index(feedback);
 				for (int j = 1; j < NR; ++j)
-					parity[j-1] = fma(fb, generator[NR-j], parity[j]);
-				parity[NR-1] = value(generator[0] * fb);
+					code[j-1] = fma(fb, generator[NR-j], code[j]);
+				code[NR-1] = value(generator[0] * fb);
 			} else {
 				for (int j = 1; j < NR; ++j)
-					parity[j-1] = parity[j];
-				parity[NR-1] = ValueType(0);
+					code[j-1] = code[j];
+				code[NR-1] = ValueType(0);
 			}
 		}
 	}
-	void encode(value_type *parity, const value_type *data)
+	void encode(value_type *code)
 	{
-		encode(reinterpret_cast<ValueType *>(parity), reinterpret_cast<const ValueType *>(data));
+		encode(reinterpret_cast<ValueType *>(code));
 	}
 };
 
