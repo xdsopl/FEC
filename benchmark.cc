@@ -7,6 +7,9 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 #include <iostream>
 #include <cassert>
+#include <random>
+#include <chrono>
+#include <functional>
 #include "galoisfield.hh"
 #include "reedsolomon.hh"
 
@@ -23,8 +26,9 @@ void print_table(TYPE *table, const char *name, int N)
 }
 
 template <int NR, int FR, int M, int P, typename TYPE>
-void test(ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *target)
+void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *target, std::vector<uint8_t> &data)
 {
+	std::cout << "testing: " << name << std::endl;
 #if 0
 	std::cout << "g(x) = x^" << NR << " + ";
 	for (int i = NR-1; i > 0; --i) {
@@ -42,17 +46,54 @@ void test(ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *targ
 		assert(code[i] == target[i]);
 	//print_table(code + rs.K, "parity", NR);
 	assert(rs.decode(code));
+
+	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
+	uint8_t *tmp = new uint8_t[rs.N * blocks];
+	unsigned acc = 0, bit = 0, pos = 0;
+	for (unsigned byte : data) {
+		acc |= byte << bit;
+		bit += 8;
+		while (bit >= M) {
+			bit -= M;
+			tmp[pos++] = rs.N & acc;
+			acc >>= M;
+			if (pos % rs.N >= rs.K)
+				pos += NR;
+		}
+	}
+	{
+		auto start = std::chrono::system_clock::now();
+		for (int i = 0; i < blocks; ++i)
+			rs.encode(tmp + i * rs.N);
+		auto end = std::chrono::system_clock::now();
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+		std::cout << "encoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds." << std::endl;
+	}
+	{
+		auto start = std::chrono::system_clock::now();
+		for (int i = 0; i < blocks; ++i)
+			assert(rs.decode(tmp + i * rs.N));
+		auto end = std::chrono::system_clock::now();
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+		std::cout << "decoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds." << std::endl;
+	}
+	delete[] tmp;
 }
 
 int main()
 {
-	{ // BBC WHP031 RS(15, 11) T=2
+	std::random_device rd;
+	std::default_random_engine generator(rd());
+	std::uniform_int_distribution<uint8_t> distribution(0, 255);
+	std::vector<uint8_t> data(10000000);
+	std::generate(data.begin(), data.end(), std::bind(distribution, generator));
+	{
 		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
 		uint8_t code[15] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 		uint8_t target[15] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 3, 3, 12, 12 };
-		test(rs, code, target);
+		test("BBC WHP031 RS(15, 11) T=2", rs, code, target, data);
 	}
-	{ // DVB-T RS(255, 239) T=8
+	{
 		ReedSolomon<16, 0, GF::Types<8, 0b100011101, uint8_t>> rs;
 		uint8_t code[255], target[255];
 		for (int i = 0; i < 239; ++i)
@@ -60,7 +101,7 @@ int main()
 		uint8_t parity[16] = { 1, 126, 147, 48, 155, 224, 3, 157, 29, 226, 40, 114, 61, 30, 244, 75 };
 		for (int i = 0; i < 16; ++i)
 			target[239+i] = parity[i];
-		test(rs, code, target);
+		test("DVB-T RS(255, 239) T=8", rs, code, target, data);
 	}
 }
 
