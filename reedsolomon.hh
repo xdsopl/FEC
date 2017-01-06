@@ -36,18 +36,18 @@ public:
 	void encode(ValueType *code)
 	{
 		for (int i = 0; i < NR; ++i)
-			code[i] = ValueType(0);
+			code[K+i] = ValueType(0);
 		for (int i = 0; i < K; ++i) {
-			ValueType feedback = code[NR+i] + code[0];
+			ValueType feedback = code[i] + code[K];
 			if (feedback) {
 				IndexType fb = index(feedback);
 				for (int j = 1; j < NR; ++j)
-					code[j-1] = fma(fb, generator[NR-j], code[j]);
-				code[NR-1] = value(generator[0] * fb);
+					code[K+j-1] = fma(fb, generator[NR-j], code[K+j]);
+				code[N-1] = value(generator[0] * fb);
 			} else {
 				for (int j = 1; j < NR; ++j)
-					code[j-1] = code[j];
-				code[NR-1] = ValueType(0);
+					code[K+j-1] = code[K+j];
+				code[N-1] = ValueType(0);
 			}
 		}
 	}

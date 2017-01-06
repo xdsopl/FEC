@@ -40,23 +40,25 @@ void test(ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *targ
 	rs.encode(code);
 	for (int i = 0; i < rs.N; ++i)
 		assert(code[i] == target[i]);
-	//print_table(code, "parity", NR);
+	//print_table(code + rs.K, "parity", NR);
 }
 
 int main()
 {
 	{ // BBC WHP031 RS(15, 11) T=2
 		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
-		uint8_t code[15] = { 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
-		uint8_t target[15] = { 3, 3, 12, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+		uint8_t code[15] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+		uint8_t target[15] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 3, 3, 12, 12 };
 		test(rs, code, target);
 	}
 	{ // DVB-T RS(255, 239) T=8
 		ReedSolomon<16, 0, GF::Types<8, 0b100011101, uint8_t>> rs;
-		uint8_t code[255];
-		uint8_t target[255] = { 1, 126, 147, 48, 155, 224, 3, 157, 29, 226, 40, 114, 61, 30, 244, 75 };
+		uint8_t code[255], target[255];
 		for (int i = 0; i < 239; ++i)
-			target[16+i] = code[16+i] = i + 1;
+			target[i] = code[i] = i + 1;
+		uint8_t parity[16] = { 1, 126, 147, 48, 155, 224, 3, 157, 29, 226, 40, 114, 61, 30, 244, 75 };
+		for (int i = 0; i < 16; ++i)
+			target[239+i] = parity[i];
 		test(rs, code, target);
 	}
 }
