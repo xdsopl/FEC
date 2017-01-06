@@ -5,8 +5,8 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
-encoding of 10000000 random bytes (1818182 blocks) took 241 milliseconds.
-decoding of 10000000 random bytes (1818182 blocks) took 479 milliseconds.
+encoding of 10000000 random bytes (1818182 blocks) took 243 milliseconds.
+decoding of 10000000 random bytes (1818182 blocks) took 241 milliseconds.
 testing: DVB-T RS(255, 239) T=8
-encoding of 10000000 random bytes (41842 blocks) took 194 milliseconds.
-decoding of 10000000 random bytes (41842 blocks) took 1029 milliseconds.
+encoding of 10000000 random bytes (41842 blocks) took 196 milliseconds.
+decoding of 10000000 random bytes (41842 blocks) took 413 milliseconds.

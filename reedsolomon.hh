@@ -54,12 +54,14 @@ public:
 	bool decode(ValueType *code)
 	{
 		ValueType syndromes[NR];
-		IndexType root(FR), pe(1);
-		for (int i = 0; i < NR; ++i) {
+		for (int i = 0; i < NR; ++i)
 			syndromes[i] = code[0];
-			for (int j = 1; j < N; ++j)
+		for (int j = 1; j < N; ++j) {
+			IndexType root(FR), pe(1);
+			for (int i = 0; i < NR; ++i) {
 				syndromes[i] = fma(root, syndromes[i], code[j]);
-			root *= pe;
+				root *= pe;
+			}
 		}
 		for (int i = 0; i < NR; ++i)
 			if (syndromes[i])
