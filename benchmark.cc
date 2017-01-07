@@ -50,7 +50,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	std::uniform_int_distribution<int> bit_dist(0, M-1), pos_dist(0, rs.N-1);
 	auto rnd_bit = std::bind(bit_dist, generator);
 	auto rnd_pos = std::bind(pos_dist, generator);
-	for (int i = 0; i < 2; ++i)
+	for (int i = 0; i < NR/2; ++i)
 		code[rnd_pos()] ^= 1 << rnd_bit();
 	std::cout << "number of errors: " << rs.decode(code) << std::endl;
 
