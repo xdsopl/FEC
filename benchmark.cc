@@ -67,7 +67,8 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 			rs.encode(tmp + i * rs.N);
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		std::cout << "encoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds." << std::endl;
+		int mbs = data.size() / (msec.count() * 1000);
+		std::cout << "encoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
 	}
 	{
 		auto start = std::chrono::system_clock::now();
@@ -75,7 +76,8 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 			assert(rs.decode(tmp + i * rs.N));
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		std::cout << "decoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds." << std::endl;
+		int mbs = data.size() / (msec.count() * 1000);
+		std::cout << "decoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
 	}
 	delete[] tmp;
 }
