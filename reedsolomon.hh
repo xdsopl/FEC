@@ -51,6 +51,10 @@ public:
 			}
 		}
 	}
+	bool correct(ValueType *code, ValueType *syndromes)
+	{
+		return false;
+	}
 	bool decode(ValueType *code)
 	{
 		ValueType syndromes[NR];
@@ -65,7 +69,7 @@ public:
 		}
 		for (int i = 0; i < NR; ++i)
 			if (syndromes[i])
-				return false;
+				return correct(code, syndromes);
 		return true;
 	}
 	void encode(value_type *code)
