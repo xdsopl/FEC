@@ -45,14 +45,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	for (int i = 0; i < rs.N; ++i)
 		assert(code[i] == target[i]);
 	//print_table(code + rs.K, "parity", NR);
-	std::random_device rd;
-	std::default_random_engine generator(rd());
-	std::uniform_int_distribution<int> bit_dist(0, M-1), pos_dist(0, rs.N-1);
-	auto rnd_bit = std::bind(bit_dist, generator);
-	auto rnd_pos = std::bind(pos_dist, generator);
-	for (int i = 0; i < NR/2; ++i)
-		code[rnd_pos()] ^= 1 << rnd_bit();
-	std::cout << "number of errors: " << rs.decode(code) << std::endl;
+	assert(!rs.decode(code));
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
 	uint8_t *tmp = new uint8_t[rs.N * blocks];
@@ -83,8 +76,28 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 			assert(!rs.decode(tmp + i * rs.N));
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		int mbs = data.size() / (msec.count() * 1000);
-		std::cout << "decoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
+		int bytes = (rs.N * blocks * M) / 8;
+		int mbs = bytes / (msec.count() * 1000);
+		std::cout << "checking of " << bytes << " encoded bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
+	}
+	std::random_device rd;
+	std::default_random_engine generator(rd());
+	std::uniform_int_distribution<int> bit_dist(0, M-1), pos_dist(0, rs.N-1);
+	auto rnd_bit = std::bind(bit_dist, generator);
+	auto rnd_pos = std::bind(pos_dist, generator);
+	for (int i = 0; i < blocks; ++i)
+		for (int j = 0; j < NR/2; ++j)
+			tmp[i * rs.N + rnd_pos()] ^= 1 << rnd_bit();
+	{
+		auto start = std::chrono::system_clock::now();
+		int errors = 0;
+		for (int i = 0; i < blocks; ++i)
+			errors += rs.decode(tmp + i * rs.N);
+		auto end = std::chrono::system_clock::now();
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+		int bytes = (rs.N * blocks * M) / 8;
+		int mbs = bytes / (msec.count() * 1000);
+		std::cout << "decoding of " << bytes << " encoded bytes with " << errors << " errors took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
 	}
 	delete[] tmp;
 }
