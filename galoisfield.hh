@@ -34,6 +34,10 @@ public:
 	{
 		return *this = *this * a;
 	}
+	Value<M, POLY, TYPE> operator += (Value<M, POLY, TYPE> a)
+	{
+		return *this = *this + a;
+	}
 	static const Value<M, POLY, TYPE> inf()
 	{
 		return Value<M, POLY, TYPE>(N);
