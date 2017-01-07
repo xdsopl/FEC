@@ -51,9 +51,45 @@ public:
 			}
 		}
 	}
+	int Berlekamp_Massey_algorithm(ValueType *s, ValueType *C)
+	{
+		ValueType B[NR+1];
+		B[0] = C[0] = ValueType(1);
+		for (int i = 1; i <= NR; ++i)
+			B[i] = C[i] = ValueType(0);
+		int L = 0;
+		for (int n = 0, m = 1; n < NR; ++n) {
+			ValueType d(s[n]);
+			for (int i = 1; i <= L; ++i)
+				d += C[i] * s[n-i];
+			if (!d) {
+				++m;
+			} else {
+				ValueType T[NR+1];
+				for (int i = 0; i < m; ++i)
+					T[i] = C[i];
+				for (int i = m; i <= NR; ++i)
+					T[i] = fma(d, B[i-m], C[i]);
+				if (2 * L <= n) {
+					L = n + 1 - L;
+					for (int i = 0; i <= NR; ++i)
+						B[i] = C[i] / d;
+					m = 1;
+				} else {
+					++m;
+				}
+				for (int i = 0; i <= NR; ++i)
+					C[i] = T[i];
+			}
+		}
+		return L;
+	}
 	bool correct(ValueType *code, ValueType *syndromes)
 	{
-		return false;
+		ValueType locator[NR+1];
+		int L = Berlekamp_Massey_algorithm(syndromes, locator);
+		std::cout << "number of errors: " << L << std::endl;
+		return true;
 	}
 	bool decode(ValueType *code)
 	{

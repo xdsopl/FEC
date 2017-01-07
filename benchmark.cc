@@ -45,6 +45,8 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	for (int i = 0; i < rs.N; ++i)
 		assert(code[i] == target[i]);
 	//print_table(code + rs.K, "parity", NR);
+	for (int i = rs.N-1, n = 0; i >= 0 && n < 2; --i, ++n)
+		code[i] ^= 1;
 	assert(rs.decode(code));
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
