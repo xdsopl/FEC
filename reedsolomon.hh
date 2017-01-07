@@ -84,14 +84,12 @@ public:
 		}
 		return L;
 	}
-	bool correct(ValueType *code, ValueType *syndromes)
+	int correct(ValueType *code, ValueType *syndromes)
 	{
 		ValueType locator[NR+1];
-		int L = Berlekamp_Massey_algorithm(syndromes, locator);
-		std::cout << "number of errors: " << L << std::endl;
-		return true;
+		return Berlekamp_Massey_algorithm(syndromes, locator);
 	}
-	bool decode(ValueType *code)
+	int decode(ValueType *code)
 	{
 		ValueType syndromes[NR];
 		for (int i = 0; i < NR; ++i)
@@ -106,13 +104,13 @@ public:
 		for (int i = 0; i < NR; ++i)
 			if (syndromes[i])
 				return correct(code, syndromes);
-		return true;
+		return 0;
 	}
 	void encode(value_type *code)
 	{
 		encode(reinterpret_cast<ValueType *>(code));
 	}
-	bool decode(value_type *code)
+	int decode(value_type *code)
 	{
 		return decode(reinterpret_cast<ValueType *>(code));
 	}

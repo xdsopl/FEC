@@ -52,7 +52,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	auto rnd_pos = std::bind(pos_dist, generator);
 	for (int i = 0; i < 2; ++i)
 		code[rnd_pos()] ^= 1 << rnd_bit();
-	assert(rs.decode(code));
+	std::cout << "number of errors: " << rs.decode(code) << std::endl;
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
 	uint8_t *tmp = new uint8_t[rs.N * blocks];
@@ -80,7 +80,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	{
 		auto start = std::chrono::system_clock::now();
 		for (int i = 0; i < blocks; ++i)
-			assert(rs.decode(tmp + i * rs.N));
+			assert(!rs.decode(tmp + i * rs.N));
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int mbs = data.size() / (msec.count() * 1000);
