@@ -45,8 +45,13 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	for (int i = 0; i < rs.N; ++i)
 		assert(code[i] == target[i]);
 	//print_table(code + rs.K, "parity", NR);
-	for (int i = rs.N-1, n = 0; i >= 0 && n < 2; --i, ++n)
-		code[i] ^= 1;
+	std::random_device rd;
+	std::default_random_engine generator(rd());
+	std::uniform_int_distribution<int> bit_dist(0, M-1), pos_dist(0, rs.N-1);
+	auto rnd_bit = std::bind(bit_dist, generator);
+	auto rnd_pos = std::bind(pos_dist, generator);
+	for (int i = 0; i < 2; ++i)
+		code[rnd_pos()] ^= 1 << rnd_bit();
 	assert(rs.decode(code));
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
