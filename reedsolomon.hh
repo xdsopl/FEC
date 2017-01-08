@@ -87,7 +87,26 @@ public:
 	int correct(ValueType *code, ValueType *syndromes)
 	{
 		ValueType locator[NR+1];
-		return Berlekamp_Massey_algorithm(syndromes, locator);
+		int errors = Berlekamp_Massey_algorithm(syndromes, locator);
+#if 0
+		static int init;
+		if (!init) {
+			init = 1;
+			std::cout << "C(x) = ";
+			for (int i = NR; i > 0; --i) {
+				if (!locator[i])
+					continue;
+				if (locator[i] != 1)
+					std::cout << (int)locator[i] << "*";
+				std::cout << "x";
+				if (i != 1)
+					std::cout << "^" << i;
+				std::cout << " + ";
+			}
+			std::cout << (int)locator[0] << std::endl;
+		}
+#endif
+		return errors;
 	}
 	int decode(ValueType *code)
 	{

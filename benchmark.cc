@@ -48,6 +48,9 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		assert(code[i] == target[i]);
 	//print_table(code + rs.K, "parity", NR);
 	assert(!rs.decode(code));
+	for (int i = 0; i < rs.N && i < 1; ++i)
+		code[i] ^= 1;
+	assert(rs.decode(code));
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
 	TYPE *tmp = new TYPE[rs.N * blocks];
