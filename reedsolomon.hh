@@ -92,18 +92,30 @@ public:
 		static int init;
 		if (!init) {
 			init = 1;
-			std::cout << "C(x) = ";
+			std::cout << "s(x) = ";
 			for (int i = NR; i > 0; --i) {
-				if (!locator[i])
+				if (!syndromes[i].v)
 					continue;
-				if (locator[i] != 1)
-					std::cout << (int)locator[i] << "*";
+				if (syndromes[i].v != 1)
+					std::cout << (int)syndromes[i].v << "*";
 				std::cout << "x";
 				if (i != 1)
 					std::cout << "^" << i;
 				std::cout << " + ";
 			}
-			std::cout << (int)locator[0] << std::endl;
+			std::cout << (int)syndromes[0].v << std::endl;
+			std::cout << "C(x) = ";
+			for (int i = NR; i > 0; --i) {
+				if (!locator[i].v)
+					continue;
+				if (locator[i].v != 1)
+					std::cout << (int)locator[i].v << "*";
+				std::cout << "x";
+				if (i != 1)
+					std::cout << "^" << i;
+				std::cout << " + ";
+			}
+			std::cout << (int)locator[0].v << std::endl;
 		}
 #endif
 		return errors;

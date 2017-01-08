@@ -32,16 +32,16 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 #if 0
 	std::cout << "g(x) = x^" << NR << " + ";
 	for (int i = NR-1; i > 0; --i) {
-		if (!value(rs.generator[i]))
+		if (!value(rs.generator[i]).v)
 			continue;
-		if (value(rs.generator[i]) != 1)
-			std::cout << (int)value(rs.generator[i]) << "*";
+		if (value(rs.generator[i]).v != 1)
+			std::cout << (int)value(rs.generator[i]).v << "*";
 		std::cout << "x";
 		if (i != 1)
 			std::cout << "^" << i;
 		std::cout << " + ";
 	}
-	std::cout << (int)value(rs.generator[0]) << std::endl;
+	std::cout << (int)value(rs.generator[0]).v << std::endl;
 #endif
 	rs.encode(code);
 	for (int i = 0; i < rs.N; ++i)
