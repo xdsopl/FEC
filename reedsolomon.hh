@@ -18,10 +18,10 @@ public:
 	typedef typename GF::ValueType ValueType;
 	typedef typename GF::IndexType IndexType;
 	static const int N = GF::N, K = N - NR;
-	IndexType generator[NR]; // beware: without the leading 1
+	IndexType generator[NR+1];
 	ReedSolomon()
 	{
-		ValueType tmp[NR];
+		ValueType tmp[NR+1];
 		IndexType root(FR), pe(1);
 		for (int i = 0; i < NR; ++i) {
 			tmp[i] = ValueType(1);
@@ -30,7 +30,22 @@ public:
 			tmp[0] *= root;
 			root *= pe;
 		}
-		for (int i = 0; i < NR; ++i)
+		tmp[NR] = ValueType(1);
+#if 0
+		std::cout << "g(x) = ";
+		for (int i = NR; i > 0; --i) {
+			if (!tmp[i].v)
+				continue;
+			if (tmp[i].v != 1)
+				std::cout << (int)tmp[i].v << "*";
+			std::cout << "x";
+			if (i != 1)
+				std::cout << "^" << i;
+			std::cout << " + ";
+		}
+		std::cout << (int)tmp[0].v << std::endl;
+#endif
+		for (int i = 0; i <= NR; ++i)
 			generator[i] = index(tmp[i]);
 	}
 	void encode(ValueType *code)
