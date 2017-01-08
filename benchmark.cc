@@ -48,7 +48,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	assert(!rs.decode(code));
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
-	uint8_t *tmp = new uint8_t[rs.N * blocks];
+	TYPE *tmp = new TYPE[rs.N * blocks];
 	unsigned acc = 0, bit = 0, pos = 0;
 	for (unsigned byte : data) {
 		acc |= byte << bit;
