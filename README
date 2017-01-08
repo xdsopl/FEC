@@ -5,10 +5,14 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
-encoding of 10000000 random bytes (1818182 blocks) took 244 milliseconds (40MB/s).
-checking of 13636365 encoded bytes (1818182 blocks) took 241 milliseconds (56MB/s).
-decoding of 13636365 encoded bytes with 3485228 errors took 413 milliseconds (33MB/s).
+encoding of 10000000 random bytes (1818182 blocks) took 243 milliseconds (41MB/s).
+checking of 13636365 encoded bytes (1818182 blocks) took 242 milliseconds (56MB/s).
+decoding of 13636365 encoded bytes with 3636364 errors took 416 milliseconds (32MB/s).
 testing: DVB-T RS(255, 239) T=8
-encoding of 10000000 random bytes (41842 blocks) took 196 milliseconds (51MB/s).
-checking of 10669710 encoded bytes (41842 blocks) took 402 milliseconds (26MB/s).
-decoding of 10669710 encoded bytes with 329556 errors took 410 milliseconds (26MB/s).
+encoding of 10000000 random bytes (41842 blocks) took 195 milliseconds (51MB/s).
+checking of 10669710 encoded bytes (41842 blocks) took 395 milliseconds (27MB/s).
+decoding of 10669710 encoded bytes with 334736 errors took 419 milliseconds (25MB/s).
+testing: FUN RS(65535, 65471) T=32
+encoding of 10000000 random bytes (77 blocks) took 489 milliseconds (20MB/s).
+checking of 10092390 encoded bytes (77 blocks) took 1028 milliseconds (9MB/s).
+decoding of 10092390 encoded bytes with 2464 errors took 1027 milliseconds (9MB/s).
