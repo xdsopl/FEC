@@ -127,6 +127,18 @@ Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 }
 
 template <int M, int POLY, typename TYPE>
+Value<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
+{
+	return !b.v ? b.inf() : value(a / index(b));
+}
+
+template <int M, int POLY, typename TYPE>
+Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
+{
+	return !a.v ? a.zero() : value(index(a) / b);
+}
+
+template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator * (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	return !b.v ? b.zero() : value(a * index(b));
