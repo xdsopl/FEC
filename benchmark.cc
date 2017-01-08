@@ -139,5 +139,15 @@ int main()
 			target[239+i] = parity[i];
 		test("DVB-T RS(255, 239) T=8", rs, code, target, data);
 	}
+	{
+		ReedSolomon<16, 0, GF::Types<8, 0b100011101, uint16_t>> rs;
+		uint16_t code[255], target[255];
+		for (int i = 0; i < 239; ++i)
+			target[i] = code[i] = i + 1;
+		uint16_t parity[16] = { 1, 126, 147, 48, 155, 224, 3, 157, 29, 226, 40, 114, 61, 30, 244, 75 };
+		for (int i = 0; i < 16; ++i)
+			target[239+i] = parity[i];
+		test("DVB-T RS(255, 239) T=8", rs, code, target, data);
+	}
 }
 

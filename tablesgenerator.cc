@@ -59,5 +59,8 @@ int main()
 
 	// DVB-T RS(255, 239) T=8
 	GENERATOR(8, 0b100011101, uint8_t);
+
+	// DVB-T RS(255, 239) T=8
+	GENERATOR(8, 0b100011101, uint16_t);
 }
 
