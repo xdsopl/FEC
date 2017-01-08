@@ -86,9 +86,10 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	auto rnd_bit = std::bind(bit_dist, generator);
 	auto rnd_pos = std::bind(pos_dist, generator);
 	int corrupt = 0;
+	const int places = NR/2;
 	for (int i = 0; i < blocks; ++i) {
-		int pos[NR/2];
-		for (int j = 0; j < NR/2; ++j) {
+		int pos[places];
+		for (int j = 0; j < places; ++j) {
 			pos[j] = rnd_pos();
 			for (int k = 0; k < j;) {
 				if (pos[k++] == pos[j]) {
