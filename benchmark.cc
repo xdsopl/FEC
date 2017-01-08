@@ -32,6 +32,8 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 #if 0
 	std::cout << "g(x) = x^" << NR << " + ";
 	for (int i = NR-1; i > 0; --i) {
+		if (!value(rs.generator[i]))
+			continue;
 		if (value(rs.generator[i]) != 1)
 			std::cout << (int)value(rs.generator[i]) << "*";
 		std::cout << "x";
