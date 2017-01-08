@@ -85,14 +85,27 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	std::uniform_int_distribution<int> bit_dist(0, M-1), pos_dist(0, rs.N-1);
 	auto rnd_bit = std::bind(bit_dist, generator);
 	auto rnd_pos = std::bind(pos_dist, generator);
-	for (int i = 0; i < blocks; ++i)
-		for (int j = 0; j < NR/2; ++j)
-			tmp[i * rs.N + rnd_pos()] ^= 1 << rnd_bit();
+	int corrupt = 0;
+	for (int i = 0; i < blocks; ++i) {
+		int pos[NR/2];
+		for (int j = 0; j < NR/2; ++j) {
+			pos[j] = rnd_pos();
+			for (int k = 0; k < j;) {
+				if (pos[k++] == pos[j]) {
+					pos[j] = rnd_pos();
+					k = 0;
+				}
+			}
+			tmp[i * rs.N + pos[j]] ^= 1 << rnd_bit();
+			++corrupt;
+		}
+	}
 	{
 		auto start = std::chrono::system_clock::now();
 		int errors = 0;
 		for (int i = 0; i < blocks; ++i)
 			errors += rs.decode(tmp + i * rs.N);
+		assert(corrupt == errors);
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
