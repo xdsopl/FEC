@@ -99,10 +99,31 @@ public:
 		}
 		return L;
 	}
+	int Chien_search(ValueType *locator, ValueType *locations)
+	{
+		int degree = NR;
+		while (!locator[degree])
+			if (--degree < 0)
+				return degree;
+		ValueType tmp[degree+1];
+		for (int i = 0; i <= degree; ++i)
+			tmp[i] = locator[i];
+		int count = 0;
+		for (int i = 0; i < N; ++i) {
+			ValueType sum(tmp[0]);
+			for (int j = 1; j <= degree; ++j)
+				sum += tmp[j] *= IndexType(j);
+			if (!sum)
+				locations[count++] = ValueType(i);
+		}
+		return count;
+	}
 	int correct(ValueType *code, ValueType *syndromes)
 	{
 		ValueType locator[NR+1];
 		int errors = Berlekamp_Massey_algorithm(syndromes, locator);
+		ValueType locations[NR];
+		int count = Chien_search(locator, locations);
 #if 0
 		static int init;
 		if (!init) {
@@ -131,6 +152,10 @@ public:
 				std::cout << " + ";
 			}
 			std::cout << (int)locator[0].v << std::endl;
+			std::cout << "locations =";
+			for (int i = 0; i < count; ++i)
+				std::cout << " " << (int)locations[i].v;
+			std::cout << std::endl;
 		}
 #endif
 		return errors;
