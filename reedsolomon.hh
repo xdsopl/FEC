@@ -129,7 +129,7 @@ public:
 		if (!init) {
 			init = 1;
 			std::cout << "s(x) = ";
-			for (int i = NR; i > 0; --i) {
+			for (int i = NR-1; i > 0; --i) {
 				if (!syndromes[i].v)
 					continue;
 				if (syndromes[i].v != 1)
