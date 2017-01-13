@@ -118,12 +118,30 @@ public:
 		}
 		return count;
 	}
+	int compute_evaluator(ValueType *syndromes, ValueType *locator, ValueType *evaluator)
+	{
+		int tmp = NR-1; // (syndromes * locator) mod x^NR
+		while (!locator[tmp])
+			if (--tmp < 0)
+				return tmp;
+		int degree = -1;
+		for (int i = 0; i <= tmp; ++i) {
+			evaluator[i] = syndromes[i] * locator[0];
+			for (int j = 1; j <= i; ++j)
+				evaluator[i] += syndromes[i-j] * locator[j];
+			if (evaluator[i])
+				degree = i;
+		}
+		return degree;
+	}
 	int correct(ValueType *code, ValueType *syndromes)
 	{
 		ValueType locator[NR+1];
 		int errors = Berlekamp_Massey_algorithm(syndromes, locator);
 		ValueType locations[NR];
 		int count = Chien_search(locator, locations);
+		ValueType evaluator[NR];
+		int degree = compute_evaluator(syndromes, locator, evaluator);
 #if 0
 		static int init;
 		if (!init) {
@@ -155,6 +173,21 @@ public:
 			std::cout << "locations =";
 			for (int i = 0; i < count; ++i)
 				std::cout << " " << (int)locations[i].v;
+			std::cout << std::endl;
+			std::cout << "w(z) = ";
+			for (int i = degree; i > 0; --i) {
+				if (!evaluator[i].v)
+					continue;
+				if (evaluator[i].v != 1)
+					std::cout << (int)evaluator[i].v << "*";
+				std::cout << "x";
+				if (i != 1)
+					std::cout << "^" << i;
+				if (i != 1 || evaluator[0].v)
+					std::cout << " + ";
+			}
+			if (evaluator[0].v)
+				std::cout << (int)evaluator[0].v;
 			std::cout << std::endl;
 		}
 #endif
