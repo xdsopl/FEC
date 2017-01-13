@@ -99,31 +99,25 @@ public:
 		}
 		return L;
 	}
-	int Chien_search(ValueType *locator, ValueType *locations)
+	int Chien_search(ValueType *locator, int locator_degree, ValueType *locations)
 	{
-		int degree = NR;
-		while (!locator[degree])
-			if (--degree < 0)
-				return degree;
-		ValueType tmp[degree+1];
-		for (int i = 0; i <= degree; ++i)
+		ValueType tmp[locator_degree+1];
+		for (int i = 0; i <= locator_degree; ++i)
 			tmp[i] = locator[i];
 		int count = 0;
 		for (int i = 0; i < N; ++i) {
 			ValueType sum(tmp[0]);
-			for (int j = 1; j <= degree; ++j)
+			for (int j = 1; j <= locator_degree; ++j)
 				sum += tmp[j] *= IndexType(j);
 			if (!sum)
 				locations[count++] = ValueType(i);
 		}
 		return count;
 	}
-	int compute_evaluator(ValueType *syndromes, ValueType *locator, ValueType *evaluator)
+	int compute_evaluator(ValueType *syndromes, ValueType *locator, int locator_degree, ValueType *evaluator)
 	{
-		int tmp = NR-1; // (syndromes * locator) mod x^NR
-		while (!locator[tmp])
-			if (--tmp < 0)
-				return tmp;
+		// (syndromes * locator) mod x^NR
+		int tmp = std::min(locator_degree, NR-1);
 		int degree = -1;
 		for (int i = 0; i <= tmp; ++i) {
 			evaluator[i] = syndromes[i] * locator[0];
@@ -138,10 +132,14 @@ public:
 	{
 		ValueType locator[NR+1];
 		int errors = Berlekamp_Massey_algorithm(syndromes, locator);
+		int locator_degree = NR;
+		while (!locator[locator_degree])
+			if (--locator_degree < 0)
+				return locator_degree;
 		ValueType locations[NR];
-		int count = Chien_search(locator, locations);
+		int locations_count = Chien_search(locator, locator_degree, locations);
 		ValueType evaluator[NR];
-		int degree = compute_evaluator(syndromes, locator, evaluator);
+		int evaluator_degree = compute_evaluator(syndromes, locator, locator_degree, evaluator);
 #if 0
 		static int init;
 		if (!init) {
@@ -171,11 +169,11 @@ public:
 			}
 			std::cout << (int)locator[0].v << std::endl;
 			std::cout << "locations =";
-			for (int i = 0; i < count; ++i)
+			for (int i = 0; i < locations_count; ++i)
 				std::cout << " " << (int)locations[i].v;
 			std::cout << std::endl;
 			std::cout << "w(z) = ";
-			for (int i = degree; i > 0; --i) {
+			for (int i = evaluator_degree; i > 0; --i) {
 				if (!evaluator[i].v)
 					continue;
 				if (evaluator[i].v != 1)
