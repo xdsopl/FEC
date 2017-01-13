@@ -135,9 +135,11 @@ public:
 		int locator_degree = NR;
 		while (!locator[locator_degree])
 			if (--locator_degree < 0)
-				return locator_degree;
+				return -1;
 		ValueType locations[NR];
 		int locations_count = Chien_search(locator, locator_degree, locations);
+		if (locations_count < locator_degree)
+			return -1;
 		ValueType evaluator[NR];
 		int evaluator_degree = compute_evaluator(syndromes, locator, locator_degree, evaluator);
 #if 0
