@@ -132,6 +132,7 @@ public:
 	{
 		ValueType locator[NR+1];
 		int errors = Berlekamp_Massey_algorithm(syndromes, locator);
+		assert(locator[0] == ValueType(1));
 		int locator_degree = NR;
 		while (!locator[locator_degree])
 			if (--locator_degree < 0)
