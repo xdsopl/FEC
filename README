@@ -3,6 +3,20 @@ Written in 2017 by <Ahmet Inan> <xdsopl@gmail.com>
 To the extent possible under law, the author(s) have dedicated all copyright and related and neighboring rights to this software to the public domain worldwide. This software is distributed without any warranty.
 You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 
+Read:
+A Simplified Procedure for Correcting Both Errors and Erasures of a Reed-Solomon Code Using the Euclidean Algorithm
+T. K. Truong and I. S. Hsu (Communications Systems Research Section)
+W. L. Eastman (Mitre Corporation)
+I. S. Reed (University of Southern California)
+
+Read:
+Berlekamp–Massey algorithm
+https://en.wikipedia.org/wiki/Berlekamp%E2%80%93Massey_algorithm
+
+Read:
+Chien search
+https://en.wikipedia.org/wiki/Chien_search
+
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
 encoding of 10000000 random bytes (1818182 blocks) took 243 milliseconds (41MB/s).
