@@ -128,6 +128,27 @@ public:
 		}
 		return degree;
 	}
+	void compute_magnitudes(ValueType *locator, ValueType *locations, int count, ValueType *evaluator, int evaluator_degree, ValueType *magnitudes)
+	{
+		for (int i = 0; i < count; ++i) {
+			IndexType root(IndexType(locations[i].v) * IndexType(1)), tmp(root);
+			ValueType numerator(evaluator[0]);
+			for (int j = 1; j <= evaluator_degree; ++j) {
+				numerator += evaluator[j] * tmp;
+				tmp *= root;
+			}
+			for (int i = 0; i < FR; ++i)
+				numerator *= root;
+			ValueType denominator(locator[1]);
+			IndexType root2(root * root), tmp2(root2);
+			for (int j = 3; j <= count; j += 2) {
+				denominator += locator[j] * tmp2;
+				tmp2 *= root2;
+			}
+			denominator *= root;
+			magnitudes[i] = numerator / denominator;
+		}
+	}
 	int correct(ValueType *code, ValueType *syndromes)
 	{
 		ValueType locator[NR+1];
@@ -141,8 +162,13 @@ public:
 		int locations_count = Chien_search(locator, locator_degree, locations);
 		if (locations_count < locator_degree)
 			return -1;
+		// Forney algorithm
 		ValueType evaluator[NR];
 		int evaluator_degree = compute_evaluator(syndromes, locator, locator_degree, evaluator);
+		ValueType magnitudes[locations_count];
+		compute_magnitudes(locator, locations, locations_count, evaluator, evaluator_degree, magnitudes);
+		for (int i = 0; i < locations_count; ++i)
+			code[locations[i].v] += magnitudes[i];
 #ifndef NDEBUG
 		static int init;
 		if (!init) {
@@ -189,6 +215,10 @@ public:
 			}
 			if (evaluator[0].v)
 				std::cout << (int)evaluator[0].v;
+			std::cout << std::endl;
+			std::cout << "magnitudes =";
+			for (int i = 0; i < locations_count; ++i)
+				std::cout << " " << (int)magnitudes[i].v;
 			std::cout << std::endl;
 		}
 #endif

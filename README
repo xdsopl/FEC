@@ -21,6 +21,10 @@ Read:
 Chien search
 https://en.wikipedia.org/wiki/Chien_search
 
+Read:
+Forney algorithm
+https://en.wikipedia.org/wiki/Forney_algorithm
+
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
 encoding of 10000000 random bytes (1818182 blocks) took 243 milliseconds (41MB/s).
