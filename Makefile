@@ -14,8 +14,10 @@ tablesgenerator: tablesgenerator.cc
 galoisfieldtables.hh: tablesgenerator
 	./tablesgenerator > $@
 
-test: testbench benchmark
+test: testbench
 	./testbench
+
+speed: benchmark
 	./benchmark
 
 .PHONY: clean test
