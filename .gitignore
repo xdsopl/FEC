@@ -1,4 +1,5 @@
 .*.swp
+testbench
 benchmark
 tablesgenerator
 galoisfieldtables.hh

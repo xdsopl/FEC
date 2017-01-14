@@ -2,8 +2,11 @@
 CXXFLAGS = -stdlib=libc++ -std=c++11 -W -Wall -O3 -march=native
 CXX = clang++
 
-benchmark: benchmark.cc reedsolomon.hh galoisfield.hh galoisfieldtables.hh
-	$(CXX) $(CXXFLAGS) $< -o $@
+testbench: testbench.cc reedsolomon.hh galoisfield.hh galoisfieldtables.hh
+	$(CXX) $(CXXFLAGS) -g $< -o $@
+
+benchmark: testbench.cc reedsolomon.hh galoisfield.hh galoisfieldtables.hh
+	$(CXX) $(CXXFLAGS) -DNDEBUG $< -o $@
 
 tablesgenerator: tablesgenerator.cc
 	$(CXX) $(CXXFLAGS) $< -o $@
@@ -11,11 +14,12 @@ tablesgenerator: tablesgenerator.cc
 galoisfieldtables.hh: tablesgenerator
 	./tablesgenerator > $@
 
-test: benchmark
+test: testbench benchmark
+	./testbench
 	./benchmark
 
 .PHONY: clean test
 
 clean:
-	rm -f benchmark tablesgenerator galoisfieldtables.hh
+	rm -f benchmark testbench tablesgenerator galoisfieldtables.hh
 

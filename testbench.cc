@@ -64,8 +64,12 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	}
 	{
 		auto start = std::chrono::system_clock::now();
+		bool error = false;
 		for (int i = 0; i < blocks; ++i)
-			assert(!rs.decode(tmp + i * rs.N));
+			error |= rs.decode(tmp + i * rs.N);
+		if (error)
+			std::cout << "decoder error!" << std::endl;
+		assert(!error);
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
@@ -98,6 +102,8 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		int errors = 0;
 		for (int i = 0; i < blocks; ++i)
 			errors += rs.decode(tmp + i * rs.N);
+		if (corrupt != errors)
+			std::cout << "decoder error!" << std::endl;
 		assert(corrupt == errors);
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);

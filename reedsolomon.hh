@@ -142,7 +142,7 @@ public:
 			return -1;
 		ValueType evaluator[NR];
 		int evaluator_degree = compute_evaluator(syndromes, locator, locator_degree, evaluator);
-#if 0
+#ifndef NDEBUG
 		static int init;
 		if (!init) {
 			init = 1;
