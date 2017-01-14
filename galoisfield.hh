@@ -39,10 +39,6 @@ public:
 	{
 		return *this = *this + a;
 	}
-	static const Value<M, POLY, TYPE> inf()
-	{
-		return Value<M, POLY, TYPE>(N);
-	}
 	static const Value<M, POLY, TYPE> zero()
 	{
 		return Value<M, POLY, TYPE>(0);
@@ -115,7 +111,8 @@ Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> rcp(Value<M, POLY, TYPE> a)
 {
-	return !a.v ? a.inf() : value(Index<M, POLY, TYPE>(a.modulus() - index(a).i));
+	assert(a.v);
+	return value(Index<M, POLY, TYPE>(a.modulus() - index(a).i));
 }
 
 template <int M, int POLY, typename TYPE>
@@ -130,14 +127,16 @@ Index<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
-	return !b.v ? a.inf() : !a.v ? a.zero() : value(index(a) / index(b));
+	assert(b.v);
+	return !a.v ? a.zero() : value(index(a) / index(b));
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	assert(a.i != a.modulus());
-	return !b.v ? b.inf() : value(a / index(b));
+	assert(b.v);
+	return value(a / index(b));
 }
 
 template <int M, int POLY, typename TYPE>
