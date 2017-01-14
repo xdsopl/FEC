@@ -137,7 +137,7 @@ public:
 		while (!locator[locator_degree])
 			if (--locator_degree < 0)
 				return -1;
-		ValueType locations[NR];
+		ValueType locations[locator_degree];
 		int locations_count = Chien_search(locator, locator_degree, locations);
 		if (locations_count < locator_degree)
 			return -1;
