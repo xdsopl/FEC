@@ -31,7 +31,7 @@ public:
 			root *= pe;
 		}
 		tmp[NR] = ValueType(1);
-#if 0
+#ifndef NDEBUG
 		std::cout << "g(x) = ";
 		for (int i = NR; i > 0; --i) {
 			if (!tmp[i].v)
