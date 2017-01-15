@@ -155,6 +155,12 @@ public:
 			magnitudes[i] = value(magnitude);
 		}
 	}
+	int Forney_algorithm(ValueType *syndromes, ValueType *locator, ValueType *locations, int count, ValueType *evaluator, ValueType *magnitudes)
+	{
+		int evaluator_degree = compute_evaluator(syndromes, locator, count, evaluator);
+		compute_magnitudes(locator, locations, count, evaluator, evaluator_degree, magnitudes);
+		return evaluator_degree;
+	}
 	int correct(ValueType *code, ValueType *syndromes)
 	{
 		ValueType locator[NR+1];
@@ -166,15 +172,13 @@ public:
 			if (--locator_degree < 0)
 				return -1;
 		ValueType locations[locator_degree];
-		int locations_count = Chien_search(locator, locator_degree, locations);
-		if (locations_count < locator_degree)
+		int count = Chien_search(locator, locator_degree, locations);
+		if (count < locator_degree)
 			return -1;
-		// Forney algorithm
 		ValueType evaluator[NR];
-		int evaluator_degree = compute_evaluator(syndromes, locator, locator_degree, evaluator);
-		ValueType magnitudes[locations_count];
-		compute_magnitudes(locator, locations, locations_count, evaluator, evaluator_degree, magnitudes);
-		for (int i = 0; i < locations_count; ++i)
+		ValueType magnitudes[count];
+		int evaluator_degree = Forney_algorithm(syndromes, locator, locations, count, evaluator, magnitudes);
+		for (int i = 0; i < count; ++i)
 			code[locations[i].v] += magnitudes[i];
 #ifndef NDEBUG
 		static int init;
@@ -205,7 +209,7 @@ public:
 			}
 			std::cout << (int)locator[0].v << std::endl;
 			std::cout << "locations =";
-			for (int i = 0; i < locations_count; ++i)
+			for (int i = 0; i < count; ++i)
 				std::cout << " " << (int)locations[i].v;
 			std::cout << std::endl;
 			std::cout << "evaluator = ";
@@ -224,12 +228,12 @@ public:
 				std::cout << (int)evaluator[0].v;
 			std::cout << std::endl;
 			std::cout << "magnitudes =";
-			for (int i = 0; i < locations_count; ++i)
+			for (int i = 0; i < count; ++i)
 				std::cout << " " << (int)magnitudes[i].v;
 			std::cout << std::endl;
 		}
 #endif
-		return locations_count;
+		return count;
 	}
 	int decode(ValueType *code)
 	{
