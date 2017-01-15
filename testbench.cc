@@ -30,18 +30,33 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 {
 	std::cout << "testing: " << name << std::endl;
 
-	rs.encode(code);
-	bool error = false;
-	for (int i = 0; i < rs.N; ++i)
-		error |= code[i] != target[i];
-	if (error)
-		std::cout << "encoder error!" << std::endl;
-	assert(!error);
-	//print_table(code + rs.K, "parity", NR);
-	assert(!rs.decode(code));
-	for (int i = 0; i < rs.N && i < 1; ++i)
-		code[i] ^= 1;
-	assert(rs.decode(code));
+	{
+		rs.encode(code);
+		bool error = false;
+		for (int i = 0; i < rs.N; ++i)
+			error |= code[i] != target[i];
+		if (error)
+			std::cout << "encoder error!" << std::endl;
+		assert(!error);
+		//print_table(code + rs.K, "parity", NR);
+		error = rs.decode(code);
+		if (error)
+			std::cout << "decoder error!" << std::endl;
+		assert(!error);
+		int corrupt = 0;
+		for (int i = 0; i < rs.N && i < 1; ++i, ++corrupt)
+			code[i] ^= 1;
+		int corrected = rs.decode(code);
+		if (corrupt != corrected)
+			std::cout << "decoder error: expected " << corrupt << " but got " << corrected << std::endl;
+		assert(corrupt == corrected);
+		error = false;
+		for (int i = 0; i < rs.N; ++i)
+			error |= code[i] != target[i];
+		if (error)
+			std::cout << "decoder error: code doesnt match target" << std::endl;
+		assert(!error);
+	}
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
 	TYPE *tmp = new TYPE[rs.N * blocks];
