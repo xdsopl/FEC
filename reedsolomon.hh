@@ -21,6 +21,7 @@ public:
 	IndexType generator[NR+1];
 	ReedSolomon()
 	{
+		// $generator = \prod_{i=0}^{NR}(x-pe^{FR+i})$
 		ValueType tmp[NR+1];
 		IndexType root(FR), pe(1);
 		for (int i = 0; i < NR; ++i) {
@@ -32,7 +33,7 @@ public:
 		}
 		tmp[NR] = ValueType(1);
 #ifndef NDEBUG
-		std::cout << "g(x) = ";
+		std::cout << "generator = ";
 		for (int i = NR; i > 0; --i) {
 			if (!tmp[i].v)
 				continue;
@@ -50,6 +51,7 @@ public:
 	}
 	void encode(ValueType *code)
 	{
+		// $code = data * x^{NR} + (data * x^{NR}) \mod{generator}$
 		for (int i = 0; i < NR; ++i)
 			code[K+i] = ValueType(0);
 		for (int i = 0; i < K; ++i) {
@@ -116,7 +118,7 @@ public:
 	}
 	int compute_evaluator(ValueType *syndromes, ValueType *locator, int locator_degree, ValueType *evaluator)
 	{
-		// (syndromes * locator) mod x^NR
+		// $evaluator = (syndromes * locator) \bmod{x^{NR}}$
 		int tmp = std::min(locator_degree, NR-1);
 		int degree = -1;
 		for (int i = 0; i <= tmp; ++i) {
@@ -130,6 +132,7 @@ public:
 	}
 	void compute_magnitudes(ValueType *locator, ValueType *locations, int count, ValueType *evaluator, int evaluator_degree, ValueType *magnitudes)
 	{
+		// $magnitude = root^{FR-1} * \frac{evaluator(root)}{locator'(root)}$
 		for (int i = 0; i < count; ++i) {
 			IndexType root(IndexType(locations[i].v) * IndexType(1)), tmp(root);
 			ValueType eval(evaluator[0]);
@@ -177,7 +180,7 @@ public:
 		static int init;
 		if (!init) {
 			init = 1;
-			std::cout << "s(x) = ";
+			std::cout << "syndromes = ";
 			for (int i = NR-1; i > 0; --i) {
 				if (!syndromes[i].v)
 					continue;
@@ -189,7 +192,7 @@ public:
 				std::cout << " + ";
 			}
 			std::cout << (int)syndromes[0].v << std::endl;
-			std::cout << "C(x) = ";
+			std::cout << "locator = ";
 			for (int i = NR; i > 0; --i) {
 				if (!locator[i].v)
 					continue;
@@ -205,7 +208,7 @@ public:
 			for (int i = 0; i < locations_count; ++i)
 				std::cout << " " << (int)locations[i].v;
 			std::cout << std::endl;
-			std::cout << "w(z) = ";
+			std::cout << "evaluator = ";
 			for (int i = evaluator_degree; i > 0; --i) {
 				if (!evaluator[i].v)
 					continue;
@@ -230,6 +233,7 @@ public:
 	}
 	int decode(ValueType *code)
 	{
+		// $syndromes_i = code(pe^{FR+i})$
 		ValueType syndromes[NR];
 		for (int i = 0; i < NR; ++i)
 			syndromes[i] = code[0];

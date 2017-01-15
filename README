@@ -25,6 +25,14 @@ Read:
 Forney algorithm
 https://en.wikipedia.org/wiki/Forney_algorithm
 
+Read:
+Synthetic division
+https://en.wikipedia.org/wiki/Synthetic_division
+
+Read:
+Horner's method
+https://en.wikipedia.org/wiki/Horner%27s_method
+
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
 encoding of 10000000 random bytes (1818182 blocks) took 249 milliseconds (40161KB/s).
