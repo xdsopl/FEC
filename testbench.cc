@@ -82,14 +82,14 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		std::cout << "encoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
 	}
 	{
-		auto start = std::chrono::system_clock::now();
 		bool error = false;
+		auto start = std::chrono::system_clock::now();
 		for (int i = 0; i < blocks; ++i)
 			error |= rs.decode(tmp + i * rs.N);
+		auto end = std::chrono::system_clock::now();
 		if (error)
 			std::cout << "decoder error!" << std::endl;
 		assert(!error);
-		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
 		int mbs = bytes / (msec.count() * 1000);
@@ -117,14 +117,14 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		}
 	}
 	{
-		auto start = std::chrono::system_clock::now();
 		int errors = 0;
+		auto start = std::chrono::system_clock::now();
 		for (int i = 0; i < blocks; ++i)
 			errors += rs.decode(tmp + i * rs.N);
+		auto end = std::chrono::system_clock::now();
 		if (corrupt != errors)
 			std::cout << "decoder error!" << std::endl;
 		assert(corrupt == errors);
-		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
 		int mbs = bytes / (msec.count() * 1000);
