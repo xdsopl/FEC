@@ -132,21 +132,24 @@ public:
 	{
 		for (int i = 0; i < count; ++i) {
 			IndexType root(IndexType(locations[i].v) * IndexType(1)), tmp(root);
-			ValueType numerator(evaluator[0]);
+			ValueType eval(evaluator[0]);
 			for (int j = 1; j <= evaluator_degree; ++j) {
-				numerator += evaluator[j] * tmp;
+				eval += evaluator[j] * tmp;
 				tmp *= root;
 			}
-			for (int i = 0; i < FR; ++i)
-				numerator *= root;
-			ValueType denominator(locator[1]);
+			ValueType deriv(locator[1]);
 			IndexType root2(root * root), tmp2(root2);
 			for (int j = 3; j <= count; j += 2) {
-				denominator += locator[j] * tmp2;
+				deriv += locator[j] * tmp2;
 				tmp2 *= root2;
 			}
-			denominator *= root;
-			magnitudes[i] = numerator / denominator;
+			IndexType magnitude(index(eval) / index(deriv));
+			if (FR == 0)
+				magnitude /= root;
+			if (FR > 1)
+				for (int i = 1; i < FR; ++i)
+					magnitude *= root;
+			magnitudes[i] = value(magnitude);
 		}
 	}
 	int correct(ValueType *code, ValueType *syndromes)
