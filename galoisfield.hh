@@ -28,7 +28,7 @@ public:
 	operator bool () const { return !!v; }
 	Value<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
-		assert(a.i != a.modulus());
+		assert(a.i < a.modulus());
 		return *this = *this * a;
 	}
 	Value<M, POLY, TYPE> operator *= (Value<M, POLY, TYPE> a)
@@ -54,17 +54,20 @@ public:
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
 	TYPE i;
 	Index() {}
-	explicit Index(TYPE i) : i(i) {}
+	explicit Index(TYPE i) : i(i)
+	{
+		assert(i < modulus());
+	}
 	Index<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
-		assert(a.i != a.modulus());
-		assert(i != modulus());
+		assert(a.i < a.modulus());
+		assert(i < modulus());
 		return *this = *this * a;
 	}
 	Index<M, POLY, TYPE> operator /= (Index<M, POLY, TYPE> a)
 	{
-		assert(a.i != a.modulus());
-		assert(i != modulus());
+		assert(a.i < a.modulus());
+		assert(i < modulus());
 		return *this = *this / a;
 	}
 	static const TYPE modulus()
@@ -85,12 +88,13 @@ struct Types
 template <int M, int POLY, typename TYPE>
 Index<M, POLY, TYPE> index(Value<M, POLY, TYPE> a)
 {
+	assert(a.v);
 	return Index<M, POLY, TYPE>(Tables<M, POLY, TYPE>::log(a.v));
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> value(Index<M, POLY, TYPE> a) {
-	assert(a.i != a.modulus());
+	assert(a.i < a.modulus());
 	return Value<M, POLY, TYPE>(Tables<M, POLY, TYPE>::exp(a.i));
 }
 
@@ -103,8 +107,8 @@ Value<M, POLY, TYPE> operator + (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Index<M, POLY, TYPE> operator * (Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
-	assert(a.i != a.modulus());
-	assert(b.i != b.modulus());
+	assert(a.i < a.modulus());
+	assert(b.i < b.modulus());
 	TYPE tmp = a.i + b.i;
 	return Index<M, POLY, TYPE>(a.modulus() - a.i <= b.i ? tmp - a.modulus() : tmp);
 }
@@ -125,8 +129,8 @@ Value<M, POLY, TYPE> rcp(Value<M, POLY, TYPE> a)
 template <int M, int POLY, typename TYPE>
 Index<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
-	assert(a.i != a.modulus());
-	assert(b.i != b.modulus());
+	assert(a.i < a.modulus());
+	assert(b.i < b.modulus());
 	TYPE tmp = a.i - b.i;
 	return Index<M, POLY, TYPE>(a.i < b.i ? tmp + a.modulus() : tmp);
 }
@@ -141,7 +145,7 @@ Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
-	assert(a.i != a.modulus());
+	assert(a.i < a.modulus());
 	assert(b.v);
 	return value(a / index(b));
 }
@@ -149,43 +153,43 @@ Value<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
-	assert(b.i != b.modulus());
+	assert(b.i < b.modulus());
 	return !a.v ? a.zero() : value(index(a) / b);
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator * (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
-	assert(a.i != a.modulus());
+	assert(a.i < a.modulus());
 	return !b.v ? b.zero() : value(a * index(b));
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
-	assert(b.i != b.modulus());
+	assert(b.i < b.modulus());
 	return !a.v ? a.zero() : value(index(a) * b);
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> fma(Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
-	assert(a.i != a.modulus());
-	assert(b.i != b.modulus());
+	assert(a.i < a.modulus());
+	assert(b.i < b.modulus());
 	return value(a * b) + c;
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> fma(Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
-	assert(a.i != a.modulus());
+	assert(a.i < a.modulus());
 	return !b.v ? c : (value(a * index(b)) + c);
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> fma(Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
-	assert(b.i != b.modulus());
+	assert(b.i < b.modulus());
 	return !a.v ? c : (value(index(a) * b) + c);
 }
 
