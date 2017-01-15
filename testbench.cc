@@ -80,7 +80,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 			rs.encode(tmp + i * rs.N);
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		int mbs = data.size() / (msec.count() * 1000);
+		int mbs = (data.size() + msec.count() * 500) / (msec.count() * 1000);
 		std::cout << "encoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
 	}
 	{
@@ -94,7 +94,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		assert(!error);
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
-		int mbs = bytes / (msec.count() * 1000);
+		int mbs = (bytes + msec.count() * 500) / (msec.count() * 1000);
 		std::cout << "checking of " << bytes << " encoded bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
 	}
 	std::random_device rd;
@@ -129,7 +129,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		assert(corrupt == corrected);
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
-		int mbs = bytes / (msec.count() * 1000);
+		int mbs = (bytes + msec.count() * 500) / (msec.count() * 1000);
 		std::cout << "decoding of " << bytes << " encoded bytes with " << corrected << " errors took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
 	}
 	std::vector<uint8_t> recovered(data.size());
