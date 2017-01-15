@@ -31,8 +31,12 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	std::cout << "testing: " << name << std::endl;
 
 	rs.encode(code);
+	bool error = false;
 	for (int i = 0; i < rs.N; ++i)
-		assert(code[i] == target[i]);
+		error |= code[i] != target[i];
+	if (error)
+		std::cout << "encoder error!" << std::endl;
+	assert(!error);
 	//print_table(code + rs.K, "parity", NR);
 	assert(!rs.decode(code));
 	for (int i = 0; i < rs.N && i < 1; ++i)
