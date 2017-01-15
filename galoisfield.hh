@@ -58,7 +58,14 @@ public:
 	Index<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
 		assert(a.i != a.modulus());
+		assert(i != modulus());
 		return *this = *this * a;
+	}
+	Index<M, POLY, TYPE> operator /= (Index<M, POLY, TYPE> a)
+	{
+		assert(a.i != a.modulus());
+		assert(i != modulus());
+		return *this = *this / a;
 	}
 	static const TYPE modulus()
 	{
