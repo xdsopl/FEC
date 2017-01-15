@@ -180,7 +180,9 @@ public:
 		int evaluator_degree = Forney_algorithm(syndromes, locator, locations, count, evaluator, magnitudes);
 		for (int i = 0; i < count; ++i)
 			code[locations[i].v] += magnitudes[i];
-#ifndef NDEBUG
+#ifdef NDEBUG
+		(void)evaluator_degree;
+#else
 		static int init;
 		if (!init) {
 			init = 1;
