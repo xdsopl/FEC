@@ -10,6 +10,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <random>
 #include <chrono>
 #include <functional>
+#include <algorithm>
 #include "galoisfield.hh"
 #include "reedsolomon.hh"
 
