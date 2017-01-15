@@ -152,9 +152,10 @@ public:
 	int correct(ValueType *code, ValueType *syndromes)
 	{
 		ValueType locator[NR+1];
-		int errors = Berlekamp_Massey_algorithm(syndromes, locator);
+		int locator_degree = Berlekamp_Massey_algorithm(syndromes, locator);
+		assert(locator_degree);
+		assert(locator_degree <= NR);
 		assert(locator[0] == ValueType(1));
-		int locator_degree = NR;
 		while (!locator[locator_degree])
 			if (--locator_degree < 0)
 				return -1;
@@ -222,7 +223,7 @@ public:
 			std::cout << std::endl;
 		}
 #endif
-		return errors;
+		return locations_count;
 	}
 	int decode(ValueType *code)
 	{
