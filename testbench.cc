@@ -60,16 +60,18 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
 	TYPE *tmp = new TYPE[rs.N * blocks];
-	unsigned acc = 0, bit = 0, pos = 0;
-	for (unsigned byte : data) {
-		acc |= byte << bit;
-		bit += 8;
-		while (bit >= M) {
-			bit -= M;
-			tmp[pos++] = rs.N & acc;
-			acc >>= M;
-			if (pos % rs.N >= rs.K)
-				pos += NR;
+	{
+		unsigned acc = 0, bit = 0, pos = 0;
+		for (unsigned byte : data) {
+			acc |= byte << bit;
+			bit += 8;
+			while (bit >= M) {
+				bit -= M;
+				tmp[pos++] = rs.N & acc;
+				acc >>= M;
+				if (pos % rs.N >= rs.K)
+					pos += NR;
+			}
 		}
 	}
 	{
@@ -117,20 +119,39 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		}
 	}
 	{
-		int errors = 0;
+		int corrected = 0;
 		auto start = std::chrono::system_clock::now();
 		for (int i = 0; i < blocks; ++i)
-			errors += rs.decode(tmp + i * rs.N);
+			corrected += rs.decode(tmp + i * rs.N);
 		auto end = std::chrono::system_clock::now();
-		if (corrupt != errors)
-			std::cout << "decoder error!" << std::endl;
-		assert(corrupt == errors);
+		if (corrupt != corrected)
+			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << std::endl;
+		assert(corrupt == corrected);
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
 		int mbs = bytes / (msec.count() * 1000);
-		std::cout << "decoding of " << bytes << " encoded bytes with " << errors << " errors took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
+		std::cout << "decoding of " << bytes << " encoded bytes with " << corrected << " errors took " << msec.count() << " milliseconds (" << mbs << "MB/s)." << std::endl;
+	}
+	std::vector<uint8_t> recovered(data.size());
+	{
+		unsigned acc = 0, bit = 0, pos = 0;
+		for (uint8_t &byte: recovered) {
+			while (bit < 8) {
+				acc |= (unsigned)tmp[pos++] << bit;
+				bit += M;
+				if (pos % rs.N >= rs.K)
+					pos += NR;
+			}
+			bit -= 8;
+			byte = 255 & acc;
+			acc >>= 8;
+		}
 	}
 	delete[] tmp;
+	if (data != recovered) {
+		std::cout << "decoder error: data could not be recovered from corruption" << std::endl;
+		assert(false);
+	}
 }
 
 int main()
