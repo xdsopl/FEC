@@ -27,14 +27,14 @@ https://en.wikipedia.org/wiki/Forney_algorithm
 
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
-encoding of 10000000 random bytes (1818182 blocks) took 243 milliseconds (41MB/s).
-checking of 13636365 encoded bytes (1818182 blocks) took 242 milliseconds (56MB/s).
-decoding of 13636365 encoded bytes with 3636364 errors took 416 milliseconds (32MB/s).
+encoding of 10000000 random bytes (1818182 blocks) took 249 milliseconds (40161KB/s).
+checking of 13636365 encoded bytes (1818182 blocks) took 237 milliseconds (57537KB/s).
+decoding of 13636365 encoded bytes with 3636364 errors took 814 milliseconds (16752KB/s).
 testing: DVB-T RS(255, 239) T=8
-encoding of 10000000 random bytes (41842 blocks) took 195 milliseconds (51MB/s).
-checking of 10669710 encoded bytes (41842 blocks) took 395 milliseconds (27MB/s).
-decoding of 10669710 encoded bytes with 334736 errors took 419 milliseconds (25MB/s).
+encoding of 10000000 random bytes (41842 blocks) took 195 milliseconds (51282KB/s).
+checking of 10669710 encoded bytes (41842 blocks) took 385 milliseconds (27714KB/s).
+decoding of 10669710 encoded bytes with 334736 errors took 625 milliseconds (17072KB/s).
 testing: FUN RS(65535, 65471) T=32
-encoding of 10000000 random bytes (77 blocks) took 489 milliseconds (20MB/s).
-checking of 10092390 encoded bytes (77 blocks) took 1028 milliseconds (9MB/s).
-decoding of 10092390 encoded bytes with 2464 errors took 1027 milliseconds (9MB/s).
+encoding of 10000000 random bytes (77 blocks) took 457 milliseconds (21882KB/s).
+checking of 10092390 encoded bytes (77 blocks) took 1033 milliseconds (9770KB/s).
+decoding of 10092390 encoded bytes with 2464 errors took 1472 milliseconds (6856KB/s).
