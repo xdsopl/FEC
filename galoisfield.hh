@@ -13,12 +13,11 @@ namespace GF {
 #include "galoisfieldtables.hh"
 
 template <int M, int POLY, typename TYPE>
-class Index;
+struct Index;
 
 template <int M, int POLY, typename TYPE>
-class Value
+struct Value
 {
-public:
 	static const int Q = 1 << M, N = Q - 1;
 	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
@@ -47,9 +46,8 @@ public:
 };
 
 template <int M, int POLY, typename TYPE>
-class Index
+struct Index
 {
-public:
 	static const int Q = 1 << M, N = Q - 1;
 	static_assert(M <= 8 * sizeof(TYPE), "TYPE not wide enough");
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
