@@ -35,16 +35,16 @@ public:
 #ifndef NDEBUG
 		std::cout << "generator = ";
 		for (int i = NR; i > 0; --i) {
-			if (!tmp[i].v)
+			if (!tmp[i])
 				continue;
-			if (tmp[i].v != 1)
-				std::cout << (int)tmp[i].v << "*";
+			if (tmp[i] != ValueType(1))
+				std::cout << (int)tmp[i] << "*";
 			std::cout << "x";
 			if (i != 1)
 				std::cout << "^" << i;
 			std::cout << " + ";
 		}
-		std::cout << (int)tmp[0].v << std::endl;
+		std::cout << (int)tmp[0] << std::endl;
 #endif
 		for (int i = 0; i <= NR; ++i)
 			generator[i] = index(tmp[i]);
@@ -134,7 +134,7 @@ public:
 	{
 		// $magnitude = root^{FR-1} * \frac{evaluator(root)}{locator'(root)}$
 		for (int i = 0; i < count; ++i) {
-			IndexType root(IndexType(locations[i].v) * IndexType(1)), tmp(root);
+			IndexType root(IndexType((int)locations[i]) * IndexType(1)), tmp(root);
 			ValueType eval(evaluator[0]);
 			for (int j = 1; j <= evaluator_degree; ++j) {
 				eval += evaluator[j] * tmp;
@@ -179,7 +179,7 @@ public:
 		ValueType magnitudes[count];
 		int evaluator_degree = Forney_algorithm(syndromes, locator, locations, count, evaluator, magnitudes);
 		for (int i = 0; i < count; ++i)
-			code[locations[i].v] += magnitudes[i];
+			code[(int)locations[i]] += magnitudes[i];
 #ifdef NDEBUG
 		(void)evaluator_degree;
 #else
@@ -188,50 +188,50 @@ public:
 			init = 1;
 			std::cout << "syndromes = ";
 			for (int i = NR-1; i > 0; --i) {
-				if (!syndromes[i].v)
+				if (!syndromes[i])
 					continue;
-				if (syndromes[i].v != 1)
-					std::cout << (int)syndromes[i].v << "*";
+				if (syndromes[i] != ValueType(1))
+					std::cout << (int)syndromes[i] << "*";
 				std::cout << "x";
 				if (i != 1)
 					std::cout << "^" << i;
 				std::cout << " + ";
 			}
-			std::cout << (int)syndromes[0].v << std::endl;
+			std::cout << (int)syndromes[0] << std::endl;
 			std::cout << "locator = ";
 			for (int i = NR; i > 0; --i) {
-				if (!locator[i].v)
+				if (!locator[i])
 					continue;
-				if (locator[i].v != 1)
-					std::cout << (int)locator[i].v << "*";
+				if (locator[i] != ValueType(1))
+					std::cout << (int)locator[i] << "*";
 				std::cout << "x";
 				if (i != 1)
 					std::cout << "^" << i;
 				std::cout << " + ";
 			}
-			std::cout << (int)locator[0].v << std::endl;
+			std::cout << (int)locator[0] << std::endl;
 			std::cout << "locations =";
 			for (int i = 0; i < count; ++i)
-				std::cout << " " << (int)locations[i].v;
+				std::cout << " " << (int)locations[i];
 			std::cout << std::endl;
 			std::cout << "evaluator = ";
 			for (int i = evaluator_degree; i > 0; --i) {
-				if (!evaluator[i].v)
+				if (!evaluator[i])
 					continue;
-				if (evaluator[i].v != 1)
-					std::cout << (int)evaluator[i].v << "*";
+				if (evaluator[i] != ValueType(1))
+					std::cout << (int)evaluator[i] << "*";
 				std::cout << "x";
 				if (i != 1)
 					std::cout << "^" << i;
-				if (i != 1 || evaluator[0].v)
+				if (i != 1 || evaluator[0])
 					std::cout << " + ";
 			}
-			if (evaluator[0].v)
-				std::cout << (int)evaluator[0].v;
+			if (evaluator[0])
+				std::cout << (int)evaluator[0];
 			std::cout << std::endl;
 			std::cout << "magnitudes =";
 			for (int i = 0; i < count; ++i)
-				std::cout << " " << (int)magnitudes[i].v;
+				std::cout << " " << (int)magnitudes[i];
 			std::cout << std::endl;
 		}
 #endif
