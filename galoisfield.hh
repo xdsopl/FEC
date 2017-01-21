@@ -60,6 +60,7 @@ struct Index
 	{
 		assert(i < modulus());
 	}
+	explicit operator int () const { return i; }
 	Index<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
 		assert(a.i < a.modulus());
