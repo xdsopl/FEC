@@ -25,7 +25,7 @@ public:
 	TYPE v;
 	Value() {}
 	explicit Value(TYPE v) : v(v) {}
-	operator bool () const { return !!v; }
+	explicit operator bool () const { return v; }
 	Value<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
 	{
 		assert(a.i < a.modulus());
@@ -96,6 +96,12 @@ template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> value(Index<M, POLY, TYPE> a) {
 	assert(a.i < a.modulus());
 	return Value<M, POLY, TYPE>(Tables<M, POLY, TYPE>::exp(a.i));
+}
+
+template <int M, int POLY, typename TYPE>
+bool operator == (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
+{
+	return a.v == b.v;
 }
 
 template <int M, int POLY, typename TYPE>
