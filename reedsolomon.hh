@@ -101,7 +101,7 @@ public:
 		}
 		return L;
 	}
-	int Chien_search(ValueType *locator, int locator_degree, ValueType *locations)
+	int Chien_search(ValueType *locator, int locator_degree, IndexType *locations)
 	{
 		ValueType tmp[locator_degree+1];
 		for (int i = 0; i <= locator_degree; ++i)
@@ -112,7 +112,7 @@ public:
 			for (int j = 1; j <= locator_degree; ++j)
 				sum += tmp[j] *= IndexType(j);
 			if (!sum)
-				locations[count++] = ValueType(i);
+				locations[count++] = IndexType(i);
 		}
 		return count;
 	}
@@ -130,11 +130,11 @@ public:
 		}
 		return degree;
 	}
-	void compute_magnitudes(ValueType *locator, ValueType *locations, int count, ValueType *evaluator, int evaluator_degree, ValueType *magnitudes)
+	void compute_magnitudes(ValueType *locator, IndexType *locations, int count, ValueType *evaluator, int evaluator_degree, ValueType *magnitudes)
 	{
 		// $magnitude = root^{FR-1} * \frac{evaluator(root)}{locator'(root)}$
 		for (int i = 0; i < count; ++i) {
-			IndexType root(IndexType((int)locations[i]) * IndexType(1)), tmp(root);
+			IndexType root(locations[i] * IndexType(1)), tmp(root);
 			ValueType eval(evaluator[0]);
 			for (int j = 1; j <= evaluator_degree; ++j) {
 				eval += evaluator[j] * tmp;
@@ -155,7 +155,7 @@ public:
 			magnitudes[i] = value(magnitude);
 		}
 	}
-	int Forney_algorithm(ValueType *syndromes, ValueType *locator, ValueType *locations, int count, ValueType *evaluator, ValueType *magnitudes)
+	int Forney_algorithm(ValueType *syndromes, ValueType *locator, IndexType *locations, int count, ValueType *evaluator, ValueType *magnitudes)
 	{
 		int evaluator_degree = compute_evaluator(syndromes, locator, count, evaluator);
 		compute_magnitudes(locator, locations, count, evaluator, evaluator_degree, magnitudes);
@@ -171,7 +171,7 @@ public:
 		while (!locator[locator_degree])
 			if (--locator_degree < 0)
 				return -1;
-		ValueType locations[locator_degree];
+		IndexType locations[locator_degree];
 		int count = Chien_search(locator, locator_degree, locations);
 		if (count < locator_degree)
 			return -1;
