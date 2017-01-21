@@ -23,7 +23,10 @@ struct Value
 	static_assert(Q == (POLY & ~N), "POLY not of degree Q");
 	TYPE v;
 	Value() {}
-	explicit Value(TYPE v) : v(v) {}
+	explicit Value(TYPE v) : v(v)
+	{
+		assert(v <= N);
+	}
 	explicit operator bool () const { return v; }
 	explicit operator int () const { return v; }
 	Value<M, POLY, TYPE> operator *= (Index<M, POLY, TYPE> a)
