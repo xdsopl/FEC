@@ -36,10 +36,12 @@ struct Value
 	}
 	Value<M, POLY, TYPE> operator *= (Value<M, POLY, TYPE> a)
 	{
+		assert(a.v <= a.N);
 		return *this = *this * a;
 	}
 	Value<M, POLY, TYPE> operator += (Value<M, POLY, TYPE> a)
 	{
+		assert(a.v <= a.N);
 		return *this = *this + a;
 	}
 	static const Value<M, POLY, TYPE> zero()
@@ -91,6 +93,7 @@ struct Types
 template <int M, int POLY, typename TYPE>
 Index<M, POLY, TYPE> index(Value<M, POLY, TYPE> a)
 {
+	assert(a.v <= a.N);
 	assert(a.v);
 	return Index<M, POLY, TYPE>(Tables<M, POLY, TYPE>::log(a.v));
 }
@@ -104,18 +107,24 @@ Value<M, POLY, TYPE> value(Index<M, POLY, TYPE> a) {
 template <int M, int POLY, typename TYPE>
 bool operator == (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
+	assert(a.v <= a.N);
+	assert(b.v <= b.N);
 	return a.v == b.v;
 }
 
 template <int M, int POLY, typename TYPE>
 bool operator != (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
+	assert(a.v <= a.N);
+	assert(b.v <= b.N);
 	return a.v != b.v;
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator + (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
+	assert(a.v <= a.N);
+	assert(b.v <= b.N);
 	return Value<M, POLY, TYPE>(a.v ^ b.v);
 }
 
@@ -131,6 +140,8 @@ Index<M, POLY, TYPE> operator * (Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
+	assert(a.v <= a.N);
+	assert(b.v <= b.N);
 	return (!a.v || !b.v) ? a.zero() : value(index(a) * index(b));
 }
 
@@ -149,6 +160,7 @@ Value<M, POLY, TYPE> sqrt(Value<M, POLY, TYPE> a)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> rcp(Value<M, POLY, TYPE> a)
 {
+	assert(a.v <= a.N);
 	assert(a.v);
 	return value(Index<M, POLY, TYPE>(a.modulus() - index(a).i));
 }
@@ -165,6 +177,8 @@ Index<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
+	assert(a.v <= a.N);
+	assert(b.v <= b.N);
 	assert(b.v);
 	return !a.v ? a.zero() : value(index(a) / index(b));
 }
@@ -173,6 +187,7 @@ template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	assert(a.i < a.modulus());
+	assert(b.v <= b.N);
 	assert(b.v);
 	return value(a / index(b));
 }
@@ -180,6 +195,7 @@ Value<M, POLY, TYPE> operator / (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator / (Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
+	assert(a.v <= a.N);
 	assert(b.i < b.modulus());
 	return !a.v ? a.zero() : value(index(a) / b);
 }
@@ -188,12 +204,14 @@ template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator * (Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	assert(a.i < a.modulus());
+	assert(b.v <= b.N);
 	return !b.v ? b.zero() : value(a * index(b));
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b)
 {
+	assert(a.v <= a.N);
 	assert(b.i < b.modulus());
 	return !a.v ? a.zero() : value(index(a) * b);
 }
@@ -203,6 +221,7 @@ Value<M, POLY, TYPE> fma(Index<M, POLY, TYPE> a, Index<M, POLY, TYPE> b, Value<M
 {
 	assert(a.i < a.modulus());
 	assert(b.i < b.modulus());
+	assert(c.v <= c.N);
 	return value(a * b) + c;
 }
 
@@ -210,19 +229,26 @@ template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> fma(Index<M, POLY, TYPE> a, Value<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
 	assert(a.i < a.modulus());
+	assert(b.v <= b.N);
+	assert(c.v <= c.N);
 	return !b.v ? c : (value(a * index(b)) + c);
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> fma(Value<M, POLY, TYPE> a, Index<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
+	assert(a.v <= a.N);
 	assert(b.i < b.modulus());
+	assert(c.v <= c.N);
 	return !a.v ? c : (value(index(a) * b) + c);
 }
 
 template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> fma(Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b, Value<M, POLY, TYPE> c)
 {
+	assert(a.v <= a.N);
+	assert(b.v <= b.N);
+	assert(c.v <= c.N);
 	return (!a.v || !b.v) ? c : (value(index(a) * index(b)) + c);
 }
 
