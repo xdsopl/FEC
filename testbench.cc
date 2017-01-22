@@ -92,7 +92,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	auto rnd_bit = std::bind(bit_dist, generator);
 	auto rnd_pos = std::bind(pos_dist, generator);
 	std::vector<uint8_t> recovered(data.size());
-	for (int places = 0; places <= NR/2; ++places) {
+	for (int places = 0; places <= NR/2+1; ++places) {
 		int corrupt = 0;
 		for (int i = 0; i < blocks; ++i) {
 			int pos[places];
@@ -115,7 +115,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		auto end = std::chrono::system_clock::now();
 		if (corrupt != corrected)
 			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << std::endl;
-		assert(corrupt == corrected);
+		assert(places > NR/2 || corrupt == corrected);
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
 		int mbs = (bytes + msec.count() / 2) / msec.count();
@@ -134,7 +134,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		}
 		if (data != recovered) {
 			std::cout << "decoder error: data could not be recovered from corruption" << std::endl;
-			assert(false);
+			assert(places > NR/2);
 		}
 	}
 	delete[] tmp;
