@@ -104,6 +104,25 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	auto rnd_bit = std::bind(bit_dist, generator);
 	auto rnd_pos = std::bind(pos_dist, generator);
 	int corrupt = 0;
+	for (int i = 0; i < blocks; ++i) {
+		tmp[i * rs.N + rnd_pos()] ^= 1 << rnd_bit();
+		++corrupt;
+	}
+	{
+		int corrected = 0;
+		auto start = std::chrono::system_clock::now();
+		for (int i = 0; i < blocks; ++i)
+			corrected += rs.decode(tmp + i * rs.N);
+		auto end = std::chrono::system_clock::now();
+		if (corrupt != corrected)
+			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << std::endl;
+		assert(corrupt == corrected);
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+		int bytes = (rs.N * blocks * M) / 8;
+		int mbs = (bytes + msec.count() / 2) / msec.count();
+		std::cout << "decoding of " << blocks << " blocks with one bit error per block took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
+	}
+	corrupt = 0;
 	const int places = NR/2;
 	for (int i = 0; i < blocks; ++i) {
 		int pos[places];

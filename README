@@ -39,14 +39,17 @@ https://en.wikipedia.org/wiki/Horner%27s_method
 
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
-encoding of 10000000 random bytes (1818182 blocks) took 249 milliseconds (40161KB/s).
-checking of 13636365 encoded bytes (1818182 blocks) took 237 milliseconds (57537KB/s).
-decoding of 13636365 encoded bytes with 3636364 errors took 814 milliseconds (16752KB/s).
+encoding of 10000000 random bytes (1818182 blocks) took 176 milliseconds (56818KB/s).
+checking of 13636365 encoded bytes (1818182 blocks) took 166 milliseconds (82147KB/s).
+decoding of 1818182 blocks with one bit error per block took 422 milliseconds (32314KB/s).
+decoding of 13636365 encoded bytes with 3636364 errors took 614 milliseconds (22209KB/s).
 testing: DVB-T RS(255, 239) T=8
-encoding of 10000000 random bytes (41842 blocks) took 195 milliseconds (51282KB/s).
-checking of 10669710 encoded bytes (41842 blocks) took 385 milliseconds (27714KB/s).
-decoding of 10669710 encoded bytes with 334736 errors took 625 milliseconds (17072KB/s).
+encoding of 10000000 random bytes (41842 blocks) took 152 milliseconds (65789KB/s).
+checking of 10669710 encoded bytes (41842 blocks) took 294 milliseconds (36292KB/s).
+decoding of 41842 blocks with one bit error per block took 381 milliseconds (28004KB/s).
+decoding of 10669710 encoded bytes with 334736 errors took 471 milliseconds (22653KB/s).
 testing: FUN RS(65535, 65471) T=32
-encoding of 10000000 random bytes (77 blocks) took 457 milliseconds (21882KB/s).
-checking of 10092390 encoded bytes (77 blocks) took 1033 milliseconds (9770KB/s).
-decoding of 10092390 encoded bytes with 2464 errors took 1472 milliseconds (6856KB/s).
+encoding of 10000000 random bytes (77 blocks) took 333 milliseconds (30030KB/s).
+checking of 10092390 encoded bytes (77 blocks) took 772 milliseconds (13073KB/s).
+decoding of 77 blocks with one bit error per block took 809 milliseconds (12475KB/s).
+decoding of 10092390 encoded bytes with 2464 errors took 1116 milliseconds (9043KB/s).
