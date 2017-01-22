@@ -105,6 +105,15 @@ Value<M, POLY, TYPE> value(Index<M, POLY, TYPE> a) {
 }
 
 template <int M, int POLY, typename TYPE>
+Value<M, POLY, TYPE> Artin_Schreier_imap(Value<M, POLY, TYPE> a) {
+	assert(a.v <= a.N);
+	assert(a.v);
+	TYPE x = Tables<M, POLY, TYPE>::Artin_Schreier_imap(a.v);
+	assert(x);
+	return Value<M, POLY, TYPE>(x);
+}
+
+template <int M, int POLY, typename TYPE>
 bool operator == (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 {
 	assert(a.v <= a.N);

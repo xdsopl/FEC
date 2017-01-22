@@ -24,10 +24,20 @@ struct TablesGenerator
 		for (int i = 0; i < N; ++i, a = next(a))
 			log[exp[i] = a] = i;
 		assert(1 == a);
+		TYPE Artin_Schreier_imap[N];
+		for (int i = 0; i < N; ++i)
+			Artin_Schreier_imap[i] = 0;
+		for (int x = 2; x < N; x += 2) {
+			int xxx = exp[(2*log[x])%N]^x;
+			assert(xxx);
+			assert(!Artin_Schreier_imap[xxx]);
+			Artin_Schreier_imap[xxx] = x;
+		}
 		std::cout << "template <>" << std::endl;
 		std::cout << "struct Tables<" << M << ", " << POLY << ", " << type << ">\n{\n";
 		print(log, "log", type, Q);
 		print(exp, "exp", type, Q);
+		print(Artin_Schreier_imap, "Artin_Schreier_imap", type, N);
 		std::cout << "};\n" << std::endl;
 	}
 	static TYPE next(TYPE a)

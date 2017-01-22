@@ -19,7 +19,6 @@ public:
 	typedef typename GF::IndexType IndexType;
 	static const int N = GF::N, K = N - NR;
 	IndexType generator[NR+1];
-	ValueType Artin_Schreier_imap[N];
 	ReedSolomon()
 	{
 		// $generator = \prod_{i=0}^{NR}(x-pe^{FR+i})$
@@ -33,12 +32,6 @@ public:
 			root *= pe;
 		}
 		tmp[NR] = ValueType(1);
-		for (int i = 0; i < N; ++i)
-			Artin_Schreier_imap[i] = ValueType(0);
-		for (int i = 0; i < N; i += 2) {
-			ValueType x(i), xxx(x*x+x);
-			Artin_Schreier_imap[(int)xxx] = x;
-		}
 #ifndef NDEBUG
 		std::cout << "generator = ";
 		for (int i = NR; i > 0; --i) {
@@ -187,7 +180,7 @@ public:
 			if (!locator[1] || !locator[0])
 				return -1;
 			ValueType a(locator[2]), b(locator[1]), c(locator[0]);
-			ValueType ba(b/a), C(a*c/(b*b)), R(Artin_Schreier_imap[(int)C]);
+			ValueType ba(b/a), R(Artin_Schreier_imap(a*c/(b*b)));
 			count = 2;
 			locations[0] = index(ba * R) / IndexType(1);
 			locations[1] = index(ba * R + ba) / IndexType(1);
