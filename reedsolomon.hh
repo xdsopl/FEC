@@ -172,9 +172,15 @@ public:
 			if (--locator_degree < 0)
 				return -1;
 		IndexType locations[locator_degree];
-		int count = Chien_search(locator, locator_degree, locations);
-		if (count < locator_degree)
-			return -1;
+		int count;
+		if (locator_degree == 1) {
+			count = 1;
+			locations[0] = (index(locator[0]) / index(locator[1])) / IndexType(1);
+		} else {
+			count = Chien_search(locator, locator_degree, locations);
+			if (count < locator_degree)
+				return -1;
+		}
 		ValueType evaluator[NR];
 		ValueType magnitudes[count];
 		int evaluator_degree = Forney_algorithm(syndromes, locator, locations, count, evaluator, magnitudes);
