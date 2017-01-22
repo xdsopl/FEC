@@ -82,78 +82,44 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int mbs = (data.size() + msec.count() / 2) / msec.count();
-		std::cout << "encoding of " << data.size() << " random bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
-	}
-	{
-		bool error = false;
-		auto start = std::chrono::system_clock::now();
-		for (int i = 0; i < blocks; ++i)
-			error |= rs.decode(tmp + i * rs.N);
-		auto end = std::chrono::system_clock::now();
-		if (error)
-			std::cout << "decoder error!" << std::endl;
-		assert(!error);
-		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
-		int mbs = (bytes + msec.count() / 2) / msec.count();
-		std::cout << "checking of " << bytes << " encoded bytes (" << blocks << " blocks) took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
+		int redundancy = (100 * (bytes-data.size()) + data.size() / 2) / data.size();
+		std::cout << "encoding of " << data.size() << " random bytes into " << bytes << " codeword bytes (" << redundancy << "% redundancy) in " << blocks << " blocks took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
 	}
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 	std::uniform_int_distribution<int> bit_dist(0, M-1), pos_dist(0, rs.N-1);
 	auto rnd_bit = std::bind(bit_dist, generator);
 	auto rnd_pos = std::bind(pos_dist, generator);
-	int corrupt = 0;
-	for (int i = 0; i < blocks; ++i) {
-		tmp[i * rs.N + rnd_pos()] ^= 1 << rnd_bit();
-		++corrupt;
-	}
-	{
-		int corrected = 0;
-		auto start = std::chrono::system_clock::now();
-		for (int i = 0; i < blocks; ++i)
-			corrected += rs.decode(tmp + i * rs.N);
-		auto end = std::chrono::system_clock::now();
-		if (corrupt != corrected)
-			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << std::endl;
-		assert(corrupt == corrected);
-		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		int bytes = (rs.N * blocks * M) / 8;
-		int mbs = (bytes + msec.count() / 2) / msec.count();
-		std::cout << "decoding of " << blocks << " blocks with one bit error per block took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
-	}
-	corrupt = 0;
-	const int places = NR/2;
-	for (int i = 0; i < blocks; ++i) {
-		int pos[places];
-		for (int j = 0; j < places; ++j) {
-			pos[j] = rnd_pos();
-			for (int k = 0; k < j;) {
-				if (pos[k++] == pos[j]) {
-					pos[j] = rnd_pos();
-					k = 0;
-				}
-			}
-			tmp[i * rs.N + pos[j]] ^= 1 << rnd_bit();
-			++corrupt;
-		}
-	}
-	{
-		int corrected = 0;
-		auto start = std::chrono::system_clock::now();
-		for (int i = 0; i < blocks; ++i)
-			corrected += rs.decode(tmp + i * rs.N);
-		auto end = std::chrono::system_clock::now();
-		if (corrupt != corrected)
-			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << std::endl;
-		assert(corrupt == corrected);
-		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		int bytes = (rs.N * blocks * M) / 8;
-		int mbs = (bytes + msec.count() / 2) / msec.count();
-		std::cout << "decoding of " << bytes << " encoded bytes with " << corrected << " errors took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
-	}
 	std::vector<uint8_t> recovered(data.size());
-	{
+	for (int places = 0; places <= NR/2; ++places) {
+		int corrupt = 0;
+		for (int i = 0; i < blocks; ++i) {
+			int pos[places];
+			for (int j = 0; j < places; ++j) {
+				pos[j] = rnd_pos();
+				for (int k = 0; k < j;) {
+					if (pos[k++] == pos[j]) {
+						pos[j] = rnd_pos();
+						k = 0;
+					}
+				}
+				tmp[i * rs.N + pos[j]] ^= 1 << rnd_bit();
+				++corrupt;
+			}
+		}
+		int corrected = 0;
+		auto start = std::chrono::system_clock::now();
+		for (int i = 0; i < blocks; ++i)
+			corrected += rs.decode(tmp + i * rs.N);
+		auto end = std::chrono::system_clock::now();
+		if (corrupt != corrected)
+			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << std::endl;
+		assert(corrupt == corrected);
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+		int bytes = (rs.N * blocks * M) / 8;
+		int mbs = (bytes + msec.count() / 2) / msec.count();
+		std::cout << "decoding of " << blocks << " blocks with " << places << " errors per block took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
 		unsigned acc = 0, bit = 0, pos = 0;
 		for (uint8_t &byte: recovered) {
 			while (bit < 8) {
@@ -166,12 +132,12 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 			byte = 255 & acc;
 			acc >>= 8;
 		}
+		if (data != recovered) {
+			std::cout << "decoder error: data could not be recovered from corruption" << std::endl;
+			assert(false);
+		}
 	}
 	delete[] tmp;
-	if (data != recovered) {
-		std::cout << "decoder error: data could not be recovered from corruption" << std::endl;
-		assert(false);
-	}
 }
 
 int main()
