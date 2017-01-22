@@ -146,18 +146,6 @@ Value<M, POLY, TYPE> operator * (Value<M, POLY, TYPE> a, Value<M, POLY, TYPE> b)
 }
 
 template <int M, int POLY, typename TYPE>
-Value<M, POLY, TYPE> sqrt(Value<M, POLY, TYPE> a)
-{
-	assert(a.v <= a.N);
-	if (a.v <= 1)
-		return a;
-	Index<M, POLY, TYPE> tmp(index(a));
-	for (int i = 0; i < a.N; ++i)
-		tmp *= tmp;
-	return value(tmp);
-}
-
-template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> rcp(Value<M, POLY, TYPE> a)
 {
 	assert(a.v <= a.N);
