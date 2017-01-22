@@ -181,6 +181,8 @@ public:
 				return -1;
 			ValueType a(locator[2]), b(locator[1]), c(locator[0]);
 			ValueType ba(b/a), R(Artin_Schreier_imap(a*c/(b*b)));
+			if (!R)
+				return -1;
 			count = 2;
 			locations[0] = index(ba * R) / IndexType(1);
 			locations[1] = index(ba * R + ba) / IndexType(1);

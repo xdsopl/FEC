@@ -108,9 +108,7 @@ template <int M, int POLY, typename TYPE>
 Value<M, POLY, TYPE> Artin_Schreier_imap(Value<M, POLY, TYPE> a) {
 	assert(a.v <= a.N);
 	assert(a.v);
-	TYPE x = Tables<M, POLY, TYPE>::Artin_Schreier_imap(a.v);
-	assert(x);
-	return Value<M, POLY, TYPE>(x);
+	return Value<M, POLY, TYPE>(Tables<M, POLY, TYPE>::Artin_Schreier_imap(a.v));
 }
 
 template <int M, int POLY, typename TYPE>
