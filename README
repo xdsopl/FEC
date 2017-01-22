@@ -18,6 +18,10 @@ Reed-Solomon error correction (White Paper WHP 031)
 C.K.P. Clarke (BBC R&D)
 
 Read:
+Quadratic Equations in Finite Fields of Characteristic 2
+Klaus Pommerening (Johannes Gutenberg-Universität Mainz)
+
+Read:
 Berlekamp–Massey algorithm
 https://en.wikipedia.org/wiki/Berlekamp%E2%80%93Massey_algorithm
 
@@ -39,17 +43,17 @@ https://en.wikipedia.org/wiki/Horner%27s_method
 
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
-encoding of 10000000 random bytes (1818182 blocks) took 177 milliseconds (56497KB/s).
-checking of 13636365 encoded bytes (1818182 blocks) took 166 milliseconds (82147KB/s).
-decoding of 1818182 blocks with one bit error per block took 305 milliseconds (44709KB/s).
-decoding of 13636365 encoded bytes with 3636364 errors took 626 milliseconds (21783KB/s).
+encoding of 10000000 random bytes (1818182 blocks) took 176 milliseconds (56818KB/s).
+checking of 13636365 encoded bytes (1818182 blocks) took 169 milliseconds (80689KB/s).
+decoding of 1818182 blocks with one bit error per block took 316 milliseconds (43153KB/s).
+decoding of 13636365 encoded bytes with 3636364 errors took 436 milliseconds (31276KB/s).
 testing: DVB-T RS(255, 239) T=8
-encoding of 10000000 random bytes (41842 blocks) took 152 milliseconds (65789KB/s).
-checking of 10669710 encoded bytes (41842 blocks) took 294 milliseconds (36292KB/s).
-decoding of 41842 blocks with one bit error per block took 299 milliseconds (35685KB/s).
-decoding of 10669710 encoded bytes with 334736 errors took 471 milliseconds (22653KB/s).
+encoding of 10000000 random bytes (41842 blocks) took 151 milliseconds (66225KB/s).
+checking of 10669710 encoded bytes (41842 blocks) took 290 milliseconds (36792KB/s).
+decoding of 41842 blocks with one bit error per block took 297 milliseconds (35925KB/s).
+decoding of 10669710 encoded bytes with 334736 errors took 467 milliseconds (22847KB/s).
 testing: FUN RS(65535, 65471) T=32
-encoding of 10000000 random bytes (77 blocks) took 336 milliseconds (29762KB/s).
-checking of 10092390 encoded bytes (77 blocks) took 786 milliseconds (12840KB/s).
-decoding of 77 blocks with one bit error per block took 786 milliseconds (12840KB/s).
-decoding of 10092390 encoded bytes with 2464 errors took 1133 milliseconds (8908KB/s).
+encoding of 10000000 random bytes (77 blocks) took 347 milliseconds (28818KB/s).
+checking of 10092390 encoded bytes (77 blocks) took 804 milliseconds (12553KB/s).
+decoding of 77 blocks with one bit error per block took 833 milliseconds (12116KB/s).
+decoding of 10092390 encoded bytes with 2464 errors took 1159 milliseconds (8708KB/s).
