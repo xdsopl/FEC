@@ -60,7 +60,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	}
 
 	int blocks = (8 * data.size() + M * rs.K - 1) / (M * rs.K);
-	TYPE *tmp = new TYPE[rs.N * blocks];
+	TYPE *coded = new TYPE[rs.N * blocks];
 	{
 		unsigned acc = 0, bit = 0, pos = 0;
 		for (unsigned byte : data) {
@@ -68,7 +68,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 			bit += 8;
 			while (bit >= M) {
 				bit -= M;
-				tmp[pos++] = rs.N & acc;
+				coded[pos++] = rs.N & acc;
 				acc >>= M;
 				if (pos % rs.N >= rs.K)
 					pos += NR;
@@ -78,7 +78,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	{
 		auto start = std::chrono::system_clock::now();
 		for (int i = 0; i < blocks; ++i)
-			rs.encode(tmp + i * rs.N);
+			rs.encode(coded + i * rs.N);
 		auto end = std::chrono::system_clock::now();
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int mbs = (data.size() + msec.count() / 2) / msec.count();
@@ -92,6 +92,9 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	auto rnd_bit = std::bind(bit_dist, generator);
 	auto rnd_pos = std::bind(pos_dist, generator);
 	std::vector<uint8_t> recovered(data.size());
+	TYPE *tmp = new TYPE[rs.N * blocks];
+	for (int i = 0; i < rs.N * blocks; ++i)
+		tmp[i] = coded[i];
 	for (int places = 0; places <= NR/2+1; ++places) {
 		int corrupt = 0;
 		for (int i = 0; i < blocks; ++i) {
@@ -108,13 +111,18 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 				++corrupt;
 			}
 		}
-		int corrected = 0;
+		int corrected = 0, wrong = 0;
 		auto start = std::chrono::system_clock::now();
-		for (int i = 0; i < blocks; ++i)
-			corrected += rs.decode(tmp + i * rs.N);
+		for (int i = 0; i < blocks; ++i) {
+			int result = rs.decode(tmp + i * rs.N);
+			if (places > NR/2 && result >= 0)
+				for (int j = i * rs.N; j < (i + 1) * rs.N; ++j)
+					wrong += coded[j] != tmp[j];
+			corrected += result;
+		}
 		auto end = std::chrono::system_clock::now();
 		if (corrupt != corrected)
-			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << std::endl;
+			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections." << std::endl;
 		assert(places > NR/2 || corrupt == corrected);
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
@@ -138,6 +146,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		}
 	}
 	delete[] tmp;
+	delete[] coded;
 }
 
 int main()
