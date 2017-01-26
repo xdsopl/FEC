@@ -1,0 +1,134 @@
+GNU Octave, version 3.8.2
+Copyright (C) 2014 John W. Eaton and others.
+This is free software; see the source code for copying conditions.
+There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  For details, type 'warranty'.
+
+Octave was configured for "x86_64-pc-linux-gnu".
+
+Additional information about Octave is available at http://www.octave.org.
+
+Please contribute if you find this software useful.
+For more information, visit http://www.octave.org/get-involved.html
+
+Read http://www.octave.org/bugs.html to learn how to submit bug reports.
+For information about changes from previous versions, type 'news'.
+
+m =  4
+n =  15
+k =  11
+primpoly =  19
+fcr =  15
+prim =  1
+msg =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    1    2    3    4    5    6    7    8    9   10   11
+
+enc =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    1    2    3    4    5    6    7    8    9   10   11    3    3   12   12
+
+syn =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+   0   0   0   0
+
+dec =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    1    2    3    4    5    6    7    8    9   10   11
+
+enc =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    0    2    3    4    5    6    7    8    9   10   11    3    3   12   12
+
+syn =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+   15   13    9    1
+
+dec =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    1    2    3    4    5    6    7    8    9   10   11
+
+enc =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    0    0    3    4    5    6    7    8    9   10   11    3    3   12   12
+
+syn =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+   8   2   0   3
+
+dec =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    1    2    3    4    5    6    7    8    9   10   11
+
+enc =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    0    0    0    4    5    6    7    8    9   10   11    3    3   12   12
+
+syn =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+   15   15    2    0
+
+dec =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    0    0    0    4    5    6    7    8    9   12   11
+
+enc =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    0    0    0    0    5    6    7    8    9   10   11    3    3   12   12
+
+syn =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+    9    5   15    4
+
+dec =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+   14    0    0    0    5   12    7    8    9   10   11
+
