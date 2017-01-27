@@ -20,6 +20,13 @@ k =  11
 primpoly =  19
 fcr =  15
 prim =  1
+crs =
+GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
+
+Array elements = 
+
+   1   2   4   8
+
 msg =
 GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
 
@@ -60,7 +67,7 @@ GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
 
 Array elements = 
 
-   15   13    9    1
+    1    9   13   15
 
 dec =
 GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
@@ -81,7 +88,7 @@ GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
 
 Array elements = 
 
-   8   2   0   3
+   3   0   2   8
 
 dec =
 GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
@@ -102,7 +109,7 @@ GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
 
 Array elements = 
 
-   15   15    2    0
+    0    2   15   15
 
 dec =
 GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
@@ -123,7 +130,7 @@ GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
 
 Array elements = 
 
-    9    5   15    4
+    4   15    5    9
 
 dec =
 GF(2^4) array. Primitive Polynomial = D^4+D+1 (decimal 19)
