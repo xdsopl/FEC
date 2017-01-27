@@ -202,18 +202,10 @@ public:
 		static int init;
 		if (!init) {
 			init = 1;
-			std::cout << "syndromes = ";
-			for (int i = NR-1; i > 0; --i) {
-				if (!syndromes[i])
-					continue;
-				if (syndromes[i] != ValueType(1))
-					std::cout << (int)syndromes[i] << "*";
-				std::cout << "x";
-				if (i != 1)
-					std::cout << "^" << i;
-				std::cout << " + ";
-			}
-			std::cout << (int)syndromes[0] << std::endl;
+			std::cout << "syndromes =";
+			for (int i = 0; i < NR; ++i)
+				std::cout << " " << (int)syndromes[i];
+			std::cout << std::endl;
 			std::cout << "locator = ";
 			for (int i = NR; i > 0; --i) {
 				if (!locator[i])
