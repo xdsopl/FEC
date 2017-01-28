@@ -146,9 +146,15 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 				byte = 255 & acc;
 				acc >>= 8;
 			}
+			for (int i = 0; i < blocks; ++i) {
+				if (rs.decode(tmp + i * rs.N)) {
+					std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
+					assert(false);
+				}
+			}
 			if (data != recovered) {
-				std::cout << "decoder error: data could not be recovered from corruption" << std::endl;
-				assert(places > NR/2);
+				std::cout << "decoder error: data could not be recovered from corruption!" << std::endl;
+				assert(false);
 			}
 		}
 	}
