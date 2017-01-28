@@ -15,9 +15,11 @@ galoisfieldtables.hh: tablesgenerator
 	./tablesgenerator > $@
 
 test: testbench
+	uname -p
 	./testbench
 
 speed: benchmark
+	uname -p
 	./benchmark
 
 .PHONY: clean test

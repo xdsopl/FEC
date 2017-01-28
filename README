@@ -41,7 +41,11 @@ Read:
 Horner's method
 https://en.wikipedia.org/wiki/Horner%27s_method
 
-# ./benchmark
+# make speed
+clang++ -stdlib=libc++ -std=c++11 -W -Wall -O3 -march=native -DNDEBUG testbench.cc -o benchmark
+uname -p
+Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
+./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
 encoding of 10000000 random bytes into 13636365 codeword bytes (36% redundancy) in 1818182 blocks took 242 milliseconds (41322KB/s).
 decoding with 0 errors per block took 238 milliseconds (57296KB/s).
