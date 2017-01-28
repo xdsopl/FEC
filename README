@@ -44,61 +44,94 @@ https://en.wikipedia.org/wiki/Horner%27s_method
 # ./benchmark
 testing: BBC WHP031 RS(15, 11) T=2
 encoding of 10000000 random bytes into 13636365 codeword bytes (36% redundancy) in 1818182 blocks took 242 milliseconds (41322KB/s).
-decoding of 1818182 blocks with 0 errors per block took 237 milliseconds (57537KB/s).
-decoding of 1818182 blocks with 1 errors per block took 408 milliseconds (33422KB/s).
-decoding of 1818182 blocks with 2 errors per block took 605 milliseconds (22539KB/s).
-decoder error: expected 5454546 corrected errors but got -151609
-decoding of 1818182 blocks with 3 errors per block took 554 milliseconds (24614KB/s).
-decoder error: data could not be recovered from corruption
+decoding with 0 errors per block took 238 milliseconds (57296KB/s).
+decoding with 1 errors per block took 414 milliseconds (32938KB/s).
+decoding with 2 errors per block took 593 milliseconds (22996KB/s).
+decoding with 3 errors per block took 562 milliseconds (24264KB/s). expected 5454546 corrected errors but got -148087 and 2773901 wrong corrections.
+decoding with 4 errors per block took 581 milliseconds (23471KB/s). expected 7272728 corrected errors but got 408814 and 5768518 wrong corrections.
 testing: DVB-T RS(255, 239) T=8
 encoding of 10000000 random bytes into 10669710 codeword bytes (7% redundancy) in 41842 blocks took 194 milliseconds (51546KB/s).
-decoding of 41842 blocks with 0 errors per block took 370 milliseconds (28837KB/s).
-decoding of 41842 blocks with 1 errors per block took 376 milliseconds (28377KB/s).
-decoding of 41842 blocks with 2 errors per block took 384 milliseconds (27786KB/s).
-decoding of 41842 blocks with 3 errors per block took 483 milliseconds (22090KB/s).
-decoding of 41842 blocks with 4 errors per block took 499 milliseconds (21382KB/s).
-decoding of 41842 blocks with 5 errors per block took 512 milliseconds (20839KB/s).
-decoding of 41842 blocks with 6 errors per block took 535 milliseconds (19943KB/s).
-decoding of 41842 blocks with 7 errors per block took 562 milliseconds (18985KB/s).
-decoding of 41842 blocks with 8 errors per block took 593 milliseconds (17993KB/s).
-decoder error: expected 376578 corrected errors but got -41833
-decoding of 41842 blocks with 9 errors per block took 574 milliseconds (18588KB/s).
-decoder error: data could not be recovered from corruption
+decoding with 0 errors per block took 378 milliseconds (28227KB/s).
+decoding with 1 errors per block took 385 milliseconds (27714KB/s).
+decoding with 2 errors per block took 389 milliseconds (27429KB/s).
+decoding with 3 errors per block took 498 milliseconds (21425KB/s).
+decoding with 4 errors per block took 508 milliseconds (21003KB/s).
+decoding with 5 errors per block took 520 milliseconds (20519KB/s).
+decoding with 6 errors per block took 542 milliseconds (19686KB/s).
+decoding with 7 errors per block took 568 milliseconds (18785KB/s).
+decoding with 8 errors per block took 601 milliseconds (17753KB/s).
+decoding with 9 errors per block took 581 milliseconds (18364KB/s). expected 376578 corrected errors but got -41833 and 17 wrong corrections.
+decoding with 10 errors per block took 582 milliseconds (18333KB/s). expected 418420 corrected errors but got -41833 and 26 wrong corrections.
+decoding with 11 errors per block took 581 milliseconds (18364KB/s). expected 460262 corrected errors but got -41824 and 73 wrong corrections.
+decoding with 12 errors per block took 581 milliseconds (18364KB/s). expected 502104 corrected errors but got -41824 and 85 wrong corrections.
+decoding with 13 errors per block took 582 milliseconds (18333KB/s). expected 543946 corrected errors but got -41816 and 171 wrong corrections.
+decoding with 14 errors per block took 581 milliseconds (18364KB/s). expected 585788 corrected errors but got -41842 and 0 wrong corrections.
+decoding with 15 errors per block took 581 milliseconds (18364KB/s). expected 627630 corrected errors but got -41824 and 153 wrong corrections.
+decoding with 16 errors per block took 581 milliseconds (18364KB/s). expected 669472 corrected errors but got -41815 and 273 wrong corrections.
 testing: FUN RS(65535, 65471) T=32
-encoding of 10000000 random bytes into 10092390 codeword bytes (1% redundancy) in 77 blocks took 481 milliseconds (20790KB/s).
-decoding of 77 blocks with 0 errors per block took 1081 milliseconds (9336KB/s).
-decoding of 77 blocks with 1 errors per block took 1079 milliseconds (9353KB/s).
-decoding of 77 blocks with 2 errors per block took 1079 milliseconds (9353KB/s).
-decoding of 77 blocks with 3 errors per block took 1134 milliseconds (8900KB/s).
-decoding of 77 blocks with 4 errors per block took 1141 milliseconds (8845KB/s).
-decoding of 77 blocks with 5 errors per block took 1145 milliseconds (8814KB/s).
-decoding of 77 blocks with 6 errors per block took 1154 milliseconds (8746KB/s).
-decoding of 77 blocks with 7 errors per block took 1164 milliseconds (8670KB/s).
-decoding of 77 blocks with 8 errors per block took 1177 milliseconds (8575KB/s).
-decoding of 77 blocks with 9 errors per block took 1188 milliseconds (8495KB/s).
-decoding of 77 blocks with 10 errors per block took 1202 milliseconds (8396KB/s).
-decoding of 77 blocks with 11 errors per block took 1213 milliseconds (8320KB/s).
-decoding of 77 blocks with 12 errors per block took 1227 milliseconds (8225KB/s).
-decoding of 77 blocks with 13 errors per block took 1238 milliseconds (8152KB/s).
-decoding of 77 blocks with 14 errors per block took 1253 milliseconds (8055KB/s).
-decoding of 77 blocks with 15 errors per block took 1264 milliseconds (7984KB/s).
-decoding of 77 blocks with 16 errors per block took 1280 milliseconds (7885KB/s).
-decoding of 77 blocks with 17 errors per block took 1292 milliseconds (7811KB/s).
-decoding of 77 blocks with 18 errors per block took 1306 milliseconds (7728KB/s).
-decoding of 77 blocks with 19 errors per block took 1319 milliseconds (7652KB/s).
-decoding of 77 blocks with 20 errors per block took 1334 milliseconds (7566KB/s).
-decoding of 77 blocks with 21 errors per block took 1349 milliseconds (7481KB/s).
-decoding of 77 blocks with 22 errors per block took 1361 milliseconds (7415KB/s).
-decoding of 77 blocks with 23 errors per block took 1375 milliseconds (7340KB/s).
-decoding of 77 blocks with 24 errors per block took 1389 milliseconds (7266KB/s).
-decoding of 77 blocks with 25 errors per block took 1402 milliseconds (7199KB/s).
-decoding of 77 blocks with 26 errors per block took 1441 milliseconds (7004KB/s).
-decoding of 77 blocks with 27 errors per block took 1495 milliseconds (6751KB/s).
-decoding of 77 blocks with 28 errors per block took 1479 milliseconds (6824KB/s).
-decoding of 77 blocks with 29 errors per block took 1464 milliseconds (6894KB/s).
-decoding of 77 blocks with 30 errors per block took 1481 milliseconds (6815KB/s).
-decoding of 77 blocks with 31 errors per block took 1495 milliseconds (6751KB/s).
-decoding of 77 blocks with 32 errors per block took 1531 milliseconds (6592KB/s).
-decoder error: expected 2541 corrected errors but got -77
-decoding of 77 blocks with 33 errors per block took 1526 milliseconds (6614KB/s).
-decoder error: data could not be recovered from corruption
+encoding of 10000000 random bytes into 10092390 codeword bytes (1% redundancy) in 77 blocks took 464 milliseconds (21552KB/s).
+decoding with 0 errors per block took 1060 milliseconds (9521KB/s).
+decoding with 1 errors per block took 1060 milliseconds (9521KB/s).
+decoding with 2 errors per block took 1060 milliseconds (9521KB/s).
+decoding with 3 errors per block took 1116 milliseconds (9043KB/s).
+decoding with 4 errors per block took 1121 milliseconds (9003KB/s).
+decoding with 5 errors per block took 1126 milliseconds (8963KB/s).
+decoding with 6 errors per block took 1135 milliseconds (8892KB/s).
+decoding with 7 errors per block took 1145 milliseconds (8814KB/s).
+decoding with 8 errors per block took 1157 milliseconds (8723KB/s).
+decoding with 9 errors per block took 1168 milliseconds (8641KB/s).
+decoding with 10 errors per block took 1181 milliseconds (8546KB/s).
+decoding with 11 errors per block took 1192 milliseconds (8467KB/s).
+decoding with 12 errors per block took 1205 milliseconds (8375KB/s).
+decoding with 13 errors per block took 1218 milliseconds (8286KB/s).
+decoding with 14 errors per block took 1231 milliseconds (8199KB/s).
+decoding with 15 errors per block took 1243 milliseconds (8119KB/s).
+decoding with 16 errors per block took 1257 milliseconds (8029KB/s).
+decoding with 17 errors per block took 1269 milliseconds (7953KB/s).
+decoding with 18 errors per block took 1283 milliseconds (7866KB/s).
+decoding with 19 errors per block took 1296 milliseconds (7787KB/s).
+decoding with 20 errors per block took 1310 milliseconds (7704KB/s).
+decoding with 21 errors per block took 1322 milliseconds (7634KB/s).
+decoding with 22 errors per block took 1337 milliseconds (7549KB/s).
+decoding with 23 errors per block took 1349 milliseconds (7481KB/s).
+decoding with 24 errors per block took 1364 milliseconds (7399KB/s).
+decoding with 25 errors per block took 1376 milliseconds (7335KB/s).
+decoding with 26 errors per block took 1419 milliseconds (7112KB/s).
+decoding with 27 errors per block took 1424 milliseconds (7087KB/s).
+decoding with 28 errors per block took 1442 milliseconds (6999KB/s).
+decoding with 29 errors per block took 1451 milliseconds (6955KB/s).
+decoding with 30 errors per block took 1474 milliseconds (6847KB/s).
+decoding with 31 errors per block took 1466 milliseconds (6884KB/s).
+decoding with 32 errors per block took 1502 milliseconds (6719KB/s).
+decoding with 33 errors per block took 1497 milliseconds (6742KB/s). expected 2541 corrected errors but got -77 and 0 wrong corrections.
+decoding with 34 errors per block took 1496 milliseconds (6746KB/s). expected 2618 corrected errors but got -77 and 0 wrong corrections.
+decoding with 35 errors per block took 1495 milliseconds (6751KB/s). expected 2695 corrected errors but got -77 and 0 wrong corrections.
+decoding with 36 errors per block took 1495 milliseconds (6751KB/s). expected 2772 corrected errors but got -77 and 0 wrong corrections.
+decoding with 37 errors per block took 1514 milliseconds (6666KB/s). expected 2849 corrected errors but got -77 and 0 wrong corrections.
+decoding with 38 errors per block took 1504 milliseconds (6710KB/s). expected 2926 corrected errors but got -77 and 0 wrong corrections.
+decoding with 39 errors per block took 1494 milliseconds (6755KB/s). expected 3003 corrected errors but got -77 and 0 wrong corrections.
+decoding with 40 errors per block took 1496 milliseconds (6746KB/s). expected 3080 corrected errors but got -77 and 0 wrong corrections.
+decoding with 41 errors per block took 1495 milliseconds (6751KB/s). expected 3157 corrected errors but got -77 and 0 wrong corrections.
+decoding with 42 errors per block took 1496 milliseconds (6746KB/s). expected 3234 corrected errors but got -77 and 0 wrong corrections.
+decoding with 43 errors per block took 1494 milliseconds (6755KB/s). expected 3311 corrected errors but got -77 and 0 wrong corrections.
+decoding with 44 errors per block took 1495 milliseconds (6751KB/s). expected 3388 corrected errors but got -77 and 0 wrong corrections.
+decoding with 45 errors per block took 1495 milliseconds (6751KB/s). expected 3465 corrected errors but got -77 and 0 wrong corrections.
+decoding with 46 errors per block took 1495 milliseconds (6751KB/s). expected 3542 corrected errors but got -77 and 0 wrong corrections.
+decoding with 47 errors per block took 1495 milliseconds (6751KB/s). expected 3619 corrected errors but got -77 and 0 wrong corrections.
+decoding with 48 errors per block took 1495 milliseconds (6751KB/s). expected 3696 corrected errors but got -77 and 0 wrong corrections.
+decoding with 49 errors per block took 1496 milliseconds (6746KB/s). expected 3773 corrected errors but got -77 and 0 wrong corrections.
+decoding with 50 errors per block took 1494 milliseconds (6755KB/s). expected 3850 corrected errors but got -77 and 0 wrong corrections.
+decoding with 51 errors per block took 1495 milliseconds (6751KB/s). expected 3927 corrected errors but got -77 and 0 wrong corrections.
+decoding with 52 errors per block took 1494 milliseconds (6755KB/s). expected 4004 corrected errors but got -77 and 0 wrong corrections.
+decoding with 53 errors per block took 1495 milliseconds (6751KB/s). expected 4081 corrected errors but got -77 and 0 wrong corrections.
+decoding with 54 errors per block took 1494 milliseconds (6755KB/s). expected 4158 corrected errors but got -77 and 0 wrong corrections.
+decoding with 55 errors per block took 1495 milliseconds (6751KB/s). expected 4235 corrected errors but got -77 and 0 wrong corrections.
+decoding with 56 errors per block took 1498 milliseconds (6737KB/s). expected 4312 corrected errors but got -77 and 0 wrong corrections.
+decoding with 57 errors per block took 1501 milliseconds (6724KB/s). expected 4389 corrected errors but got -77 and 0 wrong corrections.
+decoding with 58 errors per block took 1493 milliseconds (6760KB/s). expected 4466 corrected errors but got -77 and 0 wrong corrections.
+decoding with 59 errors per block took 1496 milliseconds (6746KB/s). expected 4543 corrected errors but got -77 and 0 wrong corrections.
+decoding with 60 errors per block took 1496 milliseconds (6746KB/s). expected 4620 corrected errors but got -77 and 0 wrong corrections.
+decoding with 61 errors per block took 1496 milliseconds (6746KB/s). expected 4697 corrected errors but got -77 and 0 wrong corrections.
+decoding with 62 errors per block took 1495 milliseconds (6751KB/s). expected 4774 corrected errors but got -77 and 0 wrong corrections.
+decoding with 63 errors per block took 1497 milliseconds (6742KB/s). expected 4851 corrected errors but got -77 and 0 wrong corrections.
+decoding with 64 errors per block took 1497 milliseconds (6742KB/s). expected 4928 corrected errors but got -77 and 0 wrong corrections.

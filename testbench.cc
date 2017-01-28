@@ -125,28 +125,31 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 			corrected += result;
 		}
 		auto end = std::chrono::system_clock::now();
-		if (corrupt != corrected)
-			std::cout << "decoder error: expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections." << std::endl;
-		assert(places > NR/2 || corrupt == corrected);
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int bytes = (rs.N * blocks * M) / 8;
 		int mbs = (bytes + msec.count() / 2) / msec.count();
-		std::cout << "decoding of " << blocks << " blocks with " << places << " errors per block took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
-		unsigned acc = 0, bit = 0, pos = 0;
-		for (uint8_t &byte: recovered) {
-			while (bit < 8) {
-				acc |= (unsigned)tmp[pos++] << bit;
-				bit += M;
-				if (pos % rs.N >= rs.K)
-					pos += NR;
+		std::cout << "decoding with " << places << " errors per block took " << msec.count() << " milliseconds (" << mbs << "KB/s).";
+		if (corrupt != corrected)
+			std::cout << " expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections.";
+		std::cout << std::endl;
+		assert(places > NR/2 || corrupt == corrected);
+		if (corrupt == corrected) {
+			unsigned acc = 0, bit = 0, pos = 0;
+			for (uint8_t &byte: recovered) {
+				while (bit < 8) {
+					acc |= (unsigned)tmp[pos++] << bit;
+					bit += M;
+					if (pos % rs.N >= rs.K)
+						pos += NR;
+				}
+				bit -= 8;
+				byte = 255 & acc;
+				acc >>= 8;
 			}
-			bit -= 8;
-			byte = 255 & acc;
-			acc >>= 8;
-		}
-		if (data != recovered) {
-			std::cout << "decoder error: data could not be recovered from corruption" << std::endl;
-			assert(places > NR/2);
+			if (data != recovered) {
+				std::cout << "decoder error: data could not be recovered from corruption" << std::endl;
+				assert(places > NR/2);
+			}
 		}
 	}
 	delete[] tmp;
