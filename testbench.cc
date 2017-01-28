@@ -51,6 +51,10 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 		if (corrupt != corrected)
 			std::cout << "decoder error: expected " << corrupt << " but got " << corrected << std::endl;
 		assert(corrupt == corrected);
+		if (corrected >= 0 && rs.decode(code)) {
+			std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
+			assert(false);
+		}
 		error = false;
 		for (int i = 0; i < rs.N; ++i)
 			error |= code[i] != target[i];
