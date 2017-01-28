@@ -99,7 +99,7 @@ void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE
 	TYPE *tmp = new TYPE[rs.N * blocks];
 	for (int i = 0; i < rs.N * blocks; ++i)
 		tmp[i] = coded[i];
-	for (int places = 0; places <= NR/2+1; ++places) {
+	for (int places = 0; places <= NR; ++places) {
 		int corrupt = 0;
 		for (int i = 0; i < blocks; ++i) {
 			int pos[places];
