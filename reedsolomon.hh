@@ -10,7 +10,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 #include "galoisfield.hh"
 
-template <int NR, int FR, typename GF>
+template <int NR, int FCR, typename GF>
 class ReedSolomon
 {
 public:
@@ -21,9 +21,9 @@ public:
 	IndexType generator[NR+1];
 	ReedSolomon()
 	{
-		// $generator = \prod_{i=0}^{NR}(x-pe^{FR+i})$
+		// $generator = \prod_{i=0}^{NR}(x-pe^{FCR+i})$
 		ValueType tmp[NR+1];
-		IndexType root(FR), pe(1);
+		IndexType root(FCR), pe(1);
 		for (int i = 0; i < NR; ++i) {
 			tmp[i] = ValueType(1);
 			for (int j = i; j > 0; --j)
@@ -132,7 +132,7 @@ public:
 	}
 	void compute_magnitudes(ValueType *locator, IndexType *locations, int count, ValueType *evaluator, int evaluator_degree, ValueType *magnitudes)
 	{
-		// $magnitude = root^{FR-1} * \frac{evaluator(root)}{locator'(root)}$
+		// $magnitude = root^{FCR-1} * \frac{evaluator(root)}{locator'(root)}$
 		for (int i = 0; i < count; ++i) {
 			IndexType root(locations[i] * IndexType(1)), tmp(root);
 			ValueType eval(evaluator[0]);
@@ -147,10 +147,10 @@ public:
 				tmp2 *= root2;
 			}
 			IndexType magnitude(index(eval) / index(deriv));
-			if (FR == 0)
+			if (FCR == 0)
 				magnitude /= root;
-			if (FR > 1)
-				for (int i = 1; i < FR; ++i)
+			if (FCR > 1)
+				for (int i = 1; i < FCR; ++i)
 					magnitude *= root;
 			magnitudes[i] = value(magnitude);
 		}
@@ -247,12 +247,12 @@ public:
 	}
 	int decode(ValueType *code)
 	{
-		// $syndromes_i = code(pe^{FR+i})$
+		// $syndromes_i = code(pe^{FCR+i})$
 		ValueType syndromes[NR];
 		for (int i = 0; i < NR; ++i)
 			syndromes[i] = code[0];
 		for (int j = 1; j < N; ++j) {
-			IndexType root(FR), pe(1);
+			IndexType root(FCR), pe(1);
 			for (int i = 0; i < NR; ++i) {
 				syndromes[i] = fma(root, syndromes[i], code[j]);
 				root *= pe;

@@ -26,8 +26,8 @@ void print_table(TYPE *table, const char *name, int N)
 	std::cout << " };" << std::endl;
 }
 
-template <int NR, int FR, int M, int P, typename TYPE>
-void test(std::string name, ReedSolomon<NR, FR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *target, std::vector<uint8_t> &data)
+template <int NR, int FCR, int M, int P, typename TYPE>
+void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYPE *code, TYPE *target, std::vector<uint8_t> &data)
 {
 	std::cout << "testing: " << name << std::endl;
 
