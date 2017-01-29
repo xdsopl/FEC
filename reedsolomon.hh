@@ -245,10 +245,9 @@ public:
 #endif
 		return count;
 	}
-	int decode(ValueType *code)
+	int compute_syndromes(ValueType *code, ValueType *syndromes)
 	{
 		// $syndromes_i = code(pe^{FCR+i})$
-		ValueType syndromes[NR];
 		for (int i = 0; i < NR; ++i)
 			syndromes[i] = code[0];
 		for (int j = 1; j < N; ++j) {
@@ -258,9 +257,16 @@ public:
 				root *= pe;
 			}
 		}
+		int nonzero = 0;
 		for (int i = 0; i < NR; ++i)
-			if (syndromes[i])
-				return correct(code, syndromes);
+			nonzero += !!syndromes[i];
+		return nonzero;
+	}
+	int decode(ValueType *code)
+	{
+		ValueType syndromes[NR];
+		if (compute_syndromes(code, syndromes))
+			return correct(code, syndromes);
 		return 0;
 	}
 	void encode(value_type *code)
@@ -270,6 +276,10 @@ public:
 	int decode(value_type *code)
 	{
 		return decode(reinterpret_cast<ValueType *>(code));
+	}
+	int compute_syndromes(value_type *code, value_type *syndromes)
+	{
+		return compute_syndromes(reinterpret_cast<ValueType *>(code), reinterpret_cast<ValueType *>(syndromes));
 	}
 };
 

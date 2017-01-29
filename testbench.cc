@@ -51,7 +51,8 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 		if (corrupt != corrected)
 			std::cout << "decoder error: expected " << corrupt << " but got " << corrected << std::endl;
 		assert(corrupt == corrected);
-		if (corrected >= 0 && rs.decode(code)) {
+		TYPE syndromes[NR];
+		if (corrected >= 0 && rs.compute_syndromes(code, syndromes)) {
 			std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
 			assert(false);
 		}
@@ -147,7 +148,8 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 				acc >>= 8;
 			}
 			for (int i = 0; i < blocks; ++i) {
-				if (rs.decode(tmp + i * rs.N)) {
+				TYPE syndromes[NR];
+				if (rs.compute_syndromes(tmp + i * rs.N, syndromes)) {
 					std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
 					assert(false);
 				}
