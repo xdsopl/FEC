@@ -150,7 +150,7 @@ public:
 			if (FCR == 0)
 				magnitude /= root;
 			if (FCR > 1)
-				for (int i = 1; i < FCR; ++i)
+				for (int j = 1; j < FCR; ++j)
 					magnitude *= root;
 			magnitudes[i] = value(magnitude);
 		}
