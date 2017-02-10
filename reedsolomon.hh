@@ -140,6 +140,10 @@ public:
 				eval += evaluator[j] * tmp;
 				tmp *= root;
 			}
+			if (!eval) {
+				magnitudes[i] = ValueType(0);
+				continue;
+			}
 			ValueType deriv(locator[1]);
 			IndexType root2(root * root), tmp2(root2);
 			for (int j = 3; j <= count; j += 2) {
