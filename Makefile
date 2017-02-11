@@ -19,8 +19,8 @@ test: testbench
 	./testbench
 
 speed: benchmark
-	uname -p
-	./benchmark
+	uname -p | tee RESULTS
+	./benchmark | tee -a RESULTS
 
 .PHONY: clean test
 
