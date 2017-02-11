@@ -104,11 +104,11 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 	auto rnd_pos = std::bind(pos_dist, generator);
 	std::vector<uint8_t> recovered(data.size());
 	TYPE *tmp = new TYPE[rs.N * blocks];
-	for (int i = 0; i < rs.N * blocks; ++i)
-		tmp[i] = coded[i];
 	TYPE *erasures = new TYPE[NR * blocks];
 	for (int places = 0; places <= NR; ++places) {
 		for (int erasures_count = 0; erasures_count <= places; ++erasures_count) {
+			for (int i = 0; i < rs.N * blocks; ++i)
+				tmp[i] = coded[i];
 			int corrupt = 0;
 			for (int i = 0; i < blocks; ++i) {
 				for (int j = 0; j < places; ++j) {
