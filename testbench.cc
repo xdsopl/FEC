@@ -44,10 +44,15 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 		if (error)
 			std::cout << "decoder error!" << std::endl;
 		assert(!error);
-		int corrupt = 0;
-		for (int i = 0; i < rs.N && i < 1; ++i, ++corrupt)
-			code[i] ^= 1;
-		int corrected = rs.decode(code);
+		int pos = 0, par = 0, corrupt = 0, erasures_count = 0;
+		TYPE erasures[NR];
+		// need one parity symbol per erasure
+		for (int i = 0; pos < rs.N && par < NR && i < NR/2; ++i, ++corrupt, ++pos, ++par)
+			code[erasures[erasures_count++] = pos] ^= pos;
+		// need two parity symbols per error
+		for (int i = 0; pos < rs.N && par < NR && i < NR/2; ++i, ++corrupt, ++pos, par+=2)
+			code[pos] ^= pos;
+		int corrected = rs.decode(code, erasures, erasures_count);
 		if (corrupt != corrected)
 			std::cout << "decoder error: expected " << corrupt << " but got " << corrected << std::endl;
 		assert(corrupt == corrected);
