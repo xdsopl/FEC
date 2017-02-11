@@ -77,9 +77,9 @@ public:
 		if (count)
 			C[1] = value(IndexType(N-1) / erasures[0]);
 		for (int i = 1; i < count; ++i) {
-			IndexType root(IndexType(N-1) / erasures[i]);
+			IndexType tmp(IndexType(N-1) / erasures[i]);
 			for (int j = i; j >= 0; --j)
-				C[j+1] += root * C[j];
+				C[j+1] += tmp * C[j];
 		}
 		ValueType B[NR+1];
 		for (int i = 0; i <= NR; ++i)
