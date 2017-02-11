@@ -106,66 +106,69 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 	TYPE *tmp = new TYPE[rs.N * blocks];
 	for (int i = 0; i < rs.N * blocks; ++i)
 		tmp[i] = coded[i];
+	TYPE *erasures = new TYPE[NR * blocks];
 	for (int places = 0; places <= NR; ++places) {
-		int corrupt = 0;
-		for (int i = 0; i < blocks; ++i) {
-			int pos[places];
-			for (int j = 0; j < places; ++j) {
-				pos[j] = rnd_pos();
-				for (int k = 0; k < j;) {
-					if (pos[k++] == pos[j]) {
-						pos[j] = rnd_pos();
-						k = 0;
+		for (int erasures_count = 0; erasures_count <= places; ++erasures_count) {
+			int corrupt = 0;
+			for (int i = 0; i < blocks; ++i) {
+				for (int j = 0; j < places; ++j) {
+					erasures[i*NR + j] = rnd_pos();
+					for (int k = 0; k < j;) {
+						if (erasures[i*NR + k++] == erasures[i*NR + j]) {
+							erasures[i*NR + j] = rnd_pos();
+							k = 0;
+						}
+					}
+					tmp[i * rs.N + erasures[i*NR + j]] ^= 1 << rnd_bit();
+					++corrupt;
+				}
+			}
+			int corrected = 0, wrong = 0;
+			auto start = std::chrono::system_clock::now();
+			for (int i = 0; i < blocks; ++i) {
+				int result = rs.decode(tmp + i * rs.N, erasures + i * NR, erasures_count);
+				if (places > NR/2 && result >= 0)
+					for (int j = i * rs.N; j < (i + 1) * rs.N; ++j)
+						wrong += coded[j] != tmp[j];
+				corrected += result;
+			}
+			auto end = std::chrono::system_clock::now();
+			auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+			int bytes = (rs.N * blocks * M) / 8;
+			int mbs = (bytes + msec.count() / 2) / msec.count();
+			std::cout << "decoding with " << places << " errors and " << erasures_count << " known erasures per block took " << msec.count() << " milliseconds (" << mbs << "KB/s).";
+			if (corrupt != corrected)
+				std::cout << " expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections.";
+			std::cout << std::endl;
+			assert(places > NR/2 || corrupt == corrected);
+			if (corrupt == corrected) {
+				unsigned acc = 0, bit = 0, pos = 0;
+				for (uint8_t &byte: recovered) {
+					while (bit < 8) {
+						acc |= (unsigned)tmp[pos++] << bit;
+						bit += M;
+						if (pos % rs.N >= rs.K)
+							pos += NR;
+					}
+					bit -= 8;
+					byte = 255 & acc;
+					acc >>= 8;
+				}
+				for (int i = 0; i < blocks; ++i) {
+					TYPE syndromes[NR];
+					if (rs.compute_syndromes(tmp + i * rs.N, syndromes)) {
+						std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
+						assert(false);
 					}
 				}
-				tmp[i * rs.N + pos[j]] ^= 1 << rnd_bit();
-				++corrupt;
-			}
-		}
-		int corrected = 0, wrong = 0;
-		auto start = std::chrono::system_clock::now();
-		for (int i = 0; i < blocks; ++i) {
-			int result = rs.decode(tmp + i * rs.N);
-			if (places > NR/2 && result >= 0)
-				for (int j = i * rs.N; j < (i + 1) * rs.N; ++j)
-					wrong += coded[j] != tmp[j];
-			corrected += result;
-		}
-		auto end = std::chrono::system_clock::now();
-		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-		int bytes = (rs.N * blocks * M) / 8;
-		int mbs = (bytes + msec.count() / 2) / msec.count();
-		std::cout << "decoding with " << places << " errors per block took " << msec.count() << " milliseconds (" << mbs << "KB/s).";
-		if (corrupt != corrected)
-			std::cout << " expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections.";
-		std::cout << std::endl;
-		assert(places > NR/2 || corrupt == corrected);
-		if (corrupt == corrected) {
-			unsigned acc = 0, bit = 0, pos = 0;
-			for (uint8_t &byte: recovered) {
-				while (bit < 8) {
-					acc |= (unsigned)tmp[pos++] << bit;
-					bit += M;
-					if (pos % rs.N >= rs.K)
-						pos += NR;
-				}
-				bit -= 8;
-				byte = 255 & acc;
-				acc >>= 8;
-			}
-			for (int i = 0; i < blocks; ++i) {
-				TYPE syndromes[NR];
-				if (rs.compute_syndromes(tmp + i * rs.N, syndromes)) {
-					std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
+				if (data != recovered) {
+					std::cout << "decoder error: data could not be recovered from corruption!" << std::endl;
 					assert(false);
 				}
 			}
-			if (data != recovered) {
-				std::cout << "decoder error: data could not be recovered from corruption!" << std::endl;
-				assert(false);
-			}
 		}
 	}
+	delete[] erasures;
 	delete[] tmp;
 	delete[] coded;
 }
@@ -175,7 +178,7 @@ int main()
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 	std::uniform_int_distribution<uint8_t> distribution(0, 255);
-	std::vector<uint8_t> data(10000000);
+	std::vector<uint8_t> data(1000000);
 	std::generate(data.begin(), data.end(), std::bind(distribution, generator));
 	{
 		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
