@@ -68,14 +68,24 @@ public:
 			}
 		}
 	}
-	int Berlekamp_Massey_algorithm(ValueType *s, ValueType *C)
+	int Berlekamp_Massey_algorithm(ValueType *s, ValueType *C, IndexType *erasures = 0, int count = 0)
 	{
-		ValueType B[NR+1];
-		B[0] = C[0] = ValueType(1);
+		C[0] = ValueType(1);
 		for (int i = 1; i <= NR; ++i)
-			B[i] = C[i] = ValueType(0);
-		int L = 0;
-		for (int n = 0, m = 1; n < NR; ++n) {
+			C[i] = ValueType(0);
+		// $C = \prod_{i=0}^{count}(x-\frac{pe^{N-1}}{erasures_i})$
+		if (count)
+			C[1] = value(IndexType(N-1) / erasures[0]);
+		for (int i = 1; i < count; ++i) {
+			IndexType root(IndexType(N-1) / erasures[i]);
+			for (int j = i; j >= 0; --j)
+				C[j+1] += root * C[j];
+		}
+		ValueType B[NR+1];
+		for (int i = 0; i <= NR; ++i)
+			B[i] = C[i];
+		int L = count;
+		for (int n = count, m = 1; n < NR; ++n) {
 			ValueType d(s[n]);
 			for (int i = 1; i <= L; ++i)
 				d += C[i] * s[n-i];
@@ -87,8 +97,8 @@ public:
 					T[i] = C[i];
 				for (int i = m; i <= NR; ++i)
 					T[i] = fma(d, B[i-m], C[i]);
-				if (2 * L <= n) {
-					L = n + 1 - L;
+				if (2 * L <= n + count) {
+					L = n + count + 1 - L;
 					for (int i = 0; i <= NR; ++i)
 						B[i] = C[i] / d;
 					m = 1;
@@ -165,10 +175,10 @@ public:
 		compute_magnitudes(locator, locations, count, evaluator, evaluator_degree, magnitudes);
 		return evaluator_degree;
 	}
-	int correct(ValueType *code, ValueType *syndromes)
+	int correct(ValueType *code, ValueType *syndromes, IndexType *erasures = 0, int erasures_count = 0)
 	{
 		ValueType locator[NR+1];
-		int locator_degree = Berlekamp_Massey_algorithm(syndromes, locator);
+		int locator_degree = Berlekamp_Massey_algorithm(syndromes, locator, erasures, erasures_count);
 		assert(locator_degree);
 		assert(locator_degree <= NR);
 		assert(locator[0] == ValueType(1));
@@ -266,20 +276,20 @@ public:
 			nonzero += !!syndromes[i];
 		return nonzero;
 	}
-	int decode(ValueType *code)
+	int decode(ValueType *code, IndexType *erasures = 0, int erasures_count = 0)
 	{
 		ValueType syndromes[NR];
 		if (compute_syndromes(code, syndromes))
-			return correct(code, syndromes);
+			return correct(code, syndromes, erasures, erasures_count);
 		return 0;
 	}
 	void encode(value_type *code)
 	{
 		encode(reinterpret_cast<ValueType *>(code));
 	}
-	int decode(value_type *code)
+	int decode(value_type *code, value_type *erasures = 0, int erasures_count = 0)
 	{
-		return decode(reinterpret_cast<ValueType *>(code));
+		return decode(reinterpret_cast<ValueType *>(code), reinterpret_cast<IndexType *>(erasures), erasures_count);
 	}
 	int compute_syndromes(value_type *code, value_type *syndromes)
 	{
