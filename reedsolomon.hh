@@ -210,6 +210,9 @@ public:
 		int evaluator_degree = Forney_algorithm(syndromes, locator, locations, count, evaluator, magnitudes);
 		for (int i = 0; i < count; ++i)
 			code[(int)locations[i]] += magnitudes[i];
+		int corrections_count = 0;
+		for (int i = 0; i < count; ++i)
+			corrections_count += !!magnitudes[i];
 #ifdef NDEBUG
 		(void)evaluator_degree;
 #else
@@ -257,7 +260,7 @@ public:
 			std::cout << std::endl;
 		}
 #endif
-		return count;
+		return corrections_count;
 	}
 	int compute_syndromes(ValueType *code, ValueType *syndromes)
 	{
