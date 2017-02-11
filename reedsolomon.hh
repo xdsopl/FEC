@@ -73,7 +73,7 @@ public:
 		C[0] = ValueType(1);
 		for (int i = 1; i <= NR; ++i)
 			C[i] = ValueType(0);
-		// $C = \prod_{i=0}^{count}(x-\frac{pe^{N-1}}{erasures_i})$
+		// $C = \prod_{i=0}^{count}(1-x\,pe^{N-1-erasures_i})$
 		if (count)
 			C[1] = value(IndexType(N-1) / erasures[0]);
 		for (int i = 1; i < count; ++i) {
