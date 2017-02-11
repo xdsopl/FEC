@@ -281,6 +281,10 @@ public:
 	}
 	int decode(ValueType *code, IndexType *erasures = 0, int erasures_count = 0)
 	{
+#if 0
+		for (int i = 0; i < erasures_count; ++i)
+			code[(int)erasures[i]] = ValueType(0);
+#endif
 		ValueType syndromes[NR];
 		if (compute_syndromes(code, syndromes))
 			return correct(code, syndromes, erasures, erasures_count);
