@@ -68,19 +68,8 @@ public:
 			}
 		}
 	}
-	int Berlekamp_Massey_algorithm(ValueType *s, ValueType *C, IndexType *erasures = 0, int count = 0)
+	int Berlekamp_Massey_algorithm(ValueType *s, ValueType *C, int count = 0)
 	{
-		C[0] = ValueType(1);
-		for (int i = 1; i <= NR; ++i)
-			C[i] = ValueType(0);
-		// $C = \prod_{i=0}^{count}(1-x\,pe^{N-1-erasures_i})$
-		if (count)
-			C[1] = value(IndexType(N-1) / erasures[0]);
-		for (int i = 1; i < count; ++i) {
-			IndexType tmp(IndexType(N-1) / erasures[i]);
-			for (int j = i; j >= 0; --j)
-				C[j+1] += tmp * C[j];
-		}
 		ValueType B[NR+1];
 		for (int i = 0; i <= NR; ++i)
 			B[i] = C[i];
@@ -178,7 +167,18 @@ public:
 	int correct(ValueType *code, ValueType *syndromes, IndexType *erasures = 0, int erasures_count = 0)
 	{
 		ValueType locator[NR+1];
-		int locator_degree = Berlekamp_Massey_algorithm(syndromes, locator, erasures, erasures_count);
+		locator[0] = ValueType(1);
+		for (int i = 1; i <= NR; ++i)
+			locator[i] = ValueType(0);
+		// $locator = \prod_{i=0}^{count}(1-x\,pe^{N-1-erasures_i})$
+		if (erasures_count)
+			locator[1] = value(IndexType(N-1) / erasures[0]);
+		for (int i = 1; i < erasures_count; ++i) {
+			IndexType tmp(IndexType(N-1) / erasures[i]);
+			for (int j = i; j >= 0; --j)
+				locator[j+1] += tmp * locator[j];
+		}
+		int locator_degree = Berlekamp_Massey_algorithm(syndromes, locator, erasures_count);
 		assert(locator_degree);
 		assert(locator_degree <= NR);
 		assert(locator[0] == ValueType(1));
