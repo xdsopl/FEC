@@ -127,7 +127,7 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 			auto start = std::chrono::system_clock::now();
 			for (int i = 0; i < blocks; ++i) {
 				int result = rs.decode(tmp + i * rs.N, erasures + i * NR, erasures_count);
-				if (places > NR/2 && result >= 0)
+				if (places > NR/2 && places > erasures_count && result >= 0)
 					for (int j = i * rs.N; j < (i + 1) * rs.N; ++j)
 						wrong += coded[j] != tmp[j];
 				corrected += result;
@@ -140,7 +140,7 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 			if (corrupt != corrected)
 				std::cout << " expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections.";
 			std::cout << std::endl;
-			assert(places > NR/2 || corrupt == corrected);
+			assert((places > NR/2 && places > erasures_count) || corrupt == corrected);
 			if (corrupt == corrected) {
 				unsigned acc = 0, bit = 0, pos = 0;
 				for (uint8_t &byte: recovered) {
