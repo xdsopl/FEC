@@ -166,6 +166,7 @@ public:
 	}
 	int correct(ValueType *code, ValueType *syndromes, IndexType *erasures = 0, int erasures_count = 0)
 	{
+		assert(0 <= erasures_count && erasures_count <= NR);
 		ValueType locator[NR+1];
 		locator[0] = ValueType(1);
 		for (int i = 1; i <= NR; ++i)
@@ -281,6 +282,7 @@ public:
 	}
 	int decode(ValueType *code, IndexType *erasures = 0, int erasures_count = 0)
 	{
+		assert(0 <= erasures_count && erasures_count <= NR);
 #if 0
 		for (int i = 0; i < erasures_count; ++i)
 			code[(int)erasures[i]] = ValueType(0);
