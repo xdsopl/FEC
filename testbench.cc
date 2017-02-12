@@ -163,7 +163,7 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 				}
 				if (data != recovered) {
 					std::cout << "decoder error: data could not be recovered from corruption!" << std::endl;
-					assert(false);
+					assert(places > NR/2 && places > erasures_count);
 				}
 			}
 		}
