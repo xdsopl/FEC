@@ -10,6 +10,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 #include "galoisfield.hh"
 #include "berlekampmassey.hh"
+#include "chien.hh"
 
 template <int NR, int FCR, typename GF>
 class ReedSolomon
@@ -68,21 +69,6 @@ public:
 				code[N-1] = ValueType(0);
 			}
 		}
-	}
-	int Chien_search(ValueType *locator, int locator_degree, IndexType *locations)
-	{
-		ValueType tmp[locator_degree+1];
-		for (int i = 0; i <= locator_degree; ++i)
-			tmp[i] = locator[i];
-		int count = 0;
-		for (int i = 0; i < N; ++i) {
-			ValueType sum(tmp[0]);
-			for (int j = 1; j <= locator_degree; ++j)
-				sum += tmp[j] *= IndexType(j);
-			if (!sum)
-				locations[count++] = IndexType(i);
-		}
-		return count;
 	}
 	int compute_evaluator(ValueType *syndromes, ValueType *locator, int locator_degree, ValueType *evaluator)
 	{
@@ -171,7 +157,7 @@ public:
 			locations[0] = index(ba * R) / IndexType(1);
 			locations[1] = index(ba * R + ba) / IndexType(1);
 		} else {
-			count = Chien_search(locator, locator_degree, locations);
+			count = Chien<NR, GF>::search(locator, locator_degree, locations);
 			if (count < locator_degree)
 				return -1;
 		}
