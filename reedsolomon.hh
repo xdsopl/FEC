@@ -9,6 +9,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #define REEDSOLOMON_HH
 
 #include "galoisfield.hh"
+#include "berlekampmassey.hh"
 
 template <int NR, int FCR, typename GF>
 class ReedSolomon
@@ -67,38 +68,6 @@ public:
 				code[N-1] = ValueType(0);
 			}
 		}
-	}
-	int Berlekamp_Massey_algorithm(ValueType *s, ValueType *C, int count = 0)
-	{
-		ValueType B[NR+1];
-		for (int i = 0; i <= NR; ++i)
-			B[i] = C[i];
-		int L = count;
-		for (int n = count, m = 1; n < NR; ++n) {
-			ValueType d(s[n]);
-			for (int i = 1; i <= L; ++i)
-				d += C[i] * s[n-i];
-			if (!d) {
-				++m;
-			} else {
-				ValueType T[NR+1];
-				for (int i = 0; i < m; ++i)
-					T[i] = C[i];
-				for (int i = m; i <= NR; ++i)
-					T[i] = fma(d, B[i-m], C[i]);
-				if (2 * L <= n + count) {
-					L = n + count + 1 - L;
-					for (int i = 0; i <= NR; ++i)
-						B[i] = C[i] / d;
-					m = 1;
-				} else {
-					++m;
-				}
-				for (int i = 0; i <= NR; ++i)
-					C[i] = T[i];
-			}
-		}
-		return L;
 	}
 	int Chien_search(ValueType *locator, int locator_degree, IndexType *locations)
 	{
@@ -179,7 +148,7 @@ public:
 			for (int j = i; j >= 0; --j)
 				locator[j+1] += tmp * locator[j];
 		}
-		int locator_degree = Berlekamp_Massey_algorithm(syndromes, locator, erasures_count);
+		int locator_degree = BerlekampMassey<NR, GF>::algorithm(syndromes, locator, erasures_count);
 		assert(locator_degree);
 		assert(locator_degree <= NR);
 		assert(locator[0] == ValueType(1));
