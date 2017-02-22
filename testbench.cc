@@ -6,6 +6,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 */
 
 #include <iostream>
+#include <iomanip>
 #include <cassert>
 #include <random>
 #include <chrono>
@@ -94,8 +95,8 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
 		int mbs = (data.size() + msec.count() / 2) / msec.count();
 		int bytes = (rs.N * blocks * M) / 8;
-		int redundancy = (100 * (bytes-data.size()) + data.size() / 2) / data.size();
-		std::cout << "encoding of " << data.size() << " random bytes into " << bytes << " codeword bytes (" << redundancy << "% redundancy) in " << blocks << " blocks took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
+		float redundancy = (100.0f*(bytes-data.size())) / data.size();
+		std::cout << "encoding of " << data.size() << " random bytes into " << bytes << " codeword bytes (" << std::setprecision(1) << std::fixed << redundancy << "% redundancy) in " << blocks << " blocks took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
 	}
 	std::random_device rd;
 	std::default_random_engine generator(rd());
