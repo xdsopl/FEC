@@ -179,7 +179,7 @@ int main()
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 	std::uniform_int_distribution<uint8_t> distribution(0, 255);
-	std::vector<uint8_t> data(1000000);
+	std::vector<uint8_t> data(65471*16);
 	std::generate(data.begin(), data.end(), std::bind(distribution, generator));
 	{
 		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
