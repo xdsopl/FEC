@@ -137,11 +137,11 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 			int bytes = (rs.N * blocks * M) / 8;
 			int mbs = (bytes + msec.count() / 2) / msec.count();
 			std::cout << "decoding with " << places << " errors and " << erasures_count << " known erasures per block took " << msec.count() << " milliseconds (" << mbs << "KB/s).";
-			if (corrupt != corrected)
+			if (corrupt != corrected || wrong)
 				std::cout << " expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections.";
 			std::cout << std::endl;
-			assert((places > NR/2 && places > erasures_count) || corrupt == corrected);
-			if (corrupt == corrected) {
+			assert((places > NR/2 && places > erasures_count) || (corrupt == corrected && !wrong));
+			if (corrupt == corrected && !wrong) {
 				unsigned acc = 0, bit = 0, pos = 0;
 				for (uint8_t &byte: recovered) {
 					while (bit < 8) {
