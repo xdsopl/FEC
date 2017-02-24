@@ -14,6 +14,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <algorithm>
 #include "galoisfield.hh"
 #include "reedsolomon.hh"
+#include "bose_chaudhuri_hocquenghem.hh"
 
 template <typename TYPE>
 void print_table(TYPE *table, const char *name, int N)
@@ -176,6 +177,34 @@ void test(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, TYP
 
 int main()
 {
+	{
+		BoseChaudhuriHocquenghem<6, 1, 5, GF::Types<4, 0b10011, uint8_t>> bch({0b10011, 0b11111, 0b00111});
+		uint8_t code[15] = { 1, 1, 0, 0, 1 };
+		uint8_t target[15] = { 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0 };
+		std::cout << "testing: NASA INTRO BCH(15, 5) T=3" << std::endl;
+		bch.encode(code);
+		//print_table(code, "code", bch.N);
+		//print_table(target, "targ", bch.N);
+		bool error = false;
+		for (int i = 0; i < bch.N; ++i)
+			error |= code[i] != target[i];
+		if (error)
+			std::cout << "encoder error!" << std::endl;
+		assert(!error);
+		code[1] ^= 1;
+		code[9] ^= 1;
+		code[14] ^= 1;
+		//print_table(code, "corr", bch.N);
+		bch.decode(code);
+		//print_table(code, "code", bch.N);
+		error = false;
+		for (int i = 0; i < bch.N; ++i)
+			error |= code[i] != target[i];
+		if (error)
+			std::cout << "decoder error: code doesnt match target" << std::endl;
+		assert(!error);
+		//return 0;
+	}
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 	std::uniform_int_distribution<uint8_t> distribution(0, 255);
