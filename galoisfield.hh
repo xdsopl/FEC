@@ -81,10 +81,10 @@ struct Index
 	}
 };
 
-template <int M, int POLY, typename TYPE>
+template <int WIDTH, int POLY, typename TYPE>
 struct Types
 {
-	static const int Q = 1 << M, N = Q - 1;
+	static const int M = WIDTH, Q = 1 << M, N = Q - 1;
 	typedef TYPE value_type;
 	typedef Value<M, POLY, TYPE> ValueType;
 	typedef Index<M, POLY, TYPE> IndexType;
