@@ -5,10 +5,10 @@ To the extent possible under law, the author(s) have dedicated all copyright and
 You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 
-#ifndef BERLEKAMPMASSEY_HH
-#define BERLEKAMPMASSEY_HH
+#ifndef BERLEKAMP_MASSEY_HH
+#define BERLEKAMP_MASSEY_HH
 
-#include "galoisfield.hh"
+#include "galois_field.hh"
 
 template <int NR, typename GF>
 struct BerlekampMassey

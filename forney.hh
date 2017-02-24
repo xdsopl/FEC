@@ -8,7 +8,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #ifndef FORNEY_HH
 #define FORNEY_HH
 
-#include "galoisfield.hh"
+#include "galois_field.hh"
 
 template <int NR, int FCR, typename GF>
 struct Forney

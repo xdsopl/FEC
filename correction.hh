@@ -8,8 +8,8 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #ifndef CORRECTION_HH
 #define CORRECTION_HH
 
-#include "galoisfield.hh"
-#include "berlekampmassey.hh"
+#include "galois_field.hh"
+#include "berlekamp_massey.hh"
 #include "chien.hh"
 #include "forney.hh"
 

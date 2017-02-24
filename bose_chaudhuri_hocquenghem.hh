@@ -9,7 +9,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #define BOSE_CHAUDHURI_HOCQUENGHEM_HH
 
 #include <initializer_list>
-#include "galoisfield.hh"
+#include "galois_field.hh"
 #include "correction.hh"
 
 template <int NR, int FCR, int K, typename GF>

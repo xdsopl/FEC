@@ -5,10 +5,10 @@ To the extent possible under law, the author(s) have dedicated all copyright and
 You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 
-#ifndef REEDSOLOMON_HH
-#define REEDSOLOMON_HH
+#ifndef REED_SOLOMON_HH
+#define REED_SOLOMON_HH
 
-#include "galoisfield.hh"
+#include "galois_field.hh"
 #include "correction.hh"
 
 template <int NR, int FCR, typename GF>

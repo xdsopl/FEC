@@ -12,8 +12,8 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #include <chrono>
 #include <functional>
 #include <algorithm>
-#include "galoisfield.hh"
-#include "reedsolomon.hh"
+#include "galois_field.hh"
+#include "reed_solomon.hh"
 #include "bose_chaudhuri_hocquenghem.hh"
 
 template <typename TYPE>

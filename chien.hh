@@ -8,7 +8,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 #ifndef CHIEN_HH
 #define CHIEN_HH
 
-#include "galoisfield.hh"
+#include "galois_field.hh"
 
 template <int NR, typename GF>
 struct Chien
