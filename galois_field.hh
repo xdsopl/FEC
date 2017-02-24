@@ -5,12 +5,12 @@ To the extent possible under law, the author(s) have dedicated all copyright and
 You should have received a copy of the CC0 Public Domain Dedication along with this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 
-#ifndef GALOISFIELD_HH
-#define GALOISFIELD_HH
+#ifndef GALOIS_FIELD_HH
+#define GALOIS_FIELD_HH
 
 namespace GF {
 
-#include "galoisfieldtables.hh"
+#include "galois_field_tables.hh"
 
 template <int M, int POLY, typename TYPE>
 struct Index;

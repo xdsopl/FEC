@@ -1,6 +1,6 @@
 .*.swp
 testbench
 benchmark
-tablesgenerator
-galoisfieldtables.hh
+tables_generator
+galois_field_tables.hh
 *.pdf

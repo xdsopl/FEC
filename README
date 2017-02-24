@@ -46,8 +46,8 @@ Horner's method
 https://en.wikipedia.org/wiki/Horner%27s_method
 
 # make speed
-clang++ -stdlib=libc++ -std=c++11 -W -Wall -O3 -march=native tablesgenerator.cc -o tablesgenerator
-./tablesgenerator > galoisfieldtables.hh
+clang++ -stdlib=libc++ -std=c++11 -W -Wall -O3 -march=native tables_generator.cc -o tables_generator
+./tables_generator > galois_field_tables.hh
 clang++ -stdlib=libc++ -std=c++11 -W -Wall -O3 -march=native -DNDEBUG testbench.cc -o benchmark
 uname -p | tee RESULTS
 Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
