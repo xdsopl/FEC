@@ -45,6 +45,14 @@ public:
 		}
 		assert(generator_degree == NP + 1);
 #ifndef NDEBUG
+		IndexType root(FCR), pe(1);
+		for (int i = 0; i < NR; ++i) {
+			ValueType tmp(generator[NP]);
+			for (int j = 1; j <= NP; ++j)
+				tmp = fma(root, tmp, generator[NP-j]);
+			assert(!tmp);
+			root *= pe;
+		}
 		std::cout << "generator =";
 		for (int i = 0; i <= NP; ++i)
 			std::cout << " " << (int)generator[i];
