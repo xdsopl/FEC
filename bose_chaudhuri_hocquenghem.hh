@@ -103,15 +103,19 @@ public:
 		ValueType syndromes[NR];
 		if (!compute_syndromes(code, syndromes))
 			return 0;
-		int corrections_count = Correction<NR, FCR, GF>::algorithm(code, syndromes, erasures, erasures_count);
-		if (corrections_count <= 0)
-			return corrections_count;
-		for (int i = 0; i < N; ++i) {
-			if (1 < (int)code[i]) {
-				code[i] = ValueType(0);
-				corrections_count = -1;
-			}
-		}
+		IndexType locations[NR];
+		ValueType magnitudes[NR];
+		int count = Correction<NR, FCR, GF>::algorithm(syndromes, locations, magnitudes, erasures, erasures_count);
+		if (count <= 0)
+			return count;
+		for (int i = 0; i < count; ++i)
+			if (1 < (int)magnitudes[i])
+				return -1;
+		for (int i = 0; i < count; ++i)
+			code[(int)locations[i]] += magnitudes[i];
+		int corrections_count = 0;
+		for (int i = 0; i < count; ++i)
+			corrections_count += !!magnitudes[i];
 		return corrections_count;
 	}
 	void encode(value_type *code)

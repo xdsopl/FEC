@@ -20,7 +20,7 @@ struct Correction
 	typedef typename GF::ValueType ValueType;
 	typedef typename GF::IndexType IndexType;
 	static const int N = GF::N, K = N - NR;
-	static int algorithm(ValueType *code, ValueType *syndromes, IndexType *erasures = 0, int erasures_count = 0)
+	static int algorithm(ValueType *syndromes, IndexType *locations, ValueType *magnitudes, IndexType *erasures = 0, int erasures_count = 0)
 	{
 		assert(0 <= erasures_count && erasures_count <= NR);
 		ValueType locator[NR+1];
@@ -42,18 +42,11 @@ struct Correction
 		while (!locator[locator_degree])
 			if (--locator_degree < 0)
 				return -1;
-		IndexType locations[locator_degree];
 		int count = FindLocations<NR, GF>::search(locator, locator_degree, locations);
 		if (count < locator_degree)
 			return -1;
 		ValueType evaluator[NR];
-		ValueType magnitudes[count];
 		int evaluator_degree = Forney<NR, FCR, GF>::algorithm(syndromes, locator, locations, count, evaluator, magnitudes);
-		for (int i = 0; i < count; ++i)
-			code[(int)locations[i]] += magnitudes[i];
-		int corrections_count = 0;
-		for (int i = 0; i < count; ++i)
-			corrections_count += !!magnitudes[i];
 #ifdef NDEBUG
 		(void)evaluator_degree;
 #else
@@ -101,7 +94,7 @@ struct Correction
 			std::cout << std::endl;
 		}
 #endif
-		return corrections_count;
+		return count;
 	}
 };
 
