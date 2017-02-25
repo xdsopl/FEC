@@ -331,7 +331,6 @@ int main()
 		uint8_t code[15] = { 1, 1, 0, 0, 1 };
 		uint8_t target[15] = { 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0 };
 		test_bch("NASA INTRO BCH(15, 5) T=3", bch, code, target, data);
-		//return 0;
 	}
 	{
 		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
