@@ -201,6 +201,333 @@ decoding with 16 errors and 13 known erasures per block took 82 milliseconds (13
 decoding with 16 errors and 14 known erasures per block took 84 milliseconds (13306KB/s). expected 70128 corrected errors but got 61276 and 69984 wrong corrections.
 decoding with 16 errors and 15 known erasures per block took 87 milliseconds (12847KB/s). expected 70128 corrected errors but got 65466 and 69904 wrong corrections.
 decoding with 16 errors and 16 known erasures per block took 87 milliseconds (12847KB/s).
+testing: DVB-S2 FULL BCH(65535, 65343) T=12
+encoding of 1047536 random bytes into 1056751 codeword bytes (0.9% redundancy) in 129 blocks took 158 milliseconds (6630KB/s).
+decoding with 0 errors and 0 known erasures per block took 589 milliseconds (1794KB/s).
+decoding with 1 errors and 0 known erasures per block took 587 milliseconds (1800KB/s).
+decoding with 1 errors and 1 known erasures per block took 589 milliseconds (1794KB/s).
+decoding with 2 errors and 0 known erasures per block took 587 milliseconds (1800KB/s).
+decoding with 2 errors and 1 known erasures per block took 587 milliseconds (1800KB/s).
+decoding with 2 errors and 2 known erasures per block took 587 milliseconds (1800KB/s).
+decoding with 3 errors and 0 known erasures per block took 678 milliseconds (1559KB/s).
+decoding with 3 errors and 1 known erasures per block took 678 milliseconds (1559KB/s).
+decoding with 3 errors and 2 known erasures per block took 678 milliseconds (1559KB/s).
+decoding with 3 errors and 3 known erasures per block took 680 milliseconds (1554KB/s).
+decoding with 4 errors and 0 known erasures per block took 689 milliseconds (1534KB/s).
+decoding with 4 errors and 1 known erasures per block took 687 milliseconds (1538KB/s).
+decoding with 4 errors and 2 known erasures per block took 700 milliseconds (1510KB/s).
+decoding with 4 errors and 3 known erasures per block took 687 milliseconds (1538KB/s).
+decoding with 4 errors and 4 known erasures per block took 687 milliseconds (1538KB/s).
+decoding with 5 errors and 0 known erasures per block took 695 milliseconds (1521KB/s).
+decoding with 5 errors and 1 known erasures per block took 695 milliseconds (1521KB/s).
+decoding with 5 errors and 2 known erasures per block took 695 milliseconds (1521KB/s).
+decoding with 5 errors and 3 known erasures per block took 695 milliseconds (1521KB/s).
+decoding with 5 errors and 4 known erasures per block took 695 milliseconds (1521KB/s).
+decoding with 5 errors and 5 known erasures per block took 694 milliseconds (1523KB/s).
+decoding with 6 errors and 0 known erasures per block took 708 milliseconds (1493KB/s).
+decoding with 6 errors and 1 known erasures per block took 709 milliseconds (1490KB/s).
+decoding with 6 errors and 2 known erasures per block took 708 milliseconds (1493KB/s).
+decoding with 6 errors and 3 known erasures per block took 708 milliseconds (1493KB/s).
+decoding with 6 errors and 4 known erasures per block took 708 milliseconds (1493KB/s).
+decoding with 6 errors and 5 known erasures per block took 707 milliseconds (1495KB/s).
+decoding with 6 errors and 6 known erasures per block took 709 milliseconds (1490KB/s).
+decoding with 7 errors and 0 known erasures per block took 724 milliseconds (1460KB/s).
+decoding with 7 errors and 1 known erasures per block took 725 milliseconds (1458KB/s).
+decoding with 7 errors and 2 known erasures per block took 725 milliseconds (1458KB/s).
+decoding with 7 errors and 3 known erasures per block took 725 milliseconds (1458KB/s).
+decoding with 7 errors and 4 known erasures per block took 725 milliseconds (1458KB/s).
+decoding with 7 errors and 5 known erasures per block took 725 milliseconds (1458KB/s).
+decoding with 7 errors and 6 known erasures per block took 725 milliseconds (1458KB/s).
+decoding with 7 errors and 7 known erasures per block took 724 milliseconds (1460KB/s).
+decoding with 8 errors and 0 known erasures per block took 748 milliseconds (1413KB/s).
+decoding with 8 errors and 1 known erasures per block took 746 milliseconds (1417KB/s).
+decoding with 8 errors and 2 known erasures per block took 745 milliseconds (1418KB/s).
+decoding with 8 errors and 3 known erasures per block took 746 milliseconds (1417KB/s).
+decoding with 8 errors and 4 known erasures per block took 746 milliseconds (1417KB/s).
+decoding with 8 errors and 5 known erasures per block took 745 milliseconds (1418KB/s).
+decoding with 8 errors and 6 known erasures per block took 746 milliseconds (1417KB/s).
+decoding with 8 errors and 7 known erasures per block took 746 milliseconds (1417KB/s).
+decoding with 8 errors and 8 known erasures per block took 746 milliseconds (1417KB/s).
+decoding with 9 errors and 0 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 1 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 2 known erasures per block took 767 milliseconds (1378KB/s).
+decoding with 9 errors and 3 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 4 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 5 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 6 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 7 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 8 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 9 errors and 9 known erasures per block took 764 milliseconds (1383KB/s).
+decoding with 10 errors and 0 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 1 known erasures per block took 786 milliseconds (1344KB/s).
+decoding with 10 errors and 2 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 3 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 4 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 5 known erasures per block took 802 milliseconds (1318KB/s).
+decoding with 10 errors and 6 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 7 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 8 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 9 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 10 errors and 10 known erasures per block took 785 milliseconds (1346KB/s).
+decoding with 11 errors and 0 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 1 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 2 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 3 known erasures per block took 803 milliseconds (1316KB/s).
+decoding with 11 errors and 4 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 5 known erasures per block took 803 milliseconds (1316KB/s).
+decoding with 11 errors and 6 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 7 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 8 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 9 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 11 errors and 10 known erasures per block took 803 milliseconds (1316KB/s).
+decoding with 11 errors and 11 known erasures per block took 804 milliseconds (1314KB/s).
+decoding with 12 errors and 0 known erasures per block took 826 milliseconds (1279KB/s).
+decoding with 12 errors and 1 known erasures per block took 826 milliseconds (1279KB/s).
+decoding with 12 errors and 2 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 12 errors and 3 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 12 errors and 4 known erasures per block took 827 milliseconds (1278KB/s).
+decoding with 12 errors and 5 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 12 errors and 6 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 12 errors and 7 known erasures per block took 826 milliseconds (1279KB/s).
+decoding with 12 errors and 8 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 12 errors and 9 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 12 errors and 10 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 12 errors and 11 known erasures per block took 826 milliseconds (1279KB/s).
+decoding with 12 errors and 12 known erasures per block took 825 milliseconds (1281KB/s).
+decoding with 13 errors and 0 known erasures per block took 826 milliseconds (1279KB/s). expected 1677 corrected errors but got -129 and 0 wrong corrections.
+decoding with 13 errors and 1 known erasures per block took 847 milliseconds (1248KB/s). expected 1677 corrected errors but got -129 and 0 wrong corrections.
+decoding with 13 errors and 2 known erasures per block took 851 milliseconds (1242KB/s).
+decoding with 13 errors and 3 known erasures per block took 846 milliseconds (1249KB/s).
+decoding with 13 errors and 4 known erasures per block took 847 milliseconds (1248KB/s).
+decoding with 13 errors and 5 known erasures per block took 882 milliseconds (1198KB/s).
+decoding with 13 errors and 6 known erasures per block took 845 milliseconds (1251KB/s).
+decoding with 13 errors and 7 known erasures per block took 864 milliseconds (1223KB/s).
+decoding with 13 errors and 8 known erasures per block took 845 milliseconds (1251KB/s).
+decoding with 13 errors and 9 known erasures per block took 847 milliseconds (1248KB/s).
+decoding with 13 errors and 10 known erasures per block took 846 milliseconds (1249KB/s).
+decoding with 13 errors and 11 known erasures per block took 846 milliseconds (1249KB/s).
+decoding with 13 errors and 12 known erasures per block took 846 milliseconds (1249KB/s).
+decoding with 13 errors and 13 known erasures per block took 844 milliseconds (1252KB/s).
+decoding with 14 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 1806 corrected errors but got -129 and 0 wrong corrections.
+decoding with 14 errors and 1 known erasures per block took 847 milliseconds (1248KB/s). expected 1806 corrected errors but got -129 and 0 wrong corrections.
+decoding with 14 errors and 2 known erasures per block took 848 milliseconds (1246KB/s). expected 1806 corrected errors but got -129 and 0 wrong corrections.
+decoding with 14 errors and 3 known erasures per block took 871 milliseconds (1213KB/s). expected 1806 corrected errors but got -129 and 0 wrong corrections.
+decoding with 14 errors and 4 known erasures per block took 870 milliseconds (1215KB/s).
+decoding with 14 errors and 5 known erasures per block took 868 milliseconds (1217KB/s).
+decoding with 14 errors and 6 known erasures per block took 868 milliseconds (1217KB/s).
+decoding with 14 errors and 7 known erasures per block took 868 milliseconds (1217KB/s).
+decoding with 14 errors and 8 known erasures per block took 868 milliseconds (1217KB/s).
+decoding with 14 errors and 9 known erasures per block took 867 milliseconds (1219KB/s).
+decoding with 14 errors and 10 known erasures per block took 868 milliseconds (1217KB/s).
+decoding with 14 errors and 11 known erasures per block took 867 milliseconds (1219KB/s).
+decoding with 14 errors and 12 known erasures per block took 866 milliseconds (1220KB/s).
+decoding with 14 errors and 13 known erasures per block took 867 milliseconds (1219KB/s).
+decoding with 14 errors and 14 known erasures per block took 866 milliseconds (1220KB/s).
+decoding with 15 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 1935 corrected errors but got -129 and 0 wrong corrections.
+decoding with 15 errors and 1 known erasures per block took 848 milliseconds (1246KB/s). expected 1935 corrected errors but got -129 and 0 wrong corrections.
+decoding with 15 errors and 2 known erasures per block took 849 milliseconds (1245KB/s). expected 1935 corrected errors but got -129 and 0 wrong corrections.
+decoding with 15 errors and 3 known erasures per block took 871 milliseconds (1213KB/s). expected 1935 corrected errors but got -129 and 0 wrong corrections.
+decoding with 15 errors and 4 known erasures per block took 869 milliseconds (1216KB/s). expected 1935 corrected errors but got -129 and 0 wrong corrections.
+decoding with 15 errors and 5 known erasures per block took 888 milliseconds (1190KB/s). expected 1935 corrected errors but got -129 and 0 wrong corrections.
+decoding with 15 errors and 6 known erasures per block took 890 milliseconds (1187KB/s).
+decoding with 15 errors and 7 known erasures per block took 900 milliseconds (1174KB/s).
+decoding with 15 errors and 8 known erasures per block took 886 milliseconds (1193KB/s).
+decoding with 15 errors and 9 known erasures per block took 887 milliseconds (1191KB/s).
+decoding with 15 errors and 10 known erasures per block took 887 milliseconds (1191KB/s).
+decoding with 15 errors and 11 known erasures per block took 887 milliseconds (1191KB/s).
+decoding with 15 errors and 12 known erasures per block took 887 milliseconds (1191KB/s).
+decoding with 15 errors and 13 known erasures per block took 886 milliseconds (1193KB/s).
+decoding with 15 errors and 14 known erasures per block took 888 milliseconds (1190KB/s).
+decoding with 15 errors and 15 known erasures per block took 885 milliseconds (1194KB/s).
+decoding with 16 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 1 known erasures per block took 846 milliseconds (1249KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 2 known erasures per block took 848 milliseconds (1246KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 3 known erasures per block took 868 milliseconds (1217KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 4 known erasures per block took 868 milliseconds (1217KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 5 known erasures per block took 888 milliseconds (1190KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 6 known erasures per block took 887 milliseconds (1191KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 7 known erasures per block took 910 milliseconds (1161KB/s). expected 2064 corrected errors but got -129 and 0 wrong corrections.
+decoding with 16 errors and 8 known erasures per block took 912 milliseconds (1159KB/s).
+decoding with 16 errors and 9 known erasures per block took 910 milliseconds (1161KB/s).
+decoding with 16 errors and 10 known erasures per block took 910 milliseconds (1161KB/s).
+decoding with 16 errors and 11 known erasures per block took 911 milliseconds (1160KB/s).
+decoding with 16 errors and 12 known erasures per block took 909 milliseconds (1163KB/s).
+decoding with 16 errors and 13 known erasures per block took 909 milliseconds (1163KB/s).
+decoding with 16 errors and 14 known erasures per block took 910 milliseconds (1161KB/s).
+decoding with 16 errors and 15 known erasures per block took 909 milliseconds (1163KB/s).
+decoding with 16 errors and 16 known erasures per block took 908 milliseconds (1164KB/s).
+decoding with 17 errors and 0 known erasures per block took 829 milliseconds (1275KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 1 known erasures per block took 846 milliseconds (1249KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 2 known erasures per block took 852 milliseconds (1240KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 3 known erasures per block took 868 milliseconds (1217KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 4 known erasures per block took 869 milliseconds (1216KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 5 known erasures per block took 888 milliseconds (1190KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 6 known erasures per block took 888 milliseconds (1190KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 7 known erasures per block took 911 milliseconds (1160KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 8 known erasures per block took 947 milliseconds (1116KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 9 known erasures per block took 930 milliseconds (1136KB/s). expected 2193 corrected errors but got -129 and 0 wrong corrections.
+decoding with 17 errors and 10 known erasures per block took 930 milliseconds (1136KB/s).
+decoding with 17 errors and 11 known erasures per block took 928 milliseconds (1139KB/s).
+decoding with 17 errors and 12 known erasures per block took 929 milliseconds (1138KB/s).
+decoding with 17 errors and 13 known erasures per block took 960 milliseconds (1101KB/s).
+decoding with 17 errors and 14 known erasures per block took 929 milliseconds (1138KB/s).
+decoding with 17 errors and 15 known erasures per block took 929 milliseconds (1138KB/s).
+decoding with 17 errors and 16 known erasures per block took 928 milliseconds (1139KB/s).
+decoding with 17 errors and 17 known erasures per block took 928 milliseconds (1139KB/s).
+decoding with 18 errors and 0 known erasures per block took 826 milliseconds (1279KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 1 known erasures per block took 846 milliseconds (1249KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 2 known erasures per block took 847 milliseconds (1248KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 3 known erasures per block took 875 milliseconds (1208KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 4 known erasures per block took 869 milliseconds (1216KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 5 known erasures per block took 888 milliseconds (1190KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 6 known erasures per block took 889 milliseconds (1189KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 7 known erasures per block took 911 milliseconds (1160KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 8 known erasures per block took 913 milliseconds (1157KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 9 known erasures per block took 930 milliseconds (1136KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 10 known erasures per block took 930 milliseconds (1136KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 11 known erasures per block took 953 milliseconds (1109KB/s). expected 2322 corrected errors but got -129 and 0 wrong corrections.
+decoding with 18 errors and 12 known erasures per block took 954 milliseconds (1108KB/s).
+decoding with 18 errors and 13 known erasures per block took 952 milliseconds (1110KB/s).
+decoding with 18 errors and 14 known erasures per block took 954 milliseconds (1108KB/s).
+decoding with 18 errors and 15 known erasures per block took 952 milliseconds (1110KB/s).
+decoding with 18 errors and 16 known erasures per block took 952 milliseconds (1110KB/s).
+decoding with 18 errors and 17 known erasures per block took 951 milliseconds (1111KB/s).
+decoding with 18 errors and 18 known erasures per block took 951 milliseconds (1111KB/s).
+decoding with 19 errors and 0 known erasures per block took 828 milliseconds (1276KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 1 known erasures per block took 851 milliseconds (1242KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 2 known erasures per block took 847 milliseconds (1248KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 3 known erasures per block took 902 milliseconds (1172KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 4 known erasures per block took 868 milliseconds (1217KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 5 known erasures per block took 888 milliseconds (1190KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 6 known erasures per block took 919 milliseconds (1150KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 7 known erasures per block took 910 milliseconds (1161KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 8 known erasures per block took 916 milliseconds (1154KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 9 known erasures per block took 931 milliseconds (1135KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 10 known erasures per block took 930 milliseconds (1136KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 11 known erasures per block took 955 milliseconds (1107KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 12 known erasures per block took 954 milliseconds (1108KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 13 known erasures per block took 972 milliseconds (1087KB/s). expected 2451 corrected errors but got -129 and 0 wrong corrections.
+decoding with 19 errors and 14 known erasures per block took 975 milliseconds (1084KB/s).
+decoding with 19 errors and 15 known erasures per block took 971 milliseconds (1088KB/s).
+decoding with 19 errors and 16 known erasures per block took 971 milliseconds (1088KB/s).
+decoding with 19 errors and 17 known erasures per block took 972 milliseconds (1087KB/s).
+decoding with 19 errors and 18 known erasures per block took 972 milliseconds (1087KB/s).
+decoding with 19 errors and 19 known erasures per block took 970 milliseconds (1089KB/s).
+decoding with 20 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 1 known erasures per block took 847 milliseconds (1248KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 2 known erasures per block took 994 milliseconds (1063KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 3 known erasures per block took 871 milliseconds (1213KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 4 known erasures per block took 869 milliseconds (1216KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 5 known erasures per block took 889 milliseconds (1189KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 6 known erasures per block took 888 milliseconds (1190KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 7 known erasures per block took 911 milliseconds (1160KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 8 known erasures per block took 912 milliseconds (1159KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 9 known erasures per block took 930 milliseconds (1136KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 10 known erasures per block took 930 milliseconds (1136KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 11 known erasures per block took 953 milliseconds (1109KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 12 known erasures per block took 953 milliseconds (1109KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 13 known erasures per block took 982 milliseconds (1076KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 14 known erasures per block took 972 milliseconds (1087KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 15 known erasures per block took 995 milliseconds (1062KB/s). expected 2580 corrected errors but got -129 and 0 wrong corrections.
+decoding with 20 errors and 16 known erasures per block took 999 milliseconds (1058KB/s).
+decoding with 20 errors and 17 known erasures per block took 998 milliseconds (1059KB/s).
+decoding with 20 errors and 18 known erasures per block took 995 milliseconds (1062KB/s).
+decoding with 20 errors and 19 known erasures per block took 995 milliseconds (1062KB/s).
+decoding with 20 errors and 20 known erasures per block took 993 milliseconds (1064KB/s).
+decoding with 21 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 1 known erasures per block took 846 milliseconds (1249KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 2 known erasures per block took 847 milliseconds (1248KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 3 known erasures per block took 869 milliseconds (1216KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 4 known erasures per block took 869 milliseconds (1216KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 5 known erasures per block took 887 milliseconds (1191KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 6 known erasures per block took 888 milliseconds (1190KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 7 known erasures per block took 911 milliseconds (1160KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 8 known erasures per block took 913 milliseconds (1157KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 9 known erasures per block took 931 milliseconds (1135KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 10 known erasures per block took 930 milliseconds (1136KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 11 known erasures per block took 954 milliseconds (1108KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 12 known erasures per block took 953 milliseconds (1109KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 13 known erasures per block took 972 milliseconds (1087KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 14 known erasures per block took 972 milliseconds (1087KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 15 known erasures per block took 996 milliseconds (1061KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 16 known erasures per block took 996 milliseconds (1061KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 17 known erasures per block took 1015 milliseconds (1041KB/s). expected 2709 corrected errors but got -129 and 0 wrong corrections.
+decoding with 21 errors and 18 known erasures per block took 1016 milliseconds (1040KB/s).
+decoding with 21 errors and 19 known erasures per block took 1014 milliseconds (1042KB/s).
+decoding with 21 errors and 20 known erasures per block took 1014 milliseconds (1042KB/s).
+decoding with 21 errors and 21 known erasures per block took 1014 milliseconds (1042KB/s).
+decoding with 22 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 1 known erasures per block took 846 milliseconds (1249KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 2 known erasures per block took 847 milliseconds (1248KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 3 known erasures per block took 869 milliseconds (1216KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 4 known erasures per block took 868 milliseconds (1217KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 5 known erasures per block took 888 milliseconds (1190KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 6 known erasures per block took 887 milliseconds (1191KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 7 known erasures per block took 911 milliseconds (1160KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 8 known erasures per block took 914 milliseconds (1156KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 9 known erasures per block took 929 milliseconds (1138KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 10 known erasures per block took 930 milliseconds (1136KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 11 known erasures per block took 954 milliseconds (1108KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 12 known erasures per block took 953 milliseconds (1109KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 13 known erasures per block took 972 milliseconds (1087KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 14 known erasures per block took 972 milliseconds (1087KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 15 known erasures per block took 996 milliseconds (1061KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 16 known erasures per block took 998 milliseconds (1059KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 17 known erasures per block took 1015 milliseconds (1041KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 18 known erasures per block took 1015 milliseconds (1041KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 19 known erasures per block took 1039 milliseconds (1017KB/s). expected 2838 corrected errors but got -129 and 0 wrong corrections.
+decoding with 22 errors and 20 known erasures per block took 1040 milliseconds (1016KB/s).
+decoding with 22 errors and 21 known erasures per block took 1038 milliseconds (1018KB/s).
+decoding with 22 errors and 22 known erasures per block took 1037 milliseconds (1019KB/s).
+decoding with 23 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 1 known erasures per block took 847 milliseconds (1248KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 2 known erasures per block took 846 milliseconds (1249KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 3 known erasures per block took 869 milliseconds (1216KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 4 known erasures per block took 869 milliseconds (1216KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 5 known erasures per block took 887 milliseconds (1191KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 6 known erasures per block took 890 milliseconds (1187KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 7 known erasures per block took 911 milliseconds (1160KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 8 known erasures per block took 911 milliseconds (1160KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 9 known erasures per block took 930 milliseconds (1136KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 10 known erasures per block took 930 milliseconds (1136KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 11 known erasures per block took 953 milliseconds (1109KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 12 known erasures per block took 953 milliseconds (1109KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 13 known erasures per block took 972 milliseconds (1087KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 14 known erasures per block took 972 milliseconds (1087KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 15 known erasures per block took 996 milliseconds (1061KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 16 known erasures per block took 996 milliseconds (1061KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 17 known erasures per block took 1016 milliseconds (1040KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 18 known erasures per block took 1014 milliseconds (1042KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 19 known erasures per block took 1039 milliseconds (1017KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 20 known erasures per block took 1039 milliseconds (1017KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 21 known erasures per block took 1061 milliseconds (996KB/s). expected 2967 corrected errors but got -129 and 0 wrong corrections.
+decoding with 23 errors and 22 known erasures per block took 1061 milliseconds (996KB/s).
+decoding with 23 errors and 23 known erasures per block took 1057 milliseconds (1000KB/s).
+decoding with 24 errors and 0 known erasures per block took 825 milliseconds (1281KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 1 known erasures per block took 846 milliseconds (1249KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 2 known erasures per block took 847 milliseconds (1248KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 3 known erasures per block took 869 milliseconds (1216KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 4 known erasures per block took 869 milliseconds (1216KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 5 known erasures per block took 890 milliseconds (1187KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 6 known erasures per block took 889 milliseconds (1189KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 7 known erasures per block took 944 milliseconds (1119KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 8 known erasures per block took 911 milliseconds (1160KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 9 known erasures per block took 931 milliseconds (1135KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 10 known erasures per block took 931 milliseconds (1135KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 11 known erasures per block took 967 milliseconds (1093KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 12 known erasures per block took 954 milliseconds (1108KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 13 known erasures per block took 973 milliseconds (1086KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 14 known erasures per block took 973 milliseconds (1086KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 15 known erasures per block took 996 milliseconds (1061KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 16 known erasures per block took 996 milliseconds (1061KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 17 known erasures per block took 1016 milliseconds (1040KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 18 known erasures per block took 1016 milliseconds (1040KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 19 known erasures per block took 1039 milliseconds (1017KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 20 known erasures per block took 1039 milliseconds (1017KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 21 known erasures per block took 1058 milliseconds (999KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 22 known erasures per block took 1058 milliseconds (999KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 23 known erasures per block took 1084 milliseconds (975KB/s). expected 3096 corrected errors but got -129 and 0 wrong corrections.
+decoding with 24 errors and 24 known erasures per block took 1083 milliseconds (976KB/s).
 testing: FUN RS(65535, 65471) T=32
 encoding of 1047536 random bytes into 1048560 codeword bytes (0.1% redundancy) in 8 blocks took 56 milliseconds (18706KB/s).
 decoding with 0 errors and 0 known erasures per block took 116 milliseconds (9039KB/s).
