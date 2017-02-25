@@ -1,4 +1,34 @@
 Intel(R) Core(TM) i5-6200U CPU @ 2.30GHz
+testing: NASA INTRO BCH(15, 5) T=3
+encoding of 1047536 random bytes into 3142608 codeword bytes (200.0% redundancy) in 1676058 blocks took 62 milliseconds (16896KB/s).
+decoding with 0 errors and 0 known erasures per block took 178 milliseconds (17655KB/s).
+decoding with 1 errors and 0 known erasures per block took 365 milliseconds (8610KB/s).
+decoding with 1 errors and 1 known erasures per block took 326 milliseconds (9640KB/s).
+decoding with 2 errors and 0 known erasures per block took 536 milliseconds (5863KB/s).
+decoding with 2 errors and 1 known erasures per block took 575 milliseconds (5465KB/s).
+decoding with 2 errors and 2 known erasures per block took 491 milliseconds (6400KB/s).
+decoding with 3 errors and 0 known erasures per block took 1000 milliseconds (3143KB/s).
+decoding with 3 errors and 1 known erasures per block took 1127 milliseconds (2788KB/s).
+decoding with 3 errors and 2 known erasures per block took 1067 milliseconds (2945KB/s).
+decoding with 3 errors and 3 known erasures per block took 923 milliseconds (3405KB/s).
+decoding with 4 errors and 0 known erasures per block took 878 milliseconds (3579KB/s). expected 6704232 corrected errors but got 1088103 and 4663521 wrong corrections.
+decoding with 4 errors and 1 known erasures per block took 1140 milliseconds (2757KB/s). expected 6704232 corrected errors but got -516707 and 903903 wrong corrections.
+decoding with 4 errors and 2 known erasures per block took 1435 milliseconds (2190KB/s).
+decoding with 4 errors and 3 known erasures per block took 1348 milliseconds (2331KB/s).
+decoding with 4 errors and 4 known erasures per block took 1142 milliseconds (2752KB/s).
+decoding with 5 errors and 0 known erasures per block took 843 milliseconds (3728KB/s). expected 8380290 corrected errors but got 959093 and 5294165 wrong corrections.
+decoding with 5 errors and 1 known erasures per block took 1125 milliseconds (2793KB/s). expected 8380290 corrected errors but got -772424 and 1980472 wrong corrections.
+decoding with 5 errors and 2 known erasures per block took 1235 milliseconds (2545KB/s). expected 8380290 corrected errors but got -1147263 and 1232413 wrong corrections.
+decoding with 5 errors and 3 known erasures per block took 1403 milliseconds (2240KB/s). expected 8380290 corrected errors but got -960345 and 42385 wrong corrections.
+decoding with 5 errors and 4 known erasures per block took 1679 milliseconds (1872KB/s).
+decoding with 5 errors and 5 known erasures per block took 1413 milliseconds (2224KB/s).
+decoding with 6 errors and 0 known erasures per block took 907 milliseconds (3465KB/s). expected 10056348 corrected errors but got 2349688 and 7506346 wrong corrections.
+decoding with 6 errors and 1 known erasures per block took 1106 milliseconds (2841KB/s). expected 10056348 corrected errors but got -613872 and 2368013 wrong corrections.
+decoding with 6 errors and 2 known erasures per block took 1345 milliseconds (2337KB/s). expected 10056348 corrected errors but got -59452 and 3336974 wrong corrections.
+decoding with 6 errors and 3 known erasures per block took 1428 milliseconds (2201KB/s). expected 10056348 corrected errors but got -1469115 and 496903 wrong corrections.
+decoding with 6 errors and 4 known erasures per block took 1727 milliseconds (1820KB/s). expected 10056348 corrected errors but got -1606086 and 244902 wrong corrections.
+decoding with 6 errors and 5 known erasures per block took 1823 milliseconds (1724KB/s). expected 10056348 corrected errors but got -884645 and 18865 wrong corrections.
+decoding with 6 errors and 6 known erasures per block took 1518 milliseconds (2070KB/s).
 testing: BBC WHP031 RS(15, 11) T=2
 encoding of 1047536 random bytes into 1428465 codeword bytes (36.4% redundancy) in 190462 blocks took 26 milliseconds (40290KB/s).
 decoding with 0 errors and 0 known erasures per block took 26 milliseconds (54941KB/s).
