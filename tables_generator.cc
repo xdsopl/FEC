@@ -29,6 +29,8 @@ struct TablesGenerator
 			Artin_Schreier_imap[i] = 0;
 		for (int x = 2; x < N; x += 2) {
 			int xxx = exp[(2*log[x])%N]^x;
+			if (xxx == N)
+				continue;
 			assert(xxx);
 			assert(!Artin_Schreier_imap[xxx]);
 			Artin_Schreier_imap[xxx] = x;
