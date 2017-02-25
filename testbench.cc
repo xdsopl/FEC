@@ -176,7 +176,7 @@ void test_rs(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, 
 }
 
 template <int NR, int FCR, int K, int M, int P, typename TYPE>
-void test_bch(std::string name, BoseChaudhuriHocquenghem<NR, FCR, K, GF::Types<M, P, TYPE>> &bch, TYPE *code, TYPE *target)
+void test_bch(std::string name, BoseChaudhuriHocquenghem<NR, FCR, K, GF::Types<M, P, TYPE>> &bch, TYPE *code, TYPE *target, std::vector<uint8_t> &data)
 {
 	std::cout << "testing: " << name << std::endl;
 
@@ -217,22 +217,45 @@ void test_bch(std::string name, BoseChaudhuriHocquenghem<NR, FCR, K, GF::Types<M
 			std::cout << "decoder error: code doesnt match target" << std::endl;
 		assert(!error);
 	}
+	int blocks = (8 * data.size() + K - 1) / K;
+	TYPE *coded = new TYPE[bch.N * blocks];
+	{
+		unsigned pos = 0;
+		for (unsigned byte : data) {
+			for (int bit = 0; bit < 8; ++bit) {
+				coded[pos++] = (byte >> bit) & 1;
+				if (pos % bch.N >= K)
+					pos += bch.NP;
+			}
+		}
+	}
+	{
+		auto start = std::chrono::system_clock::now();
+		for (int i = 0; i < blocks; ++i)
+			bch.encode(coded + i * bch.N);
+		auto end = std::chrono::system_clock::now();
+		auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+		int mbs = (data.size() + msec.count() / 2) / msec.count();
+		int bytes = (bch.N * blocks) / 8;
+		float redundancy = (100.0f*(bytes-data.size())) / data.size();
+		std::cout << "encoding of " << data.size() << " random bytes into " << bytes << " codeword bytes (" << std::setprecision(1) << std::fixed << redundancy << "% redundancy) in " << blocks << " blocks took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
+	}
 }
 
 int main()
 {
-	{
-		BoseChaudhuriHocquenghem<6, 1, 5, GF::Types<4, 0b10011, uint8_t>> bch({0b10011, 0b11111, 0b00111});
-		uint8_t code[15] = { 1, 1, 0, 0, 1 };
-		uint8_t target[15] = { 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0 };
-		test_bch("NASA INTRO BCH(15, 5) T=3", bch, code, target);
-		//return 0;
-	}
 	std::random_device rd;
 	std::default_random_engine generator(rd());
 	std::uniform_int_distribution<uint8_t> distribution(0, 255);
 	std::vector<uint8_t> data(65471*16);
 	std::generate(data.begin(), data.end(), std::bind(distribution, generator));
+	{
+		BoseChaudhuriHocquenghem<6, 1, 5, GF::Types<4, 0b10011, uint8_t>> bch({0b10011, 0b11111, 0b00111});
+		uint8_t code[15] = { 1, 1, 0, 0, 1 };
+		uint8_t target[15] = { 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0 };
+		test_bch("NASA INTRO BCH(15, 5) T=3", bch, code, target, data);
+		//return 0;
+	}
 	{
 		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
 		uint8_t code[15] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
