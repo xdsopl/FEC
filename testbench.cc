@@ -240,6 +240,83 @@ void test_bch(std::string name, BoseChaudhuriHocquenghem<NR, FCR, K, GF::Types<M
 		float redundancy = (100.0f*(bytes-data.size())) / data.size();
 		std::cout << "encoding of " << data.size() << " random bytes into " << bytes << " codeword bytes (" << std::setprecision(1) << std::fixed << redundancy << "% redundancy) in " << blocks << " blocks took " << msec.count() << " milliseconds (" << mbs << "KB/s)." << std::endl;
 	}
+	std::random_device rd;
+	std::default_random_engine generator(rd());
+	std::uniform_int_distribution<int> pos_dist(0, bch.N-1);
+	auto rnd_pos = std::bind(pos_dist, generator);
+	std::vector<uint8_t> recovered(data.size());
+	TYPE *tmp = new TYPE[bch.N * blocks];
+	TYPE *erasures = new TYPE[NR * blocks];
+	for (int places = 0; places <= NR; ++places) {
+		for (int erasures_count = 0; erasures_count <= places; ++erasures_count) {
+			for (int i = 0; i < bch.N * blocks; ++i)
+				tmp[i] = coded[i];
+			int corrupt = 0;
+			for (int i = 0; i < blocks; ++i) {
+				for (int j = 0; j < places; ++j) {
+					erasures[i*NR + j] = rnd_pos();
+					for (int k = 0; k < j;) {
+						if (erasures[i*NR + k++] == erasures[i*NR + j]) {
+							erasures[i*NR + j] = rnd_pos();
+							k = 0;
+						}
+					}
+					tmp[i * bch.N + erasures[i*NR + j]] ^= 1;
+					++corrupt;
+				}
+			}
+			int corrected = 0, wrong = 0;
+			auto start = std::chrono::system_clock::now();
+			for (int i = 0; i < blocks; ++i) {
+				int result = bch.decode(tmp + i * bch.N, erasures + i * NR, erasures_count);
+				if (places > NR/2 && places > erasures_count && result >= 0)
+					for (int j = i * bch.N; j < (i + 1) * bch.N; ++j)
+						wrong += coded[j] != tmp[j];
+				corrected += result;
+			}
+			auto end = std::chrono::system_clock::now();
+			auto msec = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+			int bytes = (bch.N * blocks) / 8;
+			int mbs = (bytes + msec.count() / 2) / msec.count();
+			std::cout << "decoding with " << places << " errors and " << erasures_count << " known erasures per block took " << msec.count() << " milliseconds (" << mbs << "KB/s).";
+			if (corrupt != corrected || wrong)
+				std::cout << " expected " << corrupt << " corrected errors but got " << corrected << " and " << wrong << " wrong corrections.";
+			std::cout << std::endl;
+			assert((places > NR/2 && places > erasures_count) || (corrupt == corrected && !wrong));
+			int left = 0;
+			for (int i = 0; i < bch.N * blocks; ++i)
+				left += tmp[i] > 1;
+			if (left)
+				std::cout << "correction left GF(2) " << left << " times!" << std::endl;
+			if (corrupt == corrected && !wrong) {
+				unsigned acc = 0, bit = 0, pos = 0;
+				for (uint8_t &byte: recovered) {
+					while (bit < 8) {
+						acc |= (unsigned)tmp[pos++] << bit++;
+						if (pos % bch.N >= K)
+							pos += bch.NP;
+					}
+					bit -= 8;
+					byte = 255 & acc;
+					acc >>= 8;
+				}
+				for (int i = 0; i < blocks; ++i) {
+					TYPE syndromes[NR];
+					if (bch.compute_syndromes(tmp + i * bch.N, syndromes)) {
+						std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
+						assert(false);
+					}
+				}
+				if (data != recovered) {
+					std::cout << "decoder error: data could not be recovered from corruption!" << std::endl;
+					assert(places > NR/2 && places > erasures_count);
+				}
+			}
+		}
+	}
+	delete[] erasures;
+	delete[] tmp;
+	delete[] coded;
 }
 
 int main()
