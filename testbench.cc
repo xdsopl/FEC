@@ -175,34 +175,57 @@ void test_rs(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, 
 	delete[] coded;
 }
 
-int main()
+template <int NR, int FCR, int K, int M, int P, typename TYPE>
+void test_bch(std::string name, BoseChaudhuriHocquenghem<NR, FCR, K, GF::Types<M, P, TYPE>> &bch, TYPE *code, TYPE *target)
 {
+	std::cout << "testing: " << name << std::endl;
+
 	{
-		BoseChaudhuriHocquenghem<6, 1, 5, GF::Types<4, 0b10011, uint8_t>> bch({0b10011, 0b11111, 0b00111});
-		uint8_t code[15] = { 1, 1, 0, 0, 1 };
-		uint8_t target[15] = { 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0 };
-		std::cout << "testing: NASA INTRO BCH(15, 5) T=3" << std::endl;
 		bch.encode(code);
-		//print_table(code, "code", bch.N);
-		//print_table(target, "targ", bch.N);
 		bool error = false;
 		for (int i = 0; i < bch.N; ++i)
 			error |= code[i] != target[i];
 		if (error)
 			std::cout << "encoder error!" << std::endl;
 		assert(!error);
-		code[1] ^= 1;
-		code[9] ^= 1;
-		code[14] ^= 1;
-		//print_table(code, "corr", bch.N);
-		bch.decode(code);
-		//print_table(code, "code", bch.N);
+		//print_table(code + K, "parity", bch.NP);
+		error = bch.decode(code);
+		if (error)
+			std::cout << "decoder error!" << std::endl;
+		assert(!error);
+		int pos = 0, cap = 0, corrupt = 0, erasures_count = 0;
+		TYPE erasures[NR];
+		// need one root per erasure
+		for (int i = 0; pos < bch.N && cap+1 <= NR && i < NR/2; ++i, ++corrupt, ++pos, ++cap)
+			code[erasures[erasures_count++] = pos] ^= 1;
+		// need two roots per error
+		for (int i = 0; pos < bch.N && cap+2 <= NR && i < NR/2; ++i, ++corrupt, ++pos, cap+=2)
+			code[pos] ^= 1;
+		int corrected = bch.decode(code, erasures, erasures_count);
+		if (corrupt != corrected)
+			std::cout << "decoder error: expected " << corrupt << " but got " << corrected << std::endl;
+		assert(corrupt == corrected);
+		TYPE syndromes[NR];
+		if (corrected >= 0 && bch.compute_syndromes(code, syndromes)) {
+			std::cout << "decoder error: result of correction is not a codeword!" << std::endl;
+			assert(false);
+		}
 		error = false;
 		for (int i = 0; i < bch.N; ++i)
 			error |= code[i] != target[i];
 		if (error)
 			std::cout << "decoder error: code doesnt match target" << std::endl;
 		assert(!error);
+	}
+}
+
+int main()
+{
+	{
+		BoseChaudhuriHocquenghem<6, 1, 5, GF::Types<4, 0b10011, uint8_t>> bch({0b10011, 0b11111, 0b00111});
+		uint8_t code[15] = { 1, 1, 0, 0, 1 };
+		uint8_t target[15] = { 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0 };
+		test_bch("NASA INTRO BCH(15, 5) T=3", bch, code, target);
 		//return 0;
 	}
 	std::random_device rd;
