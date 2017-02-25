@@ -101,9 +101,18 @@ public:
 			code[(int)erasures[i]] = ValueType(0);
 #endif
 		ValueType syndromes[NR];
-		if (compute_syndromes(code, syndromes))
-			return Correction<NR, FCR, GF>::algorithm(code, syndromes, erasures, erasures_count);
-		return 0;
+		if (!compute_syndromes(code, syndromes))
+			return 0;
+		int corrections_count = Correction<NR, FCR, GF>::algorithm(code, syndromes, erasures, erasures_count);
+		if (corrections_count <= 0)
+			return corrections_count;
+		for (int i = 0; i < N; ++i) {
+			if (1 < (int)code[i]) {
+				code[i] = ValueType(0);
+				corrections_count = -1;
+			}
+		}
+		return corrections_count;
 	}
 	void encode(value_type *code)
 	{
