@@ -10,7 +10,7 @@ You should have received a copy of the CC0 Public Domain Dedication along with t
 
 #include "galois_field.hh"
 #include "berlekamp_massey.hh"
-#include "chien.hh"
+#include "find_locations.hh"
 #include "forney.hh"
 
 template <int NR, int FCR, typename GF>
@@ -43,25 +43,9 @@ struct Correction
 			if (--locator_degree < 0)
 				return -1;
 		IndexType locations[locator_degree];
-		int count;
-		if (locator_degree == 1) {
-			count = 1;
-			locations[0] = (index(locator[0]) / index(locator[1])) / IndexType(1);
-		} else if (locator_degree == 2) {
-			if (!locator[1] || !locator[0])
-				return -1;
-			ValueType a(locator[2]), b(locator[1]), c(locator[0]);
-			ValueType ba(b/a), R(Artin_Schreier_imap(a*c/(b*b)));
-			if (!R)
-				return -1;
-			count = 2;
-			locations[0] = index(ba * R) / IndexType(1);
-			locations[1] = index(ba * R + ba) / IndexType(1);
-		} else {
-			count = Chien<NR, GF>::search(locator, locator_degree, locations);
-			if (count < locator_degree)
-				return -1;
-		}
+		int count = FindLocations<NR, GF>::search(locator, locator_degree, locations);
+		if (count < locator_degree)
+			return -1;
 		ValueType evaluator[NR];
 		ValueType magnitudes[count];
 		int evaluator_degree = Forney<NR, FCR, GF>::algorithm(syndromes, locator, locations, count, evaluator, magnitudes);

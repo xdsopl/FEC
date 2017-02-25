@@ -2,10 +2,10 @@
 CXXFLAGS = -stdlib=libc++ -std=c++11 -W -Wall -O3 -march=native
 CXX = clang++
 
-testbench: testbench.cc reed_solomon.hh bose_chaudhuri_hocquenghem.hh berlekamp_massey.hh chien.hh forney.hh correction.hh galois_field.hh galois_field_tables.hh
+testbench: testbench.cc reed_solomon.hh bose_chaudhuri_hocquenghem.hh berlekamp_massey.hh chien.hh forney.hh find_locations.hh correction.hh galois_field.hh galois_field_tables.hh
 	$(CXX) $(CXXFLAGS) -g $< -o $@
 
-benchmark: testbench.cc reed_solomon.hh bose_chaudhuri_hocquenghem.hh berlekamp_massey.hh chien.hh forney.hh correction.hh galois_field.hh galois_field_tables.hh
+benchmark: testbench.cc reed_solomon.hh bose_chaudhuri_hocquenghem.hh berlekamp_massey.hh chien.hh forney.hh find_locations.hh correction.hh galois_field.hh galois_field_tables.hh
 	$(CXX) $(CXXFLAGS) -DNDEBUG $< -o $@
 
 tables_generator: tables_generator.cc
