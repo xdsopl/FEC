@@ -50,10 +50,10 @@ void test_rs(std::string name, ReedSolomon<NR, FCR, GF::Types<M, P, TYPE>> &rs, 
 		int pos = 0, par = 0, corrupt = -1, erasures_count = 0;
 		TYPE erasures[NR];
 		// need one parity symbol per erasure
-		for (int i = 0; pos < rs.N && par < NR && i < NR/2; ++i, ++corrupt, ++pos, ++par)
+		for (int i = 0; pos < rs.N && par+1 <= NR && i < NR/2; ++i, ++corrupt, ++pos, ++par)
 			code[erasures[erasures_count++] = pos] ^= pos;
 		// need two parity symbols per error
-		for (int i = 0; pos < rs.N && par < NR && i < NR/2; ++i, ++corrupt, ++pos, par+=2)
+		for (int i = 0; pos < rs.N && par+2 <= NR && i < NR/2; ++i, ++corrupt, ++pos, par+=2)
 			code[pos] ^= pos;
 		int corrected = rs.decode(code, erasures, erasures_count);
 		if (corrupt != corrected)
