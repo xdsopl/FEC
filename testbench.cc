@@ -326,19 +326,19 @@ int main()
 	std::uniform_int_distribution<uint8_t> distribution(0, 255);
 	std::vector<uint8_t> data(65471*16);
 	std::generate(data.begin(), data.end(), std::bind(distribution, generator));
-	{
+	if (1) {
 		BoseChaudhuriHocquenghem<6, 1, 5, GF::Types<4, 0b10011, uint8_t>> bch({0b10011, 0b11111, 0b00111});
 		uint8_t code[15] = { 1, 1, 0, 0, 1 };
 		uint8_t target[15] = { 1, 1, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0 };
 		test_bch("NASA INTRO BCH(15, 5) T=3", bch, code, target, data);
 	}
-	{
+	if (1) {
 		ReedSolomon<4, 0, GF::Types<4, 0b10011, uint8_t>> rs;
 		uint8_t code[15] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 		uint8_t target[15] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 3, 3, 12, 12 };
 		test_rs("BBC WHP031 RS(15, 11) T=2", rs, code, target, data);
 	}
-	{
+	if (1) {
 		ReedSolomon<16, 0, GF::Types<8, 0b100011101, uint8_t>> rs;
 		uint8_t code[255], target[255];
 		for (int i = 0; i < 239; ++i)
@@ -348,7 +348,7 @@ int main()
 			target[239+i] = parity[i];
 		test_rs("DVB-T RS(255, 239) T=8", rs, code, target, data);
 	}
-	{
+	if (1) {
 		BoseChaudhuriHocquenghem<24, 1, 65343, GF::Types<16, 0b10000000000101101, uint16_t>> bch({0b10000000000101101, 0b10000000101110011, 0b10000111110111101, 0b10101101001010101, 0b10001111100101111, 0b11111011110110101, 0b11010111101100101, 0b10111001101100111, 0b10000111010100001, 0b10111010110100111, 0b10011101000101101, 0b10001101011100011});
 		uint16_t code[65535], target[65535];
 		for (int i = 0, s = 0; i < 65343; ++i, s=(s*(s*s*51767+71287)+35149)&0xffffff)
@@ -358,7 +358,7 @@ int main()
 			target[65343+i] = parity[i];
 		test_bch("DVB-S2 FULL BCH(65535, 65343) T=12", bch, code, target, data);
 	}
-	{
+	if (1) {
 		ReedSolomon<64, 1, GF::Types<16, 0b10001000000001011, uint16_t>> rs;
 		uint16_t code[65535], target[65535];
 		for (int i = 0; i < 65471; ++i)
